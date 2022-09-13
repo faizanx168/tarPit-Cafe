@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg bg-dark text-$orange-500 navbar-dark" >
+    <div class="container-fluid" >
+      <a class="navbar-brand" href="/" style="color: white">Tarpit Cafe</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/coffee">Coffee</a>
+          <a class="nav-link" href="/shop">Shop</a>
+          <a class="nav-link" href="/cafe">Cafe</a>
+          <a class="nav-link" href="/about">About</a>
+        </div>
+        <div class="navbar-nav ml-auto">
+          <% if(!user) {%> 
+          <a class="nav-link" href="/register">Register</a>
+          <a class="nav-link" href="/login">Login</a>
+          <% } else{ %> 
+          <a class="nav-link" href="/logout">Logout</a>
+          <% } %> 
+        </div>
+      </div>
+    </div>
+  </nav>
