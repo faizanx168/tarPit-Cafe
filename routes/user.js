@@ -4,7 +4,6 @@ const myError = require('../utils/ExtendedError');
 const asyncError = require('../utils/AsyncError.js');
 const User = require('../models/user');
 const passport = require('passport');
-const { Session } = require('express-session');
 
 
 router.get('/register', (req, res)=>{
