@@ -1,0 +1,88 @@
+<% layout('layout/boilerplate') -%>
+<link rel="stylesheet" href="/stylesheets/empPop.css">
+<div class="about">
+<div class="address">
+    <div class="add">
+        <h1>BROOKLYN</h1>
+        <p>135 Woodspoint Road</p>
+        <p>Brooklyn, NY, 11211</p>
+        <h4>hours</h4>
+        <p>Mon-Fri: 8:00am-3:00pm</p>
+        <p>Sat-Sun: 9:00am-4:00pm</p>
+        <h4>Phone</h4>
+        <p>+1 917 705 8031</p>
+    </div>
+
+<div id="map"> </div>
+
+</div>
+<div class="des">
+<h1>In the begining</h1>
+<p>“In 2010 I was talking with friends and we decided that we needed a better place to hang out. Where we didn’t feel like we had to drink alcohol, had to buy dinner, or leave after a certain amount of time. By early 2011 I found the perfect location. Tar Pit started as a dream to for a cool hang out spot. We built everything in the shop by hand. This includes removing beams from a friends Brooklyn warehouse for the counter tops to custom fitting the bathroom sink and vintage knobs - its all been an act of love. We wanted to feel like we were sitting around the living room of our favorite grandparent. Both nostalgic and comfortable aaaand maybe a little bit weird. Over the years we’ve changed it up but that same feeling is important. Comfort, familiarity and good company.
+
+    There were just a few things that mattered at that time. Making delicious coffee, riding motorcycles, adding little nods to our Japanese heritage and supporting our friends in the art world. We have hosted art shows, live music, live paintings as often as possible and through those events give back to our local communities. Honestly, not much has changed. We still love a great coffee, motorcycles, music and art. We still love hanging out with our friends and sharing ideas and we still do what we can to support our communities.
+    
+    The coffee shop has allowed us to expand that friend group to the entire neighborhood. Tar Pit is a community that has grown over the years. Our employees new and old have become part of our families and our customers becoming close friends.”
+    
+    <br>- Kerry Sano, FOUNDER</p>
+
+
+</div>
+<% var i = 1%> 
+<div class="cont">
+<h2>Meet the Team</h2>
+
+<% for(let emp of employee){ %>
+    <% var modal= `modal${i}` %> 
+    <div>
+<div class="empContainer">
+
+    <button data-modal-target=<%=modal%> class="imgBtn" > <%for(let img of emp.image){%>     
+        <img src="<%=img.url%>" style="height: 12rem" class="empImg" alt="employee image">
+          <% } %> </button>
+        <h3><%=emp.employeeName%></h3>
+</div>
+
+        <div class="modal" id=<%=modal%>> <!-- This is the background overlay -->
+            <div class="modal-content"> <!-- This is the actual modal/popup box -->
+              <span class="modal-close">&times;</span>
+              <div class="modalCon">
+                <div>
+              <h1><%=emp.employeeName%></h1>
+              <p><%=emp.employeeDes %></p>
+                </div>
+                <div>
+              <%for(let img of emp.image){%>     
+                <img src="<%=img.url%>" alt="employee image" class="modalImg">
+                  <% } %>
+                </div>
+            </div>
+            </div>
+          </div>
+          <% i++ %> 
+    <%}%>  
+</div>
+</div>
+<script>
+mapboxgl.accessToken = '<%-process.env.mapboxToken%>';
+const map = new mapboxgl.Map({
+container: 'map',
+// Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+style: 'mapbox://styles/faizanx168/cl856e9gq001514qrh4b7e8mk',
+center: [-73.94119711179343, 40.71751710581903],
+zoom: 8
+});
+// Create a default Marker, colored black, rotated 45 degrees.
+new mapboxgl.Marker({color:'black', rotation:45})
+.setLngLat([-73.94119711179343, 40.71751710581903])
+.addTo(map);
+
+map.on('click', (event) => {
+const popup = new mapboxgl.Popup({ offset: [0, -15] })
+.setLngLat([-73.94119711179343, 40.71751710581903])
+.setHTML(
+'<h3>Tarpit</h3><p>135 Woodpoint Road,Brooklyn, NY 1121</p> <a href="https://goo.gl/maps/JV7nWxu2wcKTkhsz5">Open on google Maps</a>'
+)
+.addTo(map);
+});
+</script>

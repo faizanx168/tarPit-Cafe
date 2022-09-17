@@ -13,6 +13,7 @@ const myError = require('./utils/ExtendedError');
 const passport = require('passport');
 const localPass = require('passport-local');
 const User = require('./models/user');
+const About = require('./routes/about')
 const ejsMate = require('ejs-mate');
 const session = require('express-session')
 const flash = require('connect-flash');
@@ -60,6 +61,7 @@ app.use((req, res, next)=>{
 
 
 app.use('/', Register );
+app.use('/about', About )
 app.use('/products', Tarpit);
 app.use('/products/:id/reviews', Reviews)
 app.get('/', (req,res)=>{

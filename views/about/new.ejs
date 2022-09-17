@@ -1,0 +1,26 @@
+<% layout('layout/boilerplate') -%>
+
+<div class="row">
+    <h1 class="text-center">Add Employee</h1>
+    <div class="col-6 offset-3">
+        <form action="/about" method="POST" novalidate class="validated-form" enctype="multipart/form-data" >
+            <div class="mb-3">
+                <label for="title" class="form-label">Employee Name</label>
+                <input class="form-control" type="text" name="about[employeeName]" id="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Employee Description</label>
+                <textarea class="form-control" type="text" name="about[employeeDes]" id="description" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input class="form-control" type="file" name="image" id="image" multiple>
+            </div>
+            <button class="btn btn-outline-success">Add</button>
+        </form>
+        <div>
+            <a href="/tarpitCafe/products">Back</a>
+        </div>
+    
+    </div>
+</div>
