@@ -8,10 +8,10 @@ const reviewSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    comments: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-    }]
+    // comments: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Comment'
+    // }]
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

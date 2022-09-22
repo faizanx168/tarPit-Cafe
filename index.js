@@ -17,7 +17,11 @@ const About = require('./routes/about')
 const ejsMate = require('ejs-mate');
 const session = require('express-session')
 const flash = require('connect-flash');
-
+const favicon = require('serve-favicon');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const Security = require('./utils/Security');
+const bodyParser = require('body-parser')
+const Cart = require('./routes/carts');
 
 mongoose.connect('mongodb://localhost:27017/tarpit', {useNewUrlparser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
@@ -26,18 +30,32 @@ db.once('open', ()=>{
     console.log('database Connected Successfully');
 })
 
+const store = new MongoDBStore({
+    uri: 'mongodb://localhost:27017/tarpit',
+    collection: 'sessions'
+});
+
+
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'));
+app.use(favicon(path.join(__dirname, 'favicon.png')));
 app.use(express.urlencoded({extended: true}));
 app.use(method('_method'));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(bodyParser.json())
 
 const sessionConfig = {
     secret: 'asdffgkhlkhlkfph',
     resave: false,
     saveUninitialized: true, 
+    store: store,
+    unset: 'destroy',
+    name:'myStore' + Security.generateId(),
+    genid: (req) => {
+        return Security.generateId()
+    },
     cookie:{
         expires: Date.now() + 1000 * 60 *60 * 24,
         httpOnly: true,
@@ -60,13 +78,44 @@ app.use((req, res, next)=>{
 })
 
 
-app.use('/', Register );
-app.use('/about', About )
-app.use('/products', Tarpit);
-app.use('/products/:id/reviews', Reviews)
+// app.get('/', (req, res) => {
+//     if(!req.session.test) {
+//       req.session.test = 'OK';
+//       res.send('OK');
+//     }
+//   });
+  
+//   app.get('/test', (req, res) => {
+//     res.send(req.session.test); // 'OK'
+//   });
+
+// app.post('/test', (req,res)=>{
+//     let token = req.body.nonce;
+//     console.log(req.body)
+//     console.log(token)
+//     if(Security.isValidNonce(token, req)) {
+//       res.send('ok')
+//     } else {
+//       res.send('error');
+//     }
+// });
+
 app.get('/', (req,res)=>{
+    if(!req.session.cart) {
+        req.session.cart = {
+            items: [],
+            totals: 0.00,
+            formattedTotals: ''
+        };
+        console.log(req.session.cart)
+    }
     res.render('tarpit/home');
 })
+app.use('/', Register );
+app.use('/about', About );
+app.use('/products', Tarpit);
+app.use('/',Cart)
+app.use('/products/:id/reviews', Reviews);
 
 
 app.all('*',(req, res, next)=>{

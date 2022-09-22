@@ -1,0 +1,44 @@
+<% layout('layout/boilerplate') -%>
+<h1 style="margin: 20px; text-align: center;">Shopping cart</h1>
+
+<!-- <div class="cartCon"> -->
+<% if(cart && cart.items.length > 0) { %>
+    <h2>Items</h2>
+    <%for(let items of cart.items)  {%> 
+        <div class="null">
+    <div class="itemContainer">
+        <div class="itemCheck">
+            <input type="checkbox" name="" id="">
+        </div>
+        <div class="itemImg">
+            <img src="<%=items.image%>" alt="">
+        </div>
+        <div>
+            <h2><%=items.title%></h2>
+            <p>Price: <span class="price"><%=items.price%></span></p>
+            <p>Quantity</p>
+            <div>
+              <span class="qty-wrap">
+              <span class="qty-minus"><i class="fa-sharp fa-solid fa-minus"></i></span>
+              <input type="text" name="qty" class="qty" value="<%=items.qty%> ">
+              <span class="qty-plus"><i class="fa-sharp fa-solid fa-plus"></i></span>
+             </span>
+            </div>
+            <a href="/products/<%=items.id%>">See full description</a>
+            <!-- <form class="formdata" action="submit"> -->
+                <input type="hidden" name="itemId" class="itemId" value="<%=items.id%>">
+                <button class="delete">delete</button>
+            <!-- </form> -->
+        </div>
+    </div>
+    </div>
+    <% } %> 
+    <div class="checkoutCon">
+        <h1>Proceed To Checkout</h1>
+        <p>subtotal: <span class="cost"><%=cart.totals%></span></p>
+        <button class="btn btn-success checkout">Checkout</button>
+    </div>
+<!-- </div> -->
+    <% } else { %>
+    <p class="alert alert-info">Sorry, no products in your cart.</p>
+    <% } %>

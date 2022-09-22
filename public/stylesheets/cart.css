@@ -1,0 +1,113 @@
+.product{
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    margin: auto;
+    padding: 30px;
+    gap: 3rem;
+}
+.cart-data{
+    max-width: 33rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    padding: 20px;
+}
+.card-data ,p{
+    font-size: 30px;
+}
+.imgPro{
+    height: 80vh;
+    width: 70vw;
+    object-fit:fill;
+}
+.qty{
+    width: 5rem;
+    border-radius: 20px;
+    text-align: center;
+}
+.car{
+    width: 40vw;
+}
+.title{
+    font-size: 3rem;
+    padding-bottom: 20px;
+    margin-top: 0;
+}
+.text{
+    font-size: 1.23rem;
+}
+.reviews{
+    display: flex;
+    /* align-items: center; */
+    justify-self:auto;
+    flex-direction: column;
+    padding: 20px;
+    width: 70vw;
+    /* background-color: aquamarine; */
+}
+
+
+/* Cart CSS */
+
+.itemContainer{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    /* flex-direction: column; */
+    max-height: 35vh;
+    max-width: 40vw;
+    /* background-color: antiquewhite; */
+    overflow: hidden;
+    padding: 20px;
+    /* justify-content: center; */
+    align-items:center;
+    border: 1px;
+    /* border-radius: 12px; */
+    border-style: solid;
+    border-left: 0ch;
+    border-right: 0;
+    gap: 20px;
+}
+.itemContainerhid{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    max-height: 35vh;
+    max-width: 40vw;
+    overflow: hidden;
+    padding: 20px;
+    align-items:center;
+    border: 1px;
+    border-style: solid;
+    border-left: 0ch;
+    border-right: 0;
+    gap: 20px;
+    background-color: rgba(215, 235, 250, 0.531);
+}
+.itemImg img{
+    height: 30vh;
+    width: 30vh;
+    object-fit:cover;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.checkoutCon{
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(68, 197, 197);
+    height: 50vh;
+    width: 60vh;
+    left: 60vw;
+    bottom: 22vh;
+    border-radius: 12px;
+}
+.cartCon{
+    display: flex;
+}

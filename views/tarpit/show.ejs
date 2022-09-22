@@ -1,14 +1,13 @@
 <% layout('layout/boilerplate') -%>
 <link rel="stylesheet" href="/stylesheets/star.css">
 
-<div class="row mt-4 mb-4">
-<div class="col-6">
-  <div class="card">
+<div class="product">
+  <div class="car">
     <div id="productsCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% products.image.forEach( (img,i) => { %>
           <div class="carousel-item <%= i === 0 ? 'active' : ''%> ">
-            <img src="<%=img.url%>" class="d-block w-100 h-100" alt="My products">
+            <img src="<%=img.url%>" class="d-block imgPro" alt="My products">
           </div>
        <% }) %> 
        <% if(products.image.length > 1) {%> 
@@ -23,28 +22,54 @@
       <% } %> 
     </div>
     </div>
-        <div class="card-body">
-          <h5 class="card-title"><%= products.title %></h5>
-          <p class="card-text"><%=products.description%></p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">$<%=products.price%></li>
-        </ul>
-
-        <div class="card-body">
-            <a href="/products" class="card-link btn btn-info">All productss</a>
-          <%    if(user && user._id.equals(process.env.ADMIN_ID)){  %> 
-            <a href="/products/<%=products._id%>/edit" class="card-link btn btn-info">Edit</a>
-            <form class="d-inline mt-2" action="/products/<%=products._id%>?_method=Delete" method="POST">
-                <button class="btn btn-danger">Delete</button>
-                </form>     
-         <% } %>  
-                  
-        </div>
+        
     </div>
-</div>   
 
-<div class="col-6">
+  <div>
+  <div class="card-body">
+    <h5 class="title"><%= products.title %></h5>
+    <p class="text"><%=products.description%></p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Price: $<%=products.price%></li>
+  </ul>
+
+  <div class="card-body">
+      <a href="/products" style="text-decoration: none">All productss</a>
+    <%    if(user && user._id.equals(process.env.ADMIN_ID)){  %> 
+      <a href="/products/<%=products._id%>/edit" class="card-link btn btn-info">Edit</a>
+      <form class="d-inline mt-2" action="/products/<%=products._id%>?_method=Delete" method="POST">
+          <button class="btn btn-danger">Delete</button>
+          </form>     
+   <% } %>  
+            
+  </div>
+
+  <div >
+    <form action="/cart" method="post" >
+        <div class="cart-data">
+          <p>Quantity</p>
+          <div>
+            <span class="qty-wrap">
+            <span class="qty-minus"><i class="fa-sharp fa-solid fa-minus"></i></span>
+            <input type="text" name="qty" class="qty" value="1">
+            <span class="qty-plus"><i class="fa-sharp fa-solid fa-plus"></i></span>
+           </span>
+          </div>
+            <div>
+               <input type="hidden" name="product_id" value="<%= products._id %>">
+              <input type="hidden" name="nonce" value="<%= nonce %>">
+              <button type="submit" class="btn btn-primary">
+                  Add To Cart
+              </button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>
+</div>
+
+<div class="reviews">
   <h2>Reviews</h2>
   <% if(user){ %> 
   <form class= "mb-3 validated-form" action="/products/<%=products._id%>/reviews" method="POST" novalidate>
@@ -74,22 +99,26 @@
   </form>
   <% } %> 
   <% for(let review of products.review){ %>
-    <div class="card mb-3">
+    <div class="card">
      <div class="card-body">
       <h3 class="card-title"><%= review.author.username%></h3>
       <p class="starability-result" data-rating="<%=review.rating%>">
         Rated: <%=review.rating%> stars
       </p>
       <p class="card-text">Review: <%=review.body%> </p>
-      <% if(review.comments){ %> 
-      <% for(let comment of review.comments) {%>
+
+      <% if(comments){ %> 
+      <% for(let comment of comments) {%>
+      <% if( review._id.equals(comment.review._id)){ %> 
         <div>
           <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Comment: <%=comment.body%></p>
           <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Author: <%=comment.author%></p>
         </div>
         <% } %> 
         <% } %> 
+        <% } %> 
       <!-- Reply on a review -->
+  <% if(user){ %> 
       <button class="btn btn-primary" type="button" id="reply" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Reply</button>
         <div class="collapse" id="collapseExample">
           <div class="card card-body">
@@ -99,6 +128,7 @@
             </form>
           </div>
         </div>
+    <%  }%> 
         
         <!-- Delete review -->
       <form action="/products/<%=products._id%>/reviews/<%=review._id%>?_method=delete" method="POST" > 
@@ -109,7 +139,7 @@
      </div>
      </div>
      <% } %> 
-    </div>
-       </div>
+</div>
+
 
    

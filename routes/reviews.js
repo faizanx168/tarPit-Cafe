@@ -27,15 +27,12 @@ router.delete('/:reviewId',isLoggedIn,isReviewAuthor, asyncError(async(req, res)
 }))
 router.post('/:reviewId/comments', asyncError(async(req, res)=>{
     const product =  await Product.findById(req.params.id);
-    const review = await Review.findById(req.params.reviewId);
+    const reviews = await Review.findById(req.params.reviewId);
+    // console.log('my',reviews)
     const comment = new Comment(req.body.comment);
-    // console.log(req.user)
     comment.author = req.user.username;
-    console.log(comment.author)
-    // res.send(comment_
-    // res.send(comment);
-    review.comments.push(comment);
-    await review.save();
+    comment.review = reviews
+    // console.log('my reviws',comment.review)
     await comment.save();
     req.flash('success', "Successfully added the review")
     res.redirect(`/products/${product._id}`);

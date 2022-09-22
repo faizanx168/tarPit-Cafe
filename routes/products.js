@@ -9,21 +9,43 @@ const upload = multer({storage});
 const { cloudinary } = require('../utils/cloudinary-config');
 const { isAdmin, validateProduct, isLoggedIn } = require('../utils/Middleware');
 const user = require('../models/user.js');
-
-
+const Security = require('../utils/Security');
+const Comment = require('../models/comments')
 
 router.get('/', asyncError(async (req, res)=>{
-    const products = await Product.find({});
-    res.render('tarpit/index', {products});
-    // res.send('it worked')
+    let filter ={};
+    if (req.query.query){
+        filter = {category: req.query.query};
+        console.log(filter)
+    }
+    // console.log(filter)
+    // console.log(req.sessionID, req.headers['user-agent'])
+    const products = await Product.find(filter); 
+    // const nonce =  Security.md5(req.sessionID + req.headers['user-agent'])
+    res.render('tarpit/index', {
+        pageTitle: 'Shop',
+        products: products
+        // nonce: nonce
+    });
+    
 }))
+// router.get('/data', asyncError(async (req, res)=>{
+//     let filter ={};
+//     if (req.query.categories){
+//         filter = {categories: req.query.categories.split(',')};
+//     }
+//     const products = await Product.find(filter); 
+//     res.json(products);
+//     // res.send(products);
+//     // res.render;
+// }))
 
 router.get('/new',isLoggedIn, isAdmin, (req, res)=>{
     res.render('tarpit/new');
 })
 router.post('/',isLoggedIn, isAdmin,  upload.array('image'),validateProduct, asyncError(async(req, res)=>{
     const newProduct = new Product(req.body.product);
-    console.log('asfeacascacacac',newProduct)
+    // console.log('asfeacascacacac',newProduct)
     // res.send(req.body,req.files)
     newProduct.image = req.files.map(file => ({
         url: file.path, filename: file.filename
@@ -36,21 +58,40 @@ router.post('/',isLoggedIn, isAdmin,  upload.array('image'),validateProduct, asy
 }))
 
 router.get('/:id', asyncError(async (req, res)=>{
+    if(!req.session.cart) {
+        req.session.cart = {
+            items: [],
+            totals: 0.00,
+            formattedTotals: ''
+        };
+        console.log(req.session.cart)
+    }
     const {id} = req.params;
     const products = await Product.findById(id).populate({
         path: 'review',
         populate: {
-            path: 'author',
-            path: 'comments'
+            path: 'author'
         }
     })
-    // res.send(review.author)
+    let comments = [];
+    // console.log(products.review.length)
+    // console.log(products.review[2]._id)
+    for(i = 0; i < products.review.length; i++){
+    comments = await Comment.find( {review: { _id :products.review[i]._id}}).populate('review')
+    }
+//    console.log('my comments',comments)
+   
     if(!products) {
         req.flash('error', 'Sorry! Product not found');
         return res.redirect('/products');
     }
-    console.log(products);
-    res.render('tarpit/show', {products});
+    const nonce =  Security.md5(req.sessionID + req.headers['user-agent'])
+    res.render('tarpit/show', {
+        pageTitle: `${products.title}`,
+        products,
+        comments,
+        nonce
+    });
 }))
 
 router.get('/:id/edit',isLoggedIn, isAdmin, asyncError(async (req, res)=>{
