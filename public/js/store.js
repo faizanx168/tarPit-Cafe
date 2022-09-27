@@ -1,5 +1,7 @@
 'use strict';
-
+const form  = document.querySelector('#formQuery');
+const formDrop  = document.querySelector('.dropForm');
+let dropForm = false;
 const Store = {
     quantity: () => {
         let qtyWrap = document.querySelectorAll('.qty-wrap');
@@ -25,7 +27,36 @@ const Store = {
         }
     }
 };
-
 document.addEventListener('DOMContentLoaded', () => {
     Store.quantity();
 });
+
+formDrop.addEventListener('click', ()=>{
+    dropForm = !dropForm;
+    if(dropForm == true){
+        formDrop.classList.toggle('dropFormRotate')
+        form.innerHTML =' ';
+        form.innerHTML = `  
+        <form action="/products"  >
+        <div>
+        <input class="filterbox" type="checkbox" name="query" id="goods" value="goods">
+        <input class="filterbox" type="checkbox" name="query" id="cloths" value="apparel">
+        <input class="filterbox" type="checkbox" name="query" id="coffee" value="coffee">
+        <input class="filterbox" type="checkbox" name="query" id="giftCard" value="giftcard">
+        </div>
+        <div class="filterLabel">
+        <label class="filterbox" for="goods">Goods</label>
+        <label class="filterbox" for="cloths">Apparel</label>
+        <label class="filterbox" for="coffee">Coffee</label>
+        <label class="filterbox" for="giftCard">Gift Card</label>
+        </div>
+        <div style="text-align: center;">
+        <button class="btn" >Filter</button>
+        </div>
+        </form>
+        `
+    }else{
+        formDrop.classList.toggle('dropFormRotate')
+        form.innerHTML = ' ';
+    }
+})

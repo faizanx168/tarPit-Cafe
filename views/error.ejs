@@ -1,9 +1,11 @@
 <% layout('layout/boilerplate') -%>
-<div class="row">
+<section>
+  <div class="row">
     <div class="col-6 offset-3">
-        <div class="alert alert-danger mt-4" role="alert">
-            <h4 class="alert-heading"><%=err.message%></h4>
-            <p class="mb-0"><%=err.stack%></p>
-        </div>
+      <div class="alert alert-danger mt-4" role="alert">
+        <h4 class="alert-heading"><%=err.message%></h4>
+        <p class="mb-0"><%=err.stack%></p>
+      </div>
     </div>
-</div>
+  </div>
+</section>

@@ -1,6 +1,10 @@
 <% layout('layout/boilerplate') -%>
 <link rel="stylesheet" href="/stylesheets/empPop.css">
-<div class="about">
+<div class="mainImg">
+  <img src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664135835/tarpitCafe/P1040409-1_1_wnpcb5.png" alt="" class="bg">
+  </div>
+  <div style=" height: 85vh; width: 100vw;">&nbsp;</div>
+<section class="container"> 
 <div class="address">
     <div class="add">
         <h1>BROOKLYN</h1>
@@ -25,26 +29,25 @@
     The coffee shop has allowed us to expand that friend group to the entire neighborhood. Tar Pit is a community that has grown over the years. Our employees new and old have become part of our families and our customers becoming close friends.”
     
     <br>- Kerry Sano, FOUNDER</p>
-
-
 </div>
+
 <% var i = 1%> 
 <div class="cont">
 <h2>Meet the Team</h2>
-
+<div class="con2">
 <% for(let emp of employee){ %>
     <% var modal= `modal${i}` %> 
-    <div>
 <div class="empContainer">
-
-    <button data-modal-target=<%=modal%> class="imgBtn" > <%for(let img of emp.image){%>     
+    <button data-modal-target=<%=modal%> class="imgBtn" >
+       <%for(let img of emp.image){%>    
         <img src="<%=img.url%>" style="height: 12rem" class="empImg" alt="employee image">
-          <% } %> </button>
-        <h3><%=emp.employeeName%></h3>
+          <% } %> 
+      </button>
+      <h3><%=emp.employeeName%></h3>
 </div>
-
-        <div class="modal" id=<%=modal%>> <!-- This is the background overlay -->
-            <div class="modal-content"> <!-- This is the actual modal/popup box -->
+</div>
+       <div class="modal" id="<%=modal%>">
+            <div class="modal-content"> 
               <span class="modal-close">&times;</span>
               <div class="modalCon">
                 <div>
@@ -56,13 +59,16 @@
                 <img src="<%=img.url%>" alt="employee image" class="modalImg">
                   <% } %>
                 </div>
+              </div>
             </div>
-            </div>
-          </div>
           <% i++ %> 
-    <%}%>  
+        </div>
+          <%}%>  
+
 </div>
 </div>
+</section>
+
 <script>
 mapboxgl.accessToken = '<%-process.env.mapboxToken%>';
 const map = new mapboxgl.Map({
@@ -81,7 +87,7 @@ map.on('click', (event) => {
 const popup = new mapboxgl.Popup({ offset: [0, -15] })
 .setLngLat([-73.94119711179343, 40.71751710581903])
 .setHTML(
-'<h3>Tarpit</h3><p>135 Woodpoint Road,Brooklyn, NY 1121</p> <a href="https://goo.gl/maps/JV7nWxu2wcKTkhsz5">Open on google Maps</a>'
+'<h3>Tarpit</h3><p style="font-size:15px;">135 Woodpoint Road,Brooklyn, NY 1121</p> <a href="https://goo.gl/maps/JV7nWxu2wcKTkhsz5" style="color: blue";>Open on google Maps</a>'
 )
 .addTo(map);
 });

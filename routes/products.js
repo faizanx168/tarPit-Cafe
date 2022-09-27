@@ -14,9 +14,10 @@ const Comment = require('../models/comments')
 
 router.get('/', asyncError(async (req, res)=>{
     let filter ={};
+    cat = req.query.query
     if (req.query.query){
-        filter = {category: req.query.query};
-        console.log(filter)
+        filter = {category: cat };
+        // console.log(filter)
     }
     // console.log(filter)
     // console.log(req.sessionID, req.headers['user-agent'])
@@ -24,8 +25,8 @@ router.get('/', asyncError(async (req, res)=>{
     // const nonce =  Security.md5(req.sessionID + req.headers['user-agent'])
     res.render('tarpit/index', {
         pageTitle: 'Shop',
-        products: products
-        // nonce: nonce
+        products: products,
+        category: cat 
     });
     
 }))

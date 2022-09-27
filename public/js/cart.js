@@ -1,8 +1,3 @@
-// const { calculateTotals } = require("../../utils/cart");
-
-// const { func } = require("joi");
-
-const check = document.querySelectorAll('.itemCheck');
 const itemCon = document.querySelectorAll('.itemContainer');
 const quantity = document.querySelectorAll('.qty');
 const increment = document.querySelectorAll('.qty-plus');
@@ -12,9 +7,8 @@ const deleteBtn = document.querySelectorAll('.delete');
 const itemId= document.getElementsByClassName('itemId');
 const checkout = document.querySelector('.checkout');
 const noCon = document.querySelectorAll('.null');
-
+const addToCart = document.querySelector('.addToCart');
 let cost = 0;
-let checked = false;
 
  function updateBill(cos){
     let billPrice = document.querySelector('.cost');
@@ -29,8 +23,11 @@ const calculateTotals = (data)=>{
             data.items[i].qty++
             bill += data.items[i].price;
             cost += bill;
-            console.log(cost, data.items[i].qty,price[i].innerHTML)
+            console.log(cost, data.items[i].qty,price[i].innerHTML);
+            data.totals = cost;
+            data.formattedTotals = setFormattedTotals(cost);
             updateBill(cost);
+            postData(data);
         })
         decrement[i].addEventListener('click',()=>{
             if( data.items[i].qty > 1){
@@ -38,54 +35,59 @@ const calculateTotals = (data)=>{
             data.items[i].qty--;
             cost -= data.items[i].price;
             console.log(cost, data.items[i].qty,price[i].innerHTML)
+            data.totals = cost;
+            data.formattedTotals = setFormattedTotals(cost);
             updateBill(cost);
+            postData(data);
             }
     })
     })
-    return cost;
+    postData(data);
 }
 
 const remove = (data)=>{
-    check.forEach( (c , i)=>{ 
-        c.addEventListener('click',() => {
-            itemCon[i].classList.toggle('itemContainerhid')
-            checked = !checked;
-            if(checked){
-            let total = 0;
-            total = data.items[i].qty * data.items[i].price;
-            cost = cost - total;
-            updateBill(cost);
-        }else{
-            let total = 0;
-            total = data.items[i].qty * data.items[i].price;
-            cost = cost + total;
-            updateBill(cost);
-        }
-         })
-
+    deleteBtn.forEach((it, i) => {
          deleteBtn[i].addEventListener('click',(e)=>{
             if(data.items[i].id === itemId[i].value){
                 let total = 0;
                 total = data.items[i].qty * data.items[i].price;
                 cost = cost - total;
-                updateBill(cost);
-                data.items.splice(i);
+                data.totals = cost;
                 noCon[i].innerHTML = ' ';
-                return data.items
+                data.formattedTotals = setFormattedTotals(cost);
+                updateBill(cost);
+                data.items = data.items.filter((data, index) => index != i);
+                postData(data);
             };
         })
      })
-}
+     postData(data);
 
+}
 
 
 const fetchData = async () => {
     const res = await axios.get(`http://localhost:3000/cartdata`);
     const data = res.data;
+    console.log(data);
     calculateTotals(data);
     remove(data);
-    checkout.addEventListener('click', ()=>{
-        console.log(data);
-    })
+    // postData(data);
 }
 fetchData();
+
+const postData = async (data) => {
+    // checkSlice(data);
+    axios.put('http://localhost:3000/cartdata',{
+        data: data
+    }).then((data) => {
+        console.log('posted', data)
+    }).catch((err) => {
+        console.log('error');
+    });
+}
+
+const setFormattedTotals = (total) => {
+    let format = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD' });
+    return format.format(total);
+}

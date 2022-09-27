@@ -1,25 +1,24 @@
-<nav class="navbar navbar-expand-lg bg-dark text-$orange-500 navbar-dark" >
-    <div class="container-fluid" >
-      <a class="navbar-brand" href="/" style="color: white">Tarpit Cafe</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/coffee">Coffee</a>
-          <a class="nav-link" href="/products">Shop</a>
-          <a class="nav-link" href="/cafe">Cafe</a>
-          <a class="nav-link" href="/about">About</a>
-          <a class="nav-link" href="/cart">Cart</a>
-        </div>
-        <div class="navbar-nav ml-auto">
-          <% if(!user) {%> 
-          <a class="nav-link" href="/register">Register</a>
-          <a class="nav-link" href="/login">Login</a>
-          <% } else{ %> 
-          <a class="nav-link" href="/logout">Logout</a>
-          <% } %> 
-        </div>
+
+<nav class="navigationCon">
+    <div class="mainNavigation container">
+      <div>
+        <a class="logo" href="/"><img src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664134178/tarpitCafe/tarpit_long_whiteTrans_600_msqiqa.png" alt="Logo"></a>
       </div>
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+        <div class="navContent">
+          <a href="/products">Shop</a>
+          <a href="/about">About</a>
+          <a href="/products?query=coffee">Coffee</a>
+        </div>
+        <div class="navContent">
+          <% if(!user) {%> 
+          <a href="/login">Login</a>
+          <% } else{ %> 
+          <a href="/logout">Logout</a>
+          <% } %> 
+          <a href="/cart"><i class="fa-solid fa-cart-arrow-down"></i></a>
+        </div>
     </div>
   </nav>

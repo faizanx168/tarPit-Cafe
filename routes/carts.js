@@ -18,29 +18,31 @@ router.get('/cart', (req, res) => {
     });
 });
 
-// router.get('/cart/remove/:id/:nonce', (req, res) => {
-//     let id = req.params.id;
-//     if(/^\d+$/.test(id) && Security.isValidNonce(req.params.nonce, req)) {
-//         Cart.removeFromCart(parseInt(id, 10), req.session.cart);
-//         res.redirect('/cart');
-//     } else {
-//         res.redirect('/');
-//     }
-//  });
- 
-// router.get('/cart/empty/:nonce', (req, res) => {
-//      if(Security.isValidNonce(req.params.nonce, req)) {
-//          Cart.emptyCart(req);
-//          res.redirect('/cart');
-//      } else {
-//          res.redirect('/');
-//      }
-//  });
 router.get('/cartdata', (req, res)=>{
     let sess = req.session;
     let cart = (typeof sess.cart !== 'undefined') ? sess.cart : false;
     res.json(cart);
 })
+
+router.get('/checkout',(req,res)=>{
+    let sess = req.session;
+    let cart = (typeof sess.cart !== 'undefined') ? sess.cart : false;
+    console.log('checkout' ,cart)
+    res.render('tarpit/checkout', {
+        pageTitle: 'Checkout',
+        cart: cart,
+        checkoutDone: false,
+        nonce: Security.md5(req.sessionID + req.headers['user-agent'])
+    });
+})
+
+router.put('/cartdata',asyncError(async (req, res) =>{
+    req.session.cart =  req.body.data
+    await req.session.save();
+    // req.session.cart.reload();
+    res.end();
+}))
+
 router.post('/cart',asyncError(async(req, res) => {
     let qty = parseInt(req.body.qty, 10);
     // console.log(qty);
@@ -58,28 +60,26 @@ router.post('/cart',asyncError(async(req, res) => {
             }
             // res.send(prod)
             Cart.addToCart(prod, qty, cart);
-            console.log(cart)
-            // res.send(cart)
-            res.redirect('/cart')
+            res.redirect('/cart');
+
     } 
     else {
-        // res.redirect('/');
+        res.redirect('/');
     }
 }));
-router.post('/cart/update', (req, res) => {
-    res.send(req.body)
-    // let ids = req.body;
-    // console.log(ids)
-    // let qtys = req.body["qty[]"];
-    // console.log(qtys)
-    // if(Security.isValidNonce(req.body.nonce, req)) {
-    //     let cart = (req.session.cart) ? req.session.cart : null;
-    //     let i = (!Array.isArray(ids)) ? [ids] : ids;
-    //     let q = (!Array.isArray(qtys)) ? [qtys] : qtys;
-    //     Cart.updateCart(i, q, cart);
-    //     res.redirect('/cart');
-    // } else {
-    //     res.redirect('/');
-    // }
-});
+
+router.post('/checkout', (req, res)=>{
+    let sess = req.session;
+    let cart = (typeof sess.cart !== 'undefined') ? sess.cart : false;
+    if(Security.isValidNonce(req.body.nonce, req)) {
+        res.render('tarpit/checkout', {
+            pageTitle: 'Checkout',
+            cart: cart,
+            checkoutDone: true
+        });
+    } else {
+        res.redirect('/');
+    }
+})
+
 module.exports = router;

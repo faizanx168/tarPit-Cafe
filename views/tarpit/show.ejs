@@ -1,6 +1,6 @@
 <% layout('layout/boilerplate') -%>
 <link rel="stylesheet" href="/stylesheets/star.css">
-
+<section class="container">
 <div class="product">
   <div class="car">
     <div id="productsCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -30,19 +30,18 @@
     <h5 class="title"><%= products.title %></h5>
     <p class="text"><%=products.description%></p>
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Price: $<%=products.price%></li>
+  <ul>
+    <li>Price: $<%=products.price%></li>
   </ul>
 
   <div class="card-body">
-      <a href="/products" style="text-decoration: none">All productss</a>
+      <a href="/products">All productss</a>
     <%    if(user && user._id.equals(process.env.ADMIN_ID)){  %> 
       <a href="/products/<%=products._id%>/edit" class="card-link btn btn-info">Edit</a>
       <form class="d-inline mt-2" action="/products/<%=products._id%>?_method=Delete" method="POST">
           <button class="btn btn-danger">Delete</button>
           </form>     
    <% } %>  
-            
   </div>
 
   <div >
@@ -56,13 +55,13 @@
             <span class="qty-plus"><i class="fa-sharp fa-solid fa-plus"></i></span>
            </span>
           </div>
-            <div>
+          <div>
                <input type="hidden" name="product_id" value="<%= products._id %>">
               <input type="hidden" name="nonce" value="<%= nonce %>">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary addToCart">
                   Add To Cart
               </button>
-            </div>
+          </div>
         </div>
     </form>
   </div>
@@ -140,6 +139,6 @@
      </div>
      <% } %> 
 </div>
-
+</section>
 
    

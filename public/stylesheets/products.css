@@ -1,0 +1,46 @@
+/* Index page */
+.category{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+.filterbox{
+    width: 5vw;
+    text-align: center;
+}
+.filterLabel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-text{
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    padding-left: 20px;
+}
+
+.cardContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items:  center;
+}
+.cardShape{
+    margin-bottom: 20px;
+    width: 24rem;
+    height: 30rem;
+}
+.dropForm{
+    font-size: 30px;
+    color: rgb(17, 17, 81);
+}
+.dropForm i:hover{
+    color: rgb(118, 118, 118);
+    transition: var(--transition);
+}
+.dropFormRotate{
+    transform: rotate(180deg);
+}
