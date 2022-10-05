@@ -1,45 +1,59 @@
 <% layout('layout/boilerplate') -%>
 
 <section class="container">
-<h1>Shopping cart</h1>
-<!-- <div class="cartCon"> -->
-<% if(cart && cart.items.length > 0) { %>
-    <h3>Items</h3>
-    <%for(let items of cart.items)  {%> 
-    <div class="null">
+  <h1>Shopping cart</h1>
+  <!-- <div class="cartCon"> -->
+  <% if(cart && cart.items.length > 0) { %>
+  <h3>Items</h3>
+  <%for(let items of cart.items) {%>
+  <div class="null">
     <div class="itemContainer">
-        <div class="itemImg">
-            <img src="<%=items.image%>" alt="">
+      <div class="itemImg">
+        <img src="<%=items.image%>" alt="" />
+      </div>
+      <div class="cartData">
+        <h3><%=items.title%></h3>
+        <span class="price"><i> Price: $<%=items.price%></i></span>
+        <div>
+          <p style="font-weight: 600">Quantity</p>
+          <span class="qty-wrap">
+            <span class="qty-minus"
+              ><i class="fa-sharp fa-solid fa-minus"></i
+            ></span>
+            <input type="text" name="qty" class="qty" value="<%=items.qty%>" />
+            <span class="qty-plus"
+              ><i class="fa-sharp fa-solid fa-plus"></i
+            ></span>
+          </span>
         </div>
-        <div class="cartData">
-            <h3><%=items.title%></h2>
-            <span class="price"><i> Price: $<%=items.price%></i></span>
-            <div>
-            <p style="font-weight: 600;">Quantity</p>
-              <span class="qty-wrap">
-              <span class="qty-minus"><i class="fa-sharp fa-solid fa-minus"></i></span>
-              <input type="text" name="qty" class="qty" value="<%=items.qty%>">
-              <span class="qty-plus"><i class="fa-sharp fa-solid fa-plus"></i></span>
-             </span>
-            </div>
-            <div>
-            <a href="/products/<%=items.id%>">See full description</a>
-                <input type="hidden" name="itemId" class="itemId" value="<%=items.id%>">
-                <button class="delete cartDel"><i class="fa-solid fa-trash"></i></button>
-            </div>
+        <div>
+          <a href="/products/<%=items.id%>">See full description</a>
+          <input
+            type="hidden"
+            name="itemId"
+            class="itemId"
+            value="<%=items.id%>"
+          />
+          <button class="delete cartDel">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
 
-        </div>
-    </div>
-    </div>
-    <% } %> 
-    
-    <div class="checkoutCon">
-        <h1>Proceed To Checkout</h1>
-        <span class="cost"><p style="color:white; font-size:20px;">Subtotal: <%=cart.formattedTotals%></p></span>
-        <a href="/checkout" class="btn btn-success">Checkout</a>
-    </div>
-<!-- </div> -->
-    <% } else { %>
-    <p class="alert alert-info">Sorry, no products in your cart.</p>
-    <% } %>
+  <div class="checkoutCon">
+    <h1>Proceed To Checkout</h1>
+    <span class="cost"
+      ><p style="color: white; font-size: 20px">
+        Subtotal: <%=cart.formattedTotals%>
+      </p></span
+    >
+    <a href="/checkout" class="btn btn-success">Checkout</a>
+  </div>
+  <!-- </div> -->
+  <% } else { %>
+  <p class="alert alert-info">Sorry, no products in your cart.</p>
+  <% } %>
 </section>

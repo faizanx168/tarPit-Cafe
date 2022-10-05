@@ -1,47 +1,88 @@
 <% layout('layout/boilerplate') -%>
 <section>
-    <div class="row mt-4">
-        <h1 class="text-center">Edit Product</h1>
-        <div class="col-6 offset-3">
-            <form action="/products/<%=products._id%>?_method=Put" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input class="form-control" type="text" name="product[title]" id="title" value="<%=products.title%> "required>
-                </div>
-    
-                <div class="mb-3">
-                    <label for="price" class="form-label">Product price</label>
-                <div class="input-group">
-                    <span class="input-group-text" id="price-label">$</span>
-                    <input type="text" class="form-control" placeholder="0.00" id="price" aria-label="Price" aria-describedby="price-label" name="product[price]" value="<%=products.price%>" required>
-                  </div> 
-                </div>
-    
-                <div class="mb-3">
-                    <label for="image" class="form-label">Add Image</label>
-                    <input class="form-control" type="file" name="image" id="image" multiple>
-                </div>
-    
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" type="text" name="product[description]" id="description" required><%=products.description%></textarea>
-                </div>
-
-                <div class="mb-3">
-                    <% products.image.forEach(function(img,i){ %>
-                     <img src="<%img.url%>" class="img-thumbnail" alt=""> 
-                     <div class="form-check-inline">
-                        <input type="checkbox" name="deleteImage[]" id="image<%=i%>" value="<%=img.filename%>">
-                     </div>
-                     <label for="image<%=i%>">Delete Image</label>
-                   <%  }) %> 
-                </div>
-                <button class="btn btn-info">Update Product</button>
-            </form>
-            <div>
-                <a href="/products/<%=products._id%>">Back</a>
-            </div>
-        
+  <div class="row mt-4">
+    <h1 class="text-center">Edit Product</h1>
+    <div class="col-6 offset-3">
+      <form
+        action="/products/<%=products._id%>?_method=Put"
+        method="POST"
+        class="validated-form"
+        novalidate
+        enctype="multipart/form-data"
+      >
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            class="form-control"
+            type="text"
+            name="product[title]"
+            id="title"
+            value="<%=products.title%> "
+            required
+          />
         </div>
+
+        <div class="mb-3">
+          <label for="price" class="form-label">Product price</label>
+          <div class="input-group">
+            <span class="input-group-text" id="price-label">$</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="0.00"
+              id="price"
+              aria-label="Price"
+              aria-describedby="price-label"
+              name="product[price]"
+              value="<%=products.price%>"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Add Image</label>
+          <input
+            class="form-control"
+            type="file"
+            name="image"
+            id="image"
+            multiple
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            class="form-control"
+            type="text"
+            name="product[description]"
+            id="description"
+            required
+          >
+<%=products.description%></textarea
+          >
+        </div>
+
+        <div class="mb-3">
+          <% products.image.forEach(function(img,i){ %>
+          <img src="<%img.url%>" class="img-thumbnail" alt="" />
+          <div class="form-check-inline">
+            <input
+              type="checkbox"
+              name="deleteImage[]"
+              id="image<%=i%>"
+              value="<%=img.filename%>"
+            />
+          </div>
+          <label for="image<%=i%>">Delete Image</label>
+          <% }) %>
+        </div>
+        <button class="btn btn-info">Update Product</button>
+      </form>
+      <div>
+        <a href="/products/<%=products._id%>">Back</a>
+      </div>
     </div>
+  </div>
 </section>

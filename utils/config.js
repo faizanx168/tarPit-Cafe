@@ -1,19 +1,19 @@
-'use strict';
+"use strict";
 
 module.exports = {
   paypal: {
-      businessEmail: '',
-      url: 'https://www.sandbox.paypal.com/cgi-bin/webscr',
-      currency: 'USD'
+    businessEmail: "",
+    url: "https://www.sandbox.paypal.com/cgi-bin/webscr",
+    currency: "USD",
   },
-  secret: '',
-  name: 'nodeStore',
+  secret: "",
+  name: "nodeStore",
   db: {
-      url: 'mongodb://localhost:27017/tarpit',
-      sessions: 'sessions'
+    url: "mongodb://localhost:27017/tarpit",
+    sessions: "sessions",
   },
   locale: {
-      lang: 'en-US',
-      currency: 'USD'
-  }
+    lang: "en-US",
+    currency: "USD",
+  },
 };
