@@ -1,40 +1,68 @@
 <% layout('layout/boilerplate') -%>
 <section class="container">
-<div class="row">
+  <div class="row">
     <h1 class="text-center">New product</h1>
     <div class="col-6 offset-3">
-        <form action="/products" method="POST" novalidate class="validated-form" enctype="multipart/form-data" >
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input class="form-control" type="text" name="product[title]" id="title" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="price" class="form-label">product price</label>
-            <div class="input-group">
-                <span class="input-group-text" id="price-label">$</span>
-                <input type="text" class="form-control" placeholder="0.00" id="price" aria-label="Price" aria-describedby="price-label" name="product[price]" required>
-              </div>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
-                <input class="form-control" type="file" name="image" id="image" multiple>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" type="text" name="product[description]" id="description" required></textarea>
-            </div>
-            <button class="btn btn-outline-success">Add product</button>
-        </form>
-        <div>
-            <a href="/tarpitCafe/products">Back</a>
+      <form
+        action="/products"
+        method="POST"
+        novalidate
+        class="validated-form"
+        enctype="multipart/form-data"
+      >
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            class="form-control"
+            type="text"
+            name="product[title]"
+            id="title"
+            required
+          />
         </div>
-    
+
+        <div class="mb-3">
+          <label for="price" class="form-label">product price</label>
+          <div class="input-group">
+            <span class="input-group-text" id="price-label">$</span>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="0.00"
+              id="price"
+              aria-label="Price"
+              aria-describedby="price-label"
+              name="product[price]"
+              required
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image</label>
+          <input
+            class="form-control"
+            type="file"
+            name="image"
+            id="image"
+            multiple
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            class="form-control"
+            type="text"
+            name="product[description]"
+            id="description"
+            required
+          ></textarea>
+        </div>
+        <button class="btn btn-outline-success">Add product</button>
+      </form>
+      <div>
+        <a href="/tarpitCafe/products">Back</a>
+      </div>
     </div>
-</div>
+  </div>
 </section>
-
-
-
-

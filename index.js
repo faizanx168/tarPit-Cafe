@@ -23,6 +23,15 @@ const Security = require("./utils/Security");
 const bodyParser = require("body-parser");
 const Cart = require("./routes/carts");
 const Payments = require("./routes/server");
+const Blogs = require("./routes/blogs");
+// const mailchimpTx = require("@mailchimp/mailchimp_transactional")(
+//   process.env.MailChimpApi
+// );
+
+// async function run() {
+//   const response = await mailchimpTx.users.ping();
+//   console.log(response);
+// }
 
 mongoose.connect("mongodb://localhost:27017/tarpit", {
   useNewUrlparser: true,
@@ -80,28 +89,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.get('/', (req, res) => {
-//     if(!req.session.test) {
-//       req.session.test = 'OK';
-//       res.send('OK');
-//     }
-//   });
-
-//   app.get('/test', (req, res) => {
-//     res.send(req.session.test); // 'OK'
-//   });
-
-// app.post('/test', (req,res)=>{
-//     let token = req.body.nonce;
-//     console.log(req.body)
-//     console.log(token)
-//     if(Security.isValidNonce(token, req)) {
-//       res.send('ok')
-//     } else {
-//       res.send('error');
-//     }
-// });
-
 app.get("/", (req, res) => {
   if (!req.session.cart) {
     req.session.cart = {
@@ -117,8 +104,9 @@ app.use("/", Register);
 app.use("/about", About);
 app.use("/products", Tarpit);
 app.use("/", Cart);
-app.use("/products/:id/reviews", Reviews);
 app.use("/", Payments);
+app.use("/blogs", Blogs);
+app.use("/products/:id/reviews", Reviews);
 
 app.all("*", (req, res, next) => {
   next(new myError("Page not found", 404));

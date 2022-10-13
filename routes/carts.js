@@ -34,20 +34,22 @@ router.get("/checkoutdata", (req, res) => {
   res.json(data);
 });
 router.get("/checkout", (req, res) => {
-  if (!req.session.checkoutData) {
-    req.session.checkoutData = {
+  let sess = req.session;
+  if (!sess.checkoutData) {
+    sess.checkoutData = {
       email: "",
       Shipping: "",
       Billing: "",
     };
-    console.log(req.session.checkoutData);
   }
-  let sess = req.session;
+  let checkoutData =
+    typeof sess.checkoutData !== "undefined" ? sess.checkoutData : false;
   let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
   // console.log("checkout", cart);
   res.render("tarpit/checkout", {
     pageTitle: "Checkout",
     cart: cart,
+    checkoutData,
     enter: true,
     emailCheck: false,
     shippingCheck: false,
@@ -106,6 +108,7 @@ router.post("/checkout", (req, res) => {
     res.render("tarpit/checkout", {
       pageTitle: "Checkout",
       cart: cart,
+      checkoutData,
       enter: false,
       emailCheck: true,
       shippingCheck: false,
@@ -124,6 +127,7 @@ router.post("/checkout", (req, res) => {
       pageTitle: "Checkout",
       cart: cart,
       enter: false,
+      checkoutData,
       emailCheck: false,
       shippingCheck: true,
       billingCheck: false,
@@ -139,6 +143,7 @@ router.post("/checkout", (req, res) => {
     res.render("tarpit/checkout", {
       pageTitle: "Checkout",
       cart: cart,
+      checkoutData,
       enter: false,
       emailCheck: false,
       shippingCheck: false,

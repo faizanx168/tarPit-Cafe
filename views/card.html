@@ -95,7 +95,7 @@
       currencyCode: "USD",
       intent: "CHARGE",
     };
-    console.log(verificationDetails);
+    console.log("verify", verificationDetails);
     const verificationResults = await payments.verifyBuyer(
       token,
       verificationDetails
@@ -159,7 +159,7 @@
     const cardButton = document.getElementById("card-button");
     cardButton.addEventListener("click", async function (event) {
       // SCA only needs to be run for Card Payments. All other payment methods can be set to false.
-      handlePaymentMethodSubmission(event, card);
+      handlePaymentMethodSubmission(event, card, true);
     });
   });
 </script>

@@ -1,33 +1,41 @@
 <% layout('layout/boilerplate') -%>
 <section>
   <div class="row">
-    <h1 class="text-center">Add Employee</h1>
+    <h1 class="text-center">Add Blog</h1>
     <div class="col-6 offset-3">
       <form
-        action="/about"
+        action="/blogs"
         method="POST"
         novalidate
         class="validated-form"
         enctype="multipart/form-data"
       >
         <div class="mb-3">
-          <label for="title" class="form-label">Employee Name</label>
+          <label for="title" class="form-label">Title</label>
           <input
             class="form-control"
             type="text"
-            name="about[employeeName]"
+            name="Blog[title]"
             id="title"
             required
           />
         </div>
         <div class="mb-3">
-          <label for="description" class="form-label"
-            >Employee Description</label
-          >
+          <label for="author" class="form-label">Author</label>
+          <input
+            class="form-control"
+            type="text"
+            name="Blog[author]"
+            id="author"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Blog Description</label>
           <textarea
             class="form-control"
             type="text"
-            name="about[employeeDes]"
+            name="Blog[desc]"
             id="description"
             required
           ></textarea>
@@ -45,7 +53,7 @@
         <button class="btn btn-outline-success">Add</button>
       </form>
       <div>
-        <a href="/tarpitCafe/products">Back</a>
+        <a href="/">Back</a>
       </div>
     </div>
   </div>

@@ -1,22 +1,27 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema; 
-const Review = require('./reviews')
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Review = require("./reviews");
 
-const productSchema = new Schema({
+const productSchema = new Schema(
+  {
     title: String,
     price: Number,
     description: String,
     category: String,
     image: [
-        {
-            url: String,
-            filename:String
-        }
+      {
+        url: String,
+        filename: String,
+      },
     ],
-    review: [{
+    review: [
+      {
         type: Schema.Types.ObjectId,
-        ref: 'Review'
-    }]
-});
+        ref: "Review",
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model("Product", productSchema);

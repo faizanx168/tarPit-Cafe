@@ -1,0 +1,47 @@
+<% layout('layout/boilerplate') -%>
+<section class="container">
+  <div class="blogFirst">
+    <a href="/blogs/<%=blog1._id%>">
+      <% for(let img of blog1.image){ %>
+      <div class="topBlog"><img src="<%=img.url%>" alt="My product" /></div>
+      <% } %>
+      <h1 class="firstText"><%=blog1.title%></h1>
+
+      <div class="secondText">
+        <a
+          href="/blogs/<%=blog1._id%>"
+          class="btn"
+          style="color: rgb(255, 255, 255)"
+        >
+          Read more
+        </a>
+      </div>
+    </a>
+  </div>
+  <div class="containerBlog">
+    <% for(let blog of Blogs) {%>
+    <div class="card cardShape blogCard">
+      <a href="/blogs/<%=blog._id%>">
+        <% for(let img of blog.image){ %>
+        <img src="<%=img.url%>" style="height: 14rem" alt="My product" />
+        <% } %>
+        <div class="cardBody">
+          <h5><%=blog.title%></h5>
+          <span class="lineClamp"> <%=blog.desc%></span>
+          <div
+            style="
+              padding-left: 10px;
+              padding-top: 10px;
+              color: rgb(46, 46, 46);
+            "
+          >
+            <a href="/blogs/<%=blog._id%>" style="color: rgb(46, 46, 46)">
+              Read more
+            </a>
+          </div>
+        </div>
+      </a>
+    </div>
+    <%} %>
+  </div>
+</section>

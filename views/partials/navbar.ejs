@@ -1,24 +1,28 @@
-
 <nav class="navigationCon">
-    <div class="mainNavigation container">
-      <div>
-        <a class="logo" href="/"><img src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664134178/tarpitCafe/tarpit_long_whiteTrans_600_msqiqa.png" alt="Logo"></a>
-      </div>
-      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="mainNavigation container">
+    <div>
+      <a class="logo" href="/"
+        ><img
+          src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664134178/tarpitCafe/tarpit_long_whiteTrans_600_msqiqa.png"
+          alt="Logo"
+      /></a>
+    </div>
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> -->
-        <div class="navContent">
-          <a href="/products">Shop</a>
-          <a href="/about">About</a>
-          <a href="/products?query=coffee">Coffee</a>
-        </div>
-        <div class="navContent">
-          <% if(!user) {%> 
-          <a href="/login">Login</a>
-          <% } else{ %> 
-          <a href="/logout">Logout</a>
-          <% } %> 
-          <a href="/cart"><i class="fa-solid fa-cart-arrow-down"></i></a>
-        </div>
+    <div class="navContent">
+      <a href="/products">Shop</a>
+      <a href="/about">About</a>
+      <a href="/products?query=coffee">Coffee</a>
+      <a href="/blogs">Blogs</a>
     </div>
-  </nav>
+    <div class="navContent">
+      <% if(!user) {%>
+      <a href="/login">Login</a>
+      <% } else{ %>
+      <a href="/logout">Logout</a>
+      <% } %>
+      <a href="/cart"><i class="fa-solid fa-cart-arrow-down"></i></a>
+    </div>
+  </div>
+</nav>

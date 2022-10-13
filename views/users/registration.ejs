@@ -1,7 +1,10 @@
 <% layout('layout/boilerplate') -%>
 <div class="login-root">
-    <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
-      <div class="loginbackground box-background--white padding-top--64">
+  <div
+    class="box-root flex-flex flex-direction--column"
+    style="min-height: 100vh; flex-grow: 1"
+  >
+    <!-- <div class="loginbackground box-background--white padding-top--64">
         <div class="loginbackground-gridContainer">
           <div class="box-root flex-flex" style="grid-area: top / start / 8 / end;">
             <div class="box-root" style="background-image: linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) 33%); flex-grow: 1;">
@@ -32,50 +35,76 @@
             <div class="box-root box-divider--light-all-2 animationRightLeft tans3s" style="flex-grow: 1;"></div>
           </div>
         </div>
+      </div> -->
+    <div
+      class="box-root padding-top--24 flex-flex flex-direction--column"
+      style="flex-grow: 1; z-index: 9"
+    >
+      <div
+        class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center"
+      >
+        <h1><a href="/" rel="dofollow">Tarpit Coffee</a></h1>
       </div>
-      <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
-        <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-          <h1><a href="/" rel="dofollow">Tarpit Coffee</a></h1>
+      <div class="formbg-outer">
+        <div class="formbg">
+          <div class="formbg-inner padding-horizontal--48">
+            <span class="padding-bottom--15"
+              >Register for our Tarpit family!</span
+            >
+            <form
+              action="/register"
+              method="post"
+              class="validated-form"
+              novalidate
+            >
+              <div class="field padding-bottom--24">
+                <label for="username">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  required
+                  class="form-control"
+                />
+                <div class="valid-feedback">Look good!</div>
+              </div>
+              <div class="field padding-bottom--24">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  required
+                  class="form-control"
+                />
+                <div class="valid-feedback">Look good!</div>
+              </div>
+              <div class="field padding-bottom--24">
+                <label for="password" class="form-label">password</label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  required
+                  class="form-control"
+                />
+                <div class="valid-feedback">Look good!</div>
+              </div>
+              <div class="field padding-bottom--24">
+                <input type="submit" name="submit" value="Continue" />
+              </div>
+              <div class="field">
+                <a class="ssolink" href="#"
+                  >Use single sign-on (Google) instead</a
+                >
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="formbg-outer">
-          <div class="formbg">
-            <div class="formbg-inner padding-horizontal--48">
-              <span class="padding-bottom--15">Register for our Tarpit family!</span>
-              <form action="/register" method="post" class="validated-form" novalidate>
-                <div class="field padding-bottom--24">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username" required class="form-control">
-                     <div class="valid-feedback">
-                         Look good!
-                     </div>
-                </div>
-                <div class="field padding-bottom--24">
-                     <label for="email" class="form-label">Email</label>
-                     <input type="email" name="email" id="email" required class="form-control">
-                     <div class="valid-feedback">
-                         Look good!
-                     </div>
-                </div>
-                <div class="field padding-bottom--24">
-                    <label for="password" class="form-label">password</label>
-                    <input type="password" name="password" id="password" required class="form-control">
-                    <div class="valid-feedback">
-                        Look good!
-                    </div>
-                </div>
-                <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Continue">
-                </div>
-                <div class="field">
-                  <a class="ssolink" href="#">Use single sign-on (Google) instead</a>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="footer-link padding-top--24">
-            <span>Already have an account? <a href="/login">Sign in</a></span>
-          </div>
+        <div class="footer-link padding-top--24">
+          <span>Already have an account? <a href="/login">Sign in</a></span>
         </div>
       </div>
     </div>
   </div>
+</div>
