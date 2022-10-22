@@ -1,0 +1,146 @@
+<link href="/stylesheets/card.css" rel="stylesheet" />
+
+<script
+  type="text/javascript"
+  src="https://sandbox.web.squarecdn.com/v1/square.js"
+></script>
+<script>
+  const appId = "sandbox-sq0idb-tvrdb1jcopz5LPO7DsjEug";
+  const locationId = "L6WB1C6A64GWE";
+
+  const Data = async () => {
+    const res = await axios.get("http://localhost:3000/checkoutdata");
+    const data = res.data;
+    console.log(data);
+    return data;
+  };
+
+  async function initializeGiftCard(payments) {
+    const giftCard = await payments.giftCard();
+    await giftCard.attach("#gift-card-container");
+
+    return giftCard;
+  }
+
+  async function createPayment(token) {
+    const cart = await Data();
+    const total = cart[0].totals;
+    const body = JSON.stringify({
+      locationId,
+      sourceId: token,
+      price: total,
+    });
+
+    const paymentResponse = await fetch("/payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+
+    if (paymentResponse.ok) {
+      return paymentResponse.json();
+    }
+
+    const errorBody = await paymentResponse.text();
+    throw new Error(errorBody);
+  }
+
+  async function tokenize(paymentMethod) {
+    const tokenResult = await paymentMethod.tokenize();
+    if (tokenResult.status === "OK") {
+      return tokenResult.token;
+    } else {
+      let errorMessage = `Tokenization failed with status: ${tokenResult.status}`;
+      if (tokenResult.errors) {
+        errorMessage += ` and errors: ${JSON.stringify(tokenResult.errors)}`;
+      }
+
+      throw new Error(errorMessage);
+    }
+  }
+
+  // status is either SUCCESS or FAILURE;
+  function displayPaymentResults(status) {
+    const statusContainer = document.getElementById("payment-status-container");
+    if (status === "SUCCESS") {
+      statusContainer.classList.remove("is-failure");
+      statusContainer.classList.add("is-success");
+    } else {
+      statusContainer.classList.remove("is-success");
+      statusContainer.classList.add("is-failure");
+    }
+
+    statusContainer.style.visibility = "visible";
+  }
+
+  document.addEventListener("DOMContentLoaded", async function () {
+    if (!window.Square) {
+      throw new Error("Square.js failed to load properly");
+    }
+
+    let payments;
+    try {
+      payments = window.Square.payments(appId, locationId);
+    } catch {
+      const statusContainer = document.getElementById(
+        "payment-status-container"
+      );
+      statusContainer.className = "missing-credentials";
+      statusContainer.style.visibility = "visible";
+      return;
+    }
+
+    const giftcontainer = document.querySelector(".add-giftcard");
+    const giftbutton = document.querySelector("#gift-button");
+    let giftCardButton;
+    let isgiftcard = false;
+    let giftCard;
+    giftbutton.addEventListener("click", async () => {
+      isgiftcard = !isgiftcard;
+      if (isgiftcard) {
+        giftcontainer.innerHTML = `<form id="payment-form">
+        <div id="gift-card-container"></div>
+         <button id="gift-card-button" type="button">Pay with Gift Card</button>
+        </form>
+        <div id="payment-status-container"></div>`;
+        try {
+          giftCard = await initializeGiftCard(payments);
+        } catch (e) {
+          console.error("Initializing Gift Card failed", e);
+        }
+        giftCardButton = document.getElementById("gift-card-button");
+        giftCardButton.addEventListener("click", async function (event) {
+          await handlePaymentMethodSubmission(event, giftCard);
+        });
+      } else {
+        giftcontainer.innerHTML = " ";
+      }
+    });
+    // Checkpoint 2.
+    async function handlePaymentMethodSubmission(event, paymentMethod) {
+      event.preventDefault();
+
+      try {
+        // disable the submit button as we await tokenization and make a payment request.
+
+        giftCardButton.disabled = true;
+        const token = await tokenize(paymentMethod);
+        const paymentResults = await createPayment(token);
+        displayPaymentResults("SUCCESS");
+
+        console.debug("Payment Success", paymentResults);
+      } catch (e) {
+        cardButton.disabled = false;
+        giftCardButton.disabled = false;
+        displayPaymentResults("FAILURE");
+        console.error(e.message);
+      }
+    }
+  });
+</script>
+<div>
+  <button id="gift-button" type="button">Pay with Gift Card</button>
+</div>
+<div class="add-giftcard"></div>

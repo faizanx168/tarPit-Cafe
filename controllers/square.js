@@ -1,26 +1,15 @@
-// micro provides http helpers
 const { createError, send } = require("micro");
-// // microrouter provides http server routing
-// const { router, get, post } = require("microrouter");
-// // serve-handler serves static assets
-// const staticHandler = require("serve-handler");
-// async-retry will retry failed API requests
 const retry = require("async-retry");
-const express = require("express");
-const router = express.Router();
 const { v4: uuidv4 } = require("uuid");
-const logger = require("../server/logger");
-
+const logger = require("../Square/logger");
 const {
   validatePaymentPayload,
   validateCreateCardPayload,
-} = require("../server/schema");
+} = require("../Square/schema");
 // square provides the API client and error types
-const { ApiError, client: square } = require("../server/square");
+const { ApiError, client: square } = require("../Square/square");
 
-// import { nanoid } from 'nanoid'
-
-async function createPayment(req, res) {
+exports.createPayment = async function (req, res) {
   const payload = await req.body;
   logger.debug("data: ", payload);
   await retry(async (bail, attempt) => {
@@ -70,9 +59,9 @@ async function createPayment(req, res) {
       }
     }
   });
-}
+};
 
-async function storeCard(req, res) {
+exports.storeCard = async function (req, res) {
   const payload = await json(req);
 
   if (!validateCreateCardPayload(payload)) {
@@ -121,19 +110,4 @@ async function storeCard(req, res) {
       }
     }
   });
-}
-
-// serve static files like index.html and favicon.ico from public/ directory
-// async function serveStatic(req, res) {
-//   logger.debug("Handling request", req.path);
-//   await staticHandler(req, res, {
-//     public: "public",
-//   });
-// }
-
-// export routes
-router.post("/payment", createPayment);
-router.post("/card", storeCard);
-// router.get("/*", serveStatic);
-
-module.exports = router;
+};

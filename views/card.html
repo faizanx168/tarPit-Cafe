@@ -1,4 +1,5 @@
 <link href="/stylesheets/card.css" rel="stylesheet" />
+
 <script
   type="text/javascript"
   src="https://sandbox.web.squarecdn.com/v1/square.js"
@@ -6,21 +7,52 @@
 <script>
   const appId = "sandbox-sq0idb-tvrdb1jcopz5LPO7DsjEug";
   const locationId = "L6WB1C6A64GWE";
-  const cartData = async () => {
-    const res = await axios.get("http://localhost:3000/checkoutData");
+  const Data = async () => {
+    const res = await axios.get("http://localhost:3000/checkoutdata");
     const data = res.data;
+    console.log(data);
     return data;
   };
+
+  async function buildPaymentRequest(payments) {
+    const cart = await Data();
+    const total = cart[0].totals;
+    return payments.paymentRequest({
+      countryCode: "US",
+      currencyCode: "USD",
+      total: {
+        amount: total,
+        label: "Total",
+      },
+    });
+  }
+
+  async function initializeGiftCard(payments) {
+    const giftCard = await payments.giftCard();
+    await giftCard.attach("#gift-card-container");
+    return giftCard;
+  }
   async function initializeCard(payments) {
     const card = await payments.card();
     await card.attach("#card-container");
-
     return card;
   }
+  async function initializeGooglePay(payments) {
+    const paymentRequest = buildPaymentRequest(payments);
+    const googlePay = await payments.googlePay(paymentRequest);
+    await googlePay.attach("#google-pay-button");
 
+    return googlePay;
+  }
+  async function initializeApplePay(payments) {
+    const paymentRequest = buildPaymentRequest(payments);
+    const applePay = await payments.applePay(paymentRequest);
+    // Note: You do not need to `attach` applePay.
+    return applePay;
+  }
   // verificationToken can be undefined, as it does not apply to all payment methods.
   async function createPayment(token, verificationToken) {
-    const cart = await cartData();
+    const cart = await Data();
     const total = cart[0].totals;
     const bodyParameters = {
       locationId,
@@ -55,9 +87,12 @@
     if (tokenResult.status === "OK") {
       return tokenResult.token;
     } else {
-      throw new Error(
-        `Tokenization errors: ${JSON.stringify(tokenResult.errors)}`
-      );
+      let errorMessage = `Tokenization failed with status: ${tokenResult.status}`;
+      if (tokenResult.errors) {
+        errorMessage += ` and errors: ${JSON.stringify(tokenResult.errors)}`;
+      }
+
+      throw new Error(errorMessage);
     }
   }
 
@@ -76,7 +111,7 @@
   }
 
   async function verifyBuyer(payments, token) {
-    const cart = await cartData();
+    const cart = await Data();
     const total = cart[0].totals;
     const billing = cart[1].Billing;
     const verificationDetails = {
@@ -127,6 +162,30 @@
       console.error("Initializing Card failed", e);
       return;
     }
+    let giftCard;
+    try {
+      giftCard = await initializeGiftCard(payments);
+    } catch (e) {
+      console.error("Initializing Gift Card failed", e);
+    }
+    // let applePay;
+    // try {
+    //   applePay = await initializeApplePay(payments);
+    // } catch (e) {
+    //   console.error("Initializing Apple Pay failed", e);
+    //   // There are a number of reason why Apple Pay may not be supported
+    //   // (e.g. Browser Support, Device Support, Account). Therefore you should handle
+    //   // initialization failures, while still loading other applicable payment methods.
+    // }
+    // let googlePay;
+    // try {
+    //   googlePay = await initializeGooglePay(payments);
+    // } catch (e) {
+    //   console.error("Initializing Google Pay failed", e);
+    //   // There are a number of reason why Google Pay may not be supported
+    //   // (e.g. Browser Support, Device Support, Account). Therefore you should handle
+    //   // initialization failures, while still loading other applicable payment methods.
+    // }
 
     async function handlePaymentMethodSubmission(
       event,
@@ -138,6 +197,7 @@
       try {
         // disable the submit button as we await tokenization and make a payment request.
         cardButton.disabled = true;
+        giftCardButton.disabled = true;
         const token = await tokenize(paymentMethod);
         let verificationToken;
 
@@ -152,10 +212,26 @@
       } catch (e) {
         cardButton.disabled = false;
         displayPaymentResults("FAILURE");
+        giftCardButton.disabled = false;
         console.error(e.message);
       }
     }
-
+    // if (applePay) {
+    //   const applePayButton = document.getElementById("apple-pay-button");
+    //   applePayButton.addEventListener("click", async function (event) {
+    //     await handlePaymentMethodSubmission(event, applePay);
+    //   });
+    // }
+    // if (googlePay) {
+    //   const googlePayButton = document.getElementById("google-pay-button");
+    //   googlePayButton.addEventListener("click", async function (event) {
+    //     await handlePaymentMethodSubmission(event, googlePay);
+    //   });
+    // }
+    const giftCardButton = document.getElementById("gift-card-button");
+    giftCardButton.addEventListener("click", async function (event) {
+      await handlePaymentMethodSubmission(event, giftCard);
+    });
     const cardButton = document.getElementById("card-button");
     cardButton.addEventListener("click", async function (event) {
       // SCA only needs to be run for Card Payments. All other payment methods can be set to false.
@@ -163,3 +239,39 @@
     });
   });
 </script>
+<div>
+  <button id="gift-card-button" type="button">Pay with Gift Card</button>
+  <!-- <button id="apple-pay-button" class="apple-pay-button apple-pay-button-black">
+    Apple Pay
+  </button>
+  <button id="apple-pay-button" class="apple-pay-button apple-pay-button-black">
+    Google Pay
+  </button> -->
+</div>
+
+<div class="formbg-outer mb-4 mt-4">
+  <div class="formbg">
+    <div class="formbg-inner padding-horizontal--48">
+      <h3>Payment</h3>
+      <form id="payment-form">
+        <div id="gift-card-container"></div>
+        <button id="gift-card-button" type="button">Pay with Gift Card</button>
+        <!-- <button
+          id="apple-pay-button"
+          class="apple-pay-button apple-pay-button-black"
+        >
+          Apple Pay
+        </button>
+        <button
+          id="google-pay-button"
+          class="apple-pay-button apple-pay-button-black"
+        >
+          Google Pay
+        </button> -->
+        <div id="card-container"></div>
+        <button id="card-button" type="button">Pay $1.00</button>
+      </form>
+      <div id="payment-status-container"></div>
+    </div>
+  </div>
+</div>

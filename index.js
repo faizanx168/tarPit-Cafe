@@ -22,16 +22,9 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const Security = require("./utils/Security");
 const bodyParser = require("body-parser");
 const Cart = require("./routes/carts");
-const Payments = require("./routes/server");
+const SquarePayments = require("./routes/square");
+const PaypalPayments = require("./routes/paypal");
 const Blogs = require("./routes/blogs");
-// const mailchimpTx = require("@mailchimp/mailchimp_transactional")(
-//   process.env.MailChimpApi
-// );
-
-// async function run() {
-//   const response = await mailchimpTx.users.ping();
-//   console.log(response);
-// }
 
 mongoose.connect("mongodb://localhost:27017/tarpit", {
   useNewUrlparser: true,
@@ -100,11 +93,22 @@ app.get("/", (req, res) => {
   }
   res.render("tarpit/home");
 });
+app.get("/checkoutdata", (req, res) => {
+  let sess = req.session;
+  let data = [];
+  let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
+  let checkoutData =
+    typeof sess.checkoutData !== "undefined" ? sess.checkoutData : false;
+  data.push(cart);
+  data.push(checkoutData);
+  res.json(data);
+});
 app.use("/", Register);
 app.use("/about", About);
 app.use("/products", Tarpit);
 app.use("/", Cart);
-app.use("/", Payments);
+app.use("/", SquarePayments);
+app.use("/", PaypalPayments);
 app.use("/blogs", Blogs);
 app.use("/products/:id/reviews", Reviews);
 
