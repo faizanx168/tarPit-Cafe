@@ -1,8 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { createPayment, storeCard } = require("../controllers/square");
+const {
+  createPayment,
+
+  refundPayment,
+  createOrder,
+  capturePayments,
+} = require("../controllers/square");
+
 // export routes
 router.post("/payment", createPayment);
-router.post("/card", storeCard);
-
+router.post("/square/refund", refundPayment);
+router.post("/square/createOrder", createOrder);
+router.post("/square/success", capturePayments);
 module.exports = router;

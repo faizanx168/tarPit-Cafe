@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <aside>
+        <div class="top">
+          <div class="logo">
+            <a href="/">
+              <h2 cla>Tarpit<span class="danger">Coffee</span></h2></a
+            >
+          </div>
+          <div class="close" id="close-btn">
+            <span class="material-icons-sharp">close</span>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <a
+            href="/dashboard"
+            class="<%= classes === 'setdashboard' ? 'active' : '' %>"
+          >
+            <span class="material-icons-sharp">grid_view</span>
+            <h3>Dashboard</h3>
+          </a>
+          <a
+            href="/admin/users"
+            class="<%= classes ==='users' ? 'active' : '' %>"
+          >
+            <span class="material-icons-sharp">person_outline</span>
+            <h3>Customers</h3>
+          </a>
+          <a
+            href="/admin/orders"
+            class="<%= classes === 'orders' ? 'active' : '' %>"
+          >
+            <span class="material-icons-sharp">receipt_long</span>
+            <h3>Orders</h3>
+          </a>
+          <a
+            href="/admin/products"
+            class="<%= classes === 'products' ? 'active' : '' %>"
+          >
+            <span class="material-icons-sharp">inventory</span>
+            <h3>Products</h3>
+          </a>
+
+          <a href="#" class="<%= classes === 'analytics' ? 'active' : '' %>">
+            <span class="material-icons-sharp">insights</span>
+            <h3>Analytics</h3>
+          </a>
+
+          <a
+            href="/products/new"
+            class="<%= classes === 'addproducts' ? 'active' : '' %>"
+          >
+            <span class="material-icons-sharp">add</span>
+            <h3>Add Product</h3>
+          </a>
+          <a href="/logout">
+            <span class="material-icons-sharp">logout</span>
+            <h3>Logout</h3>
+          </a>
+        </div>
+      </aside>
+      <main><%-include('../partials/flash.ejs')%> <%- body %></main>
+      <div class="right">
+        <div class="top">
+          <button id="menu-btn">
+            <span class="material-icons-sharp">menu</span>
+          </button>
+          <div class="theme-toggler">
+            <span class="material-icons-sharp active">light_mode</span>
+            <span class="material-icons-sharp">dark_mode</span>
+          </div>
+          <div class="profile">
+            <div class="info">
+              <p>Hey, <b>Kerry</b></p>
+              <small class="text-muted">Admin</small>
+            </div>
+            <div class="profile-photo">
+              <img
+                src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1663362059/tarpitCafe/qfkvt8glciltl7aupdqm.jpg"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- END OF TOP -->
+
+        <!----------------- END OF RECENT UPDATES -------------------->
+        <div class="sales-analytics">
+          <div class="item add-product">
+            <a href="/products/new">
+              <div>
+                <span class="material-icons-sharp">add</span>
+                <h3>Add Product</h3>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+  </body>
+</html>

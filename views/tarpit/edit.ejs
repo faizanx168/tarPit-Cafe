@@ -27,7 +27,7 @@
           <div class="input-group">
             <span class="input-group-text" id="price-label">$</span>
             <input
-              type="text"
+              type="number"
               class="form-control"
               placeholder="0.00"
               id="price"
@@ -39,7 +39,37 @@
             />
           </div>
         </div>
-
+        <div class="mb-3">
+          <label for="stock" class="form-label">product stock</label>
+          <div class="input-group">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="0"
+              id="stock"
+              aria-label="Stock Size"
+              aria-describedby="stock-label"
+              name="product[stock]"
+              value="<%=products.Stock%>"
+              required
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="Category" class="form-label">Category</label>
+          <select name="product[category]" class="form-control" id="state">
+            <option
+              label="Select Category"
+              selected="selected"
+              value="<%=category._id%>"
+            >
+              <%=category.name %>
+            </option>
+            <% category.forEach(cat =>{ %>
+            <option value="<%=cat._id%>"><%=cat.name %></option>
+            <% }) %>
+          </select>
+        </div>
         <div class="mb-3">
           <label for="image" class="form-label">Add Image</label>
           <input

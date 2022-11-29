@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const multer = require("multer");
-const { storage } = require("../utils/cloudinary-config");
+const { storage } = require("../config/cloudinary-config");
 const upload = multer({ storage });
 const { isAdmin, isLoggedIn } = require("../utils/Middleware");
 const { about, newForm, addNew } = require("../controllers/about");

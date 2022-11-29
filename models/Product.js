@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require("./reviews");
-
+const Category = require("./category");
 const productSchema = new Schema(
   {
     title: {
@@ -23,10 +23,10 @@ const productSchema = new Schema(
       default: 0,
     },
     category: {
-      type: String,
-      required: [true, "Please Enter Product Category"],
+      type: Schema.Types.ObjectId,
+      ref: "Category",
     },
-    Stock: {
+    stock: {
       type: Number,
       required: [true, "Please Enter product Stock"],
       maxLength: [4, "Stock cannot exceed 4 characters"],

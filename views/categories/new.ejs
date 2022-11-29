@@ -1,0 +1,79 @@
+<% layout('layout/boilerplate') -%>
+<section class="container">
+  <div class="row">
+    <h1 class="text-center">New Categories</h1>
+    <div class="col-6 offset-3">
+      <form
+        action="/categories"
+        method="POST"
+        novalidate
+        class="validated-form"
+      >
+        <div class="mb-3">
+          <label for="title" class="form-label">Category Name</label>
+          <input
+            class="form-control"
+            type="text"
+            name="name"
+            id="title"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="option" class="form-label">Category options</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="e.g. Size"
+              id="option"
+              aria-label="Option"
+              aria-describedby="Option-label"
+              name="categoryType"
+              required
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="values" class="form-label">Option Values</label>
+          <div class="input-group addInputs">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="eq. Small/Medium/Large"
+              id="values"
+              aria-label="Values"
+              aria-describedby="values-label"
+              name="values[]"
+              required
+            />
+          </div>
+        </div>
+        <i class="fa-solid fa-plus plusInput"></i>
+        <div class="mb-3">
+          <label for="tax" class="form-label">Category Tax</label>
+          <div class="input-group">
+            <select
+              name="tax"
+              class="form-control"
+              id="tax"
+              aria-label="Option"
+              aria-describedby="Option-label"
+            >
+              <option value="0" label="Yes/No" selected="selected">
+                State ...
+              </option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-outline-success">Add product</button>
+      </form>
+      <div>
+        <a href="/tarpitCafe/products">Back</a>
+      </div>
+    </div>
+  </div>
+</section>

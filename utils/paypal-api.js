@@ -1,13 +1,13 @@
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const { v4: uuidv4 } = require("uuid");
 
 // set some important variables
 const { CLIENT_ID, APP_SECRET } = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 
 // call the create order method
-const createOrder = async function (cart) {
-  const total = cart.totals;
+const createOrder = async function (total) {
   const accessToken = await generateAccessToken();
   const url = `${base}/v2/checkout/orders`;
   const response = await fetch(url, {
@@ -28,7 +28,19 @@ const createOrder = async function (cart) {
       ],
     }),
   });
+  return handleResponse(response);
+};
 
+const refundPayPal = async function (orderId) {
+  const accessToken = await generateAccessToken();
+  const url = `${base}/v2/payments/captures/${orderId}/refund`;
+  const response = await fetch(url, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return handleResponse(response);
 };
 
@@ -81,7 +93,6 @@ async function handleResponse(response) {
   if (response.status === 200 || response.status === 201) {
     return response.json();
   }
-
   const errorMessage = await response.text();
   throw new Error(errorMessage);
 }
@@ -91,4 +102,5 @@ module.exports = {
   generateAccessToken,
   capturePayment,
   createOrder,
+  refundPayPal,
 };

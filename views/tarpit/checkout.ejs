@@ -24,7 +24,7 @@ cart.items.length > 0) { %>
                     name="email"
                     class="form-control"
                     id="email"
-                    value="<%=checkoutData.email%>"
+                    value="<%=checkoutData ? checkoutData.email: ''%>"
                     placeholder="Email Address"
                   />
                 </div>
@@ -64,7 +64,7 @@ cart.items.length > 0) { %>
                       name="shipping[firstname]"
                       class="form-control"
                       id="first-name"
-                      value="<%=checkoutData.Shipping.firstname%>"
+                      value="<%=checkoutData ? checkoutData.Shipping.firstname : ''%>"
                       placeholder="First Name"
                     />
                     <input
@@ -72,7 +72,7 @@ cart.items.length > 0) { %>
                       name="shipping[lastname]"
                       class="form-control"
                       id="last-name"
-                      value="<%=checkoutData.Shipping.lastname%>"
+                      value="<%=checkoutData ? checkoutData.Shipping.lastname: ''%>"
                       placeholder="Last Name"
                     />
                   </div>
@@ -82,7 +82,7 @@ cart.items.length > 0) { %>
                       name="shipping[address]"
                       class="form-control"
                       id="address"
-                      value="<%=checkoutData.Shipping.address%>"
+                      value="<%=checkoutData?checkoutData.Shipping.address:''%>"
                       placeholder="Address Line 1"
                     />
                   </div>
@@ -92,7 +92,7 @@ cart.items.length > 0) { %>
                       name="shipping[address2]"
                       class="form-control"
                       id="address"
-                      value="<%=checkoutData.Shipping.address2%>"
+                      value="<%=checkoutData?checkoutData.Shipping.address2:''%>"
                       placeholder="Address Line 2"
                     />
                   </div>
@@ -103,8 +103,8 @@ cart.items.length > 0) { %>
                       id="country"
                     >
                       <option
-                        value="<%=checkoutData.Shipping.country%>"
-                        label="Select a country ... "
+                        value="<%=checkoutData ? checkoutData.Shipping.country : ''%>"
+                        label="<%=checkoutData ? checkoutData.Shipping.country : 'Select a country...'%>"
                         selected="selected"
                       >
                         Select a country ...
@@ -387,11 +387,11 @@ cart.items.length > 0) { %>
                   </div>
                   <div class="field padding-bottom--24 name">
                     <input
-                      type="text"
+                      type="number"
                       name="shipping[zip]"
                       class="form-control"
                       id="zip"
-                      value="<%=checkoutData.Shipping.zip%>"
+                      value="<%=checkoutData ? checkoutData.Shipping.zip : ''%>"
                       placeholder="Zip  Code"
                     />
                     <input
@@ -399,7 +399,7 @@ cart.items.length > 0) { %>
                       name="shipping[city]"
                       class="form-control"
                       id="city"
-                      value="<%=checkoutData.Shipping.city%>"
+                      value="<%=checkoutData ? checkoutData.Shipping.city: ''%>"
                       placeholder="City/Town"
                     />
                     <select
@@ -408,8 +408,8 @@ cart.items.length > 0) { %>
                       id="state"
                     >
                       <option
-                        value="<%=checkoutData.Shipping.state%>"
-                        label="State... "
+                        value="<%=checkoutData? checkoutData.Shipping.state:''%>"
+                        label="<%=checkoutData? checkoutData.Shipping.state:'State...'%>"
                         selected="selected"
                       >
                         State ...
@@ -473,7 +473,7 @@ cart.items.length > 0) { %>
                       name="shipping[phone]"
                       class="form-control"
                       id="phone"
-                      value="<%=checkoutData.Shipping.phone%>"
+                      value="<%=checkoutData ? checkoutData.Shipping.phone : ''%>"
                       placeholder="Phone Number"
                     />
                   </div>
@@ -491,33 +491,42 @@ cart.items.length > 0) { %>
       <% } if (shippingCheck) {%> <%-include('../paypal.html')%> <% }%>
     </div>
     <div class="orderSummary">
-      <div class="formbg-outer">
-        <div class="formbg">
-          <div class="formbg-inner padding-horizontal--48">
-            <h3>Order Summary</h3>
-            <% cart.items.forEach(function(product) { %>
-            <div class="order">
-              <div>
-                <img
-                  src="<%=product.image%> "
-                  alt="Item Image"
-                  style="height: 7rem; width: 7rem"
-                />
-              </div>
-              <div><%= product.title %></div>
-              <div>
-                <span>$<%=product.price%></span>
-                <span>Qty: <%=product.qty%></span>
-              </div>
-            </div>
-            <% }); %>
-            <div>Total: <%= cart.formattedTotals %></div>
+      <div class="orderInner padding-horizontal--48" id="style-1">
+        <h3>Order Summary</h3>
+        <% cart.items.forEach(function(product) { %>
+        <div class="order">
+          <div>
+            <img
+              src="<%=product.image%> "
+              alt="Item Image"
+              style="height: 7rem; width: 7rem"
+            />
+          </div>
+          <div><%= product.title %></div>
+          <div>
+            <span>$<%=product.price%></span>
+            <span>Qty: <%=product.qty%></span>
           </div>
         </div>
+        <hr />
+        <% }); %>
+        <div
+          style="align-items: flex-end; flex-direction: column"
+          class="order"
+        >
+          <div>Subtotal: <%=cart.formattedTotals%></div>
+          <%if(shippingCheck){%>
+          <div>Tax: $<%=parseFloat((cart.taxPrice)/100).toFixed(2)%></div>
+          <div>Total: <%=cart.formattedTaxedTotal%></div>
+        </div>
+        <%}%>
       </div>
+
+      <div style="clear: top; position: absolute"></div>
     </div>
   </div>
 </section>
+
 <% } else { %>
 <section>
   <p class="alert alert-info">Sorry, no products in your cart.</p>

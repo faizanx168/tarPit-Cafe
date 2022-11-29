@@ -3,7 +3,10 @@ const Cart = require("../utils/cart");
 const Products = require("../models/Product");
 const asyncError = require("../utils/AsyncError.js");
 const paypal = require("../utils/paypal-api");
-const { router } = require("microrouter");
+const axios = require("axios");
+const { query } = require("express");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 exports.showCart = (req, res) => {
   let sess = req.session;
@@ -27,9 +30,9 @@ exports.showCheckout = asyncError(async (req, res) => {
     sess.checkoutData = {
       email: "",
       Shipping: "",
-      Billing: "",
     };
   }
+  console.log(req.user);
   let checkoutData =
     typeof sess.checkoutData !== "undefined" ? sess.checkoutData : false;
   let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
@@ -39,7 +42,6 @@ exports.showCheckout = asyncError(async (req, res) => {
     pageTitle: "Checkout",
     cart: cart,
     checkoutData,
-
     enter: true,
     emailCheck: false,
     shippingCheck: false,
@@ -58,35 +60,91 @@ exports.putCartData = asyncError(async (req, res) => {
 exports.addToCart = asyncError(async (req, res) => {
   let qty = parseInt(req.body.qty, 10);
   let product = req.body.product_id;
-  if (qty > 0 && Security.isValidNonce(req.body.nonce, req)) {
-    const mypro = await Products.findOne({ _id: product });
-    let cart = req.session.cart ? req.session.cart : null;
+  let cart = req.session.cart ? req.session.cart : null;
+  const mypro = await Products.findOne({ _id: product }).populate("category");
+  let myitem;
+  let query;
+  if (cart.items.length) {
+    cart.items.forEach((item) => {
+      if (item.id === product) {
+        myitem = item;
+        query =
+          qty > 0 &&
+          qty < mypro.stock &&
+          myitem.qty < mypro.stock &&
+          Security.isValidNonce(req.body.nonce, req);
+      } else {
+        query =
+          qty > 0 &&
+          qty <= mypro.stock &&
+          Security.isValidNonce(req.body.nonce, req);
+      }
+    });
+  } else {
+    query =
+      qty > 0 &&
+      qty <= mypro.stock &&
+      Security.isValidNonce(req.body.nonce, req);
+  }
+
+  console.log(myitem);
+  if (query) {
+    const taxed = mypro.category.tax;
+
     const prod = {
       id: mypro._id,
       title: mypro.title,
       price: mypro.price,
       qty: qty,
       image: mypro.image[0].url,
+      isTaxed: taxed,
+      stock: mypro.stock,
     };
     Cart.addToCart(prod, qty, cart);
+    console.log("cart", cart);
     res.redirect("/cart");
   } else {
-    res.redirect("/");
+    req.flash("error", "Product quantity exceeded!");
+    res.redirect(`/products/${product}`);
   }
 });
 
 exports.addToCheckout = asyncError(async (req, res) => {
+  const key = process.env.TAX_RATE;
   let sess = req.session;
   let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
   let checkoutData =
     typeof sess.checkoutData !== "undefined" ? sess.checkoutData : false;
   let position = req.body.position;
-  // console.log(req.body);
-  const clientId = process.env.CLIENT_ID;
-  const clientToken = await paypal.generateClientToken();
+  to_tax = false;
+  let format = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   if (Security.isValidNonce(req.body.nonce, req) && position === "emailCheck") {
     checkoutData.email = req.body.email;
-    console.log(req.session.checkoutData);
+    const url = "https://api.sendinblue.com/v3/contacts";
+    const details = {
+      email: req.body.email,
+      attributes: {
+        FNAME: req.user.firstName,
+        LNAME: req.user.lastName,
+      },
+      emailBlacklisted: false,
+      smsBlacklisted: false,
+      listIds: [36],
+      updateEnabled: true,
+    };
+    const body = JSON.stringify(details);
+    await fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        "api-key": process.env.SEND_API_KEY,
+      },
+      body: body,
+    });
     res.render("tarpit/checkout", {
       pageTitle: "Checkout",
       cart: cart,
@@ -102,9 +160,53 @@ exports.addToCheckout = asyncError(async (req, res) => {
     Security.isValidNonce(req.body.nonce, req) &&
     position === "shippingCheck"
   ) {
+    cart.items.forEach((element) => {
+      if (element.isTaxed) {
+        to_tax = true;
+      }
+    });
+    const clientId = process.env.CLIENT_ID;
+    const clientToken = await paypal.generateClientToken();
     checkoutData.Shipping = req.body.shipping;
-    console.log(req.session.checkoutData);
-
+    Shipping = checkoutData.Shipping;
+    zip = Shipping.zip;
+    if (to_tax) {
+      console.log("sent");
+      const { data } = await axios.get(
+        `https://www.taxrate.io/api/v1/rate/getratebyzip?api_key=${key}&zip=${zip}`
+      );
+      const taxrate = data.rate;
+      let price = 0;
+      cart.items.forEach((item) => {
+        if (item.isTaxed) {
+          price =
+            price +
+            (parseInt(item.price * 100) * (taxrate / 100) +
+              parseInt(item.price * 100)) *
+              parseInt(item.qty);
+          console.log("p1", price);
+          item.taxrate = taxrate;
+        } else {
+          price = price + parseInt(item.price * 100) * parseInt(item.qty);
+        }
+      });
+      if (cart.items.length > 1) {
+        price = Math.ceil(price);
+        cart.taxedTotal = price;
+        cart.taxPrice = price - cart.totals;
+        cart.formattedTaxedTotal = format.format(cart.taxedTotal / 100);
+      } else {
+        price = round(price);
+        cart.taxedTotal = price;
+        cart.taxPrice = price - cart.totals;
+        cart.formattedTaxedTotal = format.format(cart.taxedTotal / 100);
+      }
+    } else {
+      cart.taxPrice = 0.0;
+      cart.taxedTotal = parseInt(cart.totals);
+      cart.formattedTaxedTotal = format.format(cart.taxedTotal / 100);
+    }
+    console.log(cart);
     res.render("tarpit/checkout", {
       pageTitle: "Checkout",
       cart: cart,
@@ -127,3 +229,12 @@ exports.addToCheckout = asyncError(async (req, res) => {
     res.redirect("/");
   }
 });
+function round(number) {
+  const decimal = number - Math.floor(number);
+  if (decimal === 0.5) {
+    number = number + 0.499;
+  } else {
+    number = number + 0.5;
+  }
+  return parseInt(number);
+}

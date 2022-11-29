@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
 
 button {
   margin: 0.75rem;
@@ -6,10 +6,9 @@ button {
   cursor: pointer;
 }
 
-
 /* Modal */
 .modal {
-  position: fixed; 
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -19,7 +18,7 @@ button {
   align-items: flex-start; /* or center */
   z-index: 1000; /* depending on what z-index values exist in your page, in order for the modal layer to sit on top of other content */
   overflow: auto; /* enable scrolling if needed - although this is not really necessary since we are going take care of overflow in modal-content */
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 .modal.modal-show {
   animation: fadeIn 0.1s ease-in-out forwards;
@@ -29,29 +28,29 @@ button {
 }
 .modal-content {
   position: relative;
-  background-color: rgb(169, 200, 238);
-  color: #111;
+  background-color: rgb(20, 22, 25);
+  color: rgb(255, 255, 255);
   margin: 2rem;
   padding: 2rem;
   border-radius: 0.25rem;
   width: 50%;
   max-height: 80%;
   overflow: auto;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
-.modalCon{
-    display: flex;
-    overflow: none;
-    gap: 2rem;
-    justify-content: center;
-    align-items: center;
+.modalCon {
+  display: flex;
+  overflow: none;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
 }
-.modalImg{
-    max-height: 30rem;
-    width: 23rem;
-    object-fit:fill;
-    padding: 15px;
-    border-radius: 3rem;
+.modalImg {
+  max-height: 30rem;
+  width: 23rem;
+  object-fit: fill;
+  padding: 15px;
+  border-radius: 3rem;
 }
 .modal.modal-show .modal-content {
   animation: fadeInDown 0.3s ease-in-out forwards;
@@ -62,10 +61,12 @@ button {
 .modal-content h1 {
   text-align: center;
   margin-bottom: 2rem;
+  color: rgb(255, 255, 255);
 }
 .modal-content p {
   margin: 1rem 0;
   line-height: 1.5rem;
+  font-size: 16px;
 }
 .modal-close {
   position: absolute;
@@ -74,74 +75,76 @@ button {
   font-size: 1.75rem;
   font-weight: bold;
   padding: 0 0.75rem;
-  color: rgba(0,0,0,0.2);
+  color: rgba(0, 0, 0, 0.2);
   cursor: pointer;
   user-select: none;
 }
-.modal-close:hover, .modal-close:focus {
-  color: rgba(0,0,0,0.5);
+.modal-close:hover,
+.modal-close:focus {
+  color: rgba(0, 0, 0, 0.5);
 }
-.empImg{
-    border-radius: 50%;
-    height: 12rem;
-    width: 12rem;
+.empImg {
+  border-radius: 50%;
+  height: 12rem;
+  width: 12rem;
 }
-.imgBtn{
-    border: none;
-    border-radius: 50%;
-    height: 12rem;
-    width: 12rem;
-    
+.imgBtn {
+  border: none;
+  border-radius: 50%;
+  height: 12rem;
+  width: 12rem;
 }
-.empContainer{
-    text-align: center;
-    margin: auto;
-    padding: 15px;
-    
+.empContainer {
+  text-align: center;
+  margin: auto;
+  padding: 15px;
 }
-.cont{
-    margin: auto;
-    text-align: center;
+.cont {
+  margin: auto;
+  text-align: center;
 }
-.con2{
+.con2 {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.cont h2{
-    margin-top: 12px;
+.cont h2 {
+  margin-top: 12px;
 }
-.add{
-    width: 500px;
+.add {
+  font-size: 20px;
 }
-#map{
-    width: 800px;
-    height: 300px;
-    border-radius: 12px;
-    z-index: 5;
-    border-color: rgba(34, 93, 132, 0.265);
-    border-width: 1px;
-    border-style: solid;
+#map {
+  width: 800px;
+  height: 300px;
+  border-radius: 12px;
+  z-index: 5;
+  border-color: rgba(34, 93, 132, 0.265);
+  border-width: 1px;
+  border-style: solid;
 }
-.address{
-    /* width: 100vh; */
-    padding: 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 5rem;
+.address {
+  /* width: 100vh; */
+  padding: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5rem;
 }
-.des{
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
+.des {
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  padding-top: 0%;
 }
-.des h1{
-    font-size: 3rem;
-    margin-bottom: 20px;
+.des h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
 }
-
+.des p {
+  font-size: 18px;
+}
 /* Animations */
 @keyframes fadeIn {
   0% {
@@ -166,11 +169,11 @@ button {
   }
   100% {
     opacity: 1;
-    transform: translateY(0); 
+    transform: translateY(0);
   }
 }
 @keyframes fadeOutUp {
-  0% { 
+  0% {
     opacity: 1;
     transform: translateY(0);
   }
@@ -180,12 +183,47 @@ button {
   }
 }
 
-@media(max-width: 992px) {
-  html { font-size: 14px; }
-  .modal-content { width: 80%; }
+@media (max-width: 992px) {
+  html {
+    font-size: 14px;
+  }
+  .modal-content {
+    width: 80%;
+  }
 }
-@media(max-width:767px) {
-  html { font-size: 12px; }
-  .modal-content { padding: 2rem 1rem 1rem 1rem; width: 90%; }
-  .modal-content h1 { margin-bottom: 1.5rem; }
+@media (max-width: 767px) {
+  html {
+    font-size: 12px;
+  }
+  .modal-content {
+    padding: 2rem 1rem 1rem 1rem;
+    width: 90%;
+  }
+  .modal-content h1 {
+    margin-bottom: 1.5rem;
+  }
+}
+.bar {
+  width: 100%;
+  padding: 25px;
+  background-color: #131313;
+  font-family: Gelasio;
+  font-size: 18px;
+}
+
+.bar_content {
+  display: block; /* Important to give the content a width */
+  width: 100%;
+  color: white;
+  transform: translateX(100%); /* Animation start out of the screen */
+  /* Add the animation */
+  animation: move 30s linear infinite
+    /* infinite make reapeat the animation indefinitely */;
+}
+
+/* Create the animation */
+@keyframes move {
+  to {
+    transform: translateX(-100%);
+  }
 }

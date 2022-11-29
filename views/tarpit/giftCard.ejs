@@ -1,0 +1,233 @@
+<% layout('layout/boilerplate') -%>
+<!-- <link rel="stylesheet" href="/stylesheets/star.css" /> -->
+<section class="container">
+  <div class="product">
+    <div class="car">
+      <div id="productsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <% products.image.forEach( (img,i) => { %>
+          <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+            <img src="<%=img.url%>" class="d-block imgPro" alt="My products" />
+          </div>
+          <% }) %> <% if(products.image.length > 1) {%>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#productsCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#productsCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card-body">
+        <h5 class="title"><%= products.title %></h5>
+        <p class="text"><%=products.description%></p>
+      </div>
+      <ul>
+        <li>Price: $<%=products.price%></li>
+      </ul>
+
+      <div class="card-body">
+        <a href="/products">All productss</a>
+        <% if(user && user._id.equals(process.env.ADMIN_ID)){ %>
+        <a
+          href="/products/<%=products._id%>/edit"
+          class="card-link btn btn-info"
+          >Edit</a
+        >
+        <form
+          class="d-inline mt-2"
+          action="/products/<%=products._id%>?_method=Delete"
+          method="POST"
+        >
+          <button class="btn btn-danger">Delete</button>
+        </form>
+        <% } %>
+      </div>
+
+      <div>
+        <form action="/cart" method="post">
+          <div class="cart-data">
+            <p>Quantity</p>
+            <div>
+              <span class="qty-wrap">
+                <span class="qty-minus"
+                  ><i class="fa-sharp fa-solid fa-minus"></i
+                ></span>
+                <input type="text" name="qty" class="qty" value="1" />
+                <span class="qty-plus"
+                  ><i class="fa-sharp fa-solid fa-plus"></i
+                ></span>
+              </span>
+            </div>
+            <div>
+              <input
+                type="hidden"
+                name="product_id"
+                value="<%= products._id %>"
+              />
+              <input type="hidden" name="nonce" value="<%= nonce %>" />
+              <button type="submit" class="btn btn-primary addToCart">
+                Add To Cart
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews">
+    <h2>Reviews</h2>
+    <% if(user){ %>
+    <form
+      class="mb-3 validated-form"
+      action="/products/<%=products._id%>/reviews"
+      method="POST"
+      novalidate
+    >
+      <div class="">
+        <label for="rating" class="form-label">Rating</label>
+        <div>
+          <fieldset class="starability-basic">
+            <input
+              type="radio"
+              id="no-rate"
+              class="input-no-rate"
+              name="review[rating]"
+              value="1"
+              checked
+              aria-label="No rating."
+            />
+            <input
+              type="radio"
+              id="second-rate1"
+              name="review[rating]"
+              value="1"
+            />
+            <label for="second-rate1" title="Terrible">1 star</label>
+            <input
+              type="radio"
+              id="second-rate2"
+              name="review[rating]"
+              value="2"
+            />
+            <label for="second-rate2" title="Not good">2 stars</label>
+            <input
+              type="radio"
+              id="second-rate3"
+              name="review[rating]"
+              value="3"
+            />
+            <label for="second-rate3" title="Average">3 stars</label>
+            <input
+              type="radio"
+              id="second-rate4"
+              name="review[rating]"
+              value="4"
+            />
+            <label for="second-rate4" title="Very good">4 stars</label>
+            <input
+              type="radio"
+              id="second-rate5"
+              name="review[rating]"
+              value="5"
+            />
+            <label for="second-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="body" class="form-label">Review</label>
+        <textarea
+          class="form-control"
+          name="review[body]"
+          id="body"
+          cols="10"
+          rows="3"
+          required
+        ></textarea>
+      </div>
+      <button class="btn btn-success">Submit</button>
+    </form>
+    <% } %> <% for(let review of products.review){ %>
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title"><%= review.author.username%></h3>
+        <p class="starability-result" data-rating="<%=review.rating%>">
+          Rated: <%=review.rating%> stars
+        </p>
+        <p class="card-text">Review: <%=review.body%></p>
+
+        <% if(comments){ %> <% for(let comment of comments) {%> <% if(
+        review._id.equals(comment.review._id)){ %>
+        <div>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comment:
+            <%=comment.body%>
+          </p>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Author:
+            <%=comment.author%>
+          </p>
+        </div>
+        <% } %> <% } %> <% } %>
+        <!-- Reply on a review -->
+        <% if(user){ %>
+        <button
+          class="btn btn-primary"
+          type="button"
+          id="reply"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseExample"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+        >
+          Reply
+        </button>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <form
+              action="/products/<%=products._id%>/reviews/<%=review._id%>/comments"
+              method="Post"
+            >
+              <textarea
+                name="comment[body]"
+                id="reply"
+                cols="60"
+                rows="3"
+              ></textarea>
+              <button class="btn btn-success">Submit</button>
+            </form>
+          </div>
+        </div>
+        <% }%>
+
+        <form
+          action="/products/<%=products._id%>/reviews/<%=review._id%>?_method=delete"
+          method="POST"
+        >
+          <% if(user && review.author.equals(user._id)){ %>
+          <button class="btn btn-danger">Delete</button>
+          <% } %>
+        </form>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>

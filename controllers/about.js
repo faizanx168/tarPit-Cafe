@@ -1,6 +1,6 @@
 const asyncError = require("../utils/AsyncError.js");
 const multer = require("multer");
-const { storage } = require("../utils/cloudinary-config");
+const { storage } = require("../config/cloudinary-config");
 const upload = multer({ storage });
 const { isAdmin, isLoggedIn } = require("../utils/Middleware");
 const Employee = require("../models/employee");

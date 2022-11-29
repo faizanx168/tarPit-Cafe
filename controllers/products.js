@@ -1,34 +1,57 @@
 const asyncError = require("../utils/AsyncError.js");
 const Product = require("../models/Product");
 const multer = require("multer");
-const { storage } = require("../utils/cloudinary-config");
+const { storage } = require("../config/cloudinary-config");
 const upload = multer({ storage });
-const { cloudinary } = require("../utils/cloudinary-config");
+const { cloudinary } = require("../config/cloudinary-config");
 const user = require("../models/user.js");
 const Security = require("../utils/Security");
 const Comment = require("../models/comments");
+const Category = require("../models/category");
+const ErrorHander = require("../utils/Errorhandler");
 
 exports.getShop = asyncError(async (req, res) => {
   let filter = {};
-  cat = req.query.query;
+  const cat = req.query.query;
   if (req.query.query) {
-    filter = { category: cat };
+    const category = await Category.find({ name: cat });
+    if (category.length) {
+      const catid = category[0]._id;
+      filter = { category: catid };
+    } else {
+      filter = {};
+    }
   }
-  // console.log(req.sessionID, req.headers['user-agent'])
+  const category = await Category.find();
   const products = await Product.find(filter);
-  // const nonce =  Security.md5(req.sessionID + req.headers['user-agent'])
+  let uri = [];
+  var options = {
+    resource_type: "image",
+    folder: "tarpitCafe/Home",
+    max_results: 8,
+  };
+  const result = await cloudinary.api.resources(options);
+  result.resources.forEach((image) => {
+    const url = image.url;
+    uri.push(url);
+  });
   res.render("tarpit/index", {
     pageTitle: "Shop",
     products: products,
-    category: cat,
+    cat: cat,
+    category,
+    uri,
   });
 });
 
-exports.newForm = (req, res) => {
-  res.render("tarpit/new");
-};
+exports.newForm = asyncError(async (req, res) => {
+  const category = await Category.find();
+  // res.send(category);
+  res.render("tarpit/new", { category });
+});
 
 exports.addProduct = asyncError(async (req, res) => {
+  // res.send(req.body.product);
   const newProduct = new Product(req.body.product);
   newProduct.image = req.files.map((file) => ({
     url: file.path,
@@ -45,8 +68,9 @@ exports.getProduct = asyncError(async (req, res) => {
       items: [],
       totals: 0.0,
       formattedTotals: "",
+      formattedTaxedTotals: "",
+      taxedTotal: 0.0,
     };
-    console.log(req.session.cart);
   }
   const { id } = req.params;
   const products = await Product.findById(id).populate({
@@ -56,15 +80,12 @@ exports.getProduct = asyncError(async (req, res) => {
     },
   });
   let comments = [];
-  // console.log(products.review.length)
-  // console.log(products.review[2]._id)
+
   for (i = 0; i < products.review.length; i++) {
     comments = await Comment.find({
       review: { _id: products.review[i]._id },
     }).populate("review");
   }
-  //    console.log('my comments',comments)
-
   if (!products) {
     req.flash("error", "Sorry! Product not found");
     return res.redirect("/products");
@@ -81,11 +102,12 @@ exports.getProduct = asyncError(async (req, res) => {
 exports.showEdit = asyncError(async (req, res) => {
   const { id } = req.params;
   const products = await Product.findById(id);
+  const category = await Category.find();
   if (!products) {
     req.flash("error", "Sorry! Product not found");
     return res.redirect("/");
   }
-  res.render("tarpit/edit", { products });
+  res.render("tarpit/edit", { products, category });
 });
 
 exports.editProduct = asyncError(async (req, res) => {
@@ -114,7 +136,7 @@ exports.editProduct = asyncError(async (req, res) => {
 
 exports.deleteProduct = asyncError(async (req, res) => {
   const { id } = req.params;
-  const product = await Product.findByIdAndDelete(id);
+  await Product.findByIdAndDelete(id);
   req.flash("success", "Successfully deleted the products");
   res.redirect("/products");
 });

@@ -1,8 +1,17 @@
+const { number } = require("joi");
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
+  userEmail: {
+    type: String,
+    required: true,
+  },
   shippingInfo: {
-    Name: {
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
       type: String,
       required: true,
     },
@@ -10,32 +19,39 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    city: {
+    address2: {
       type: String,
       required: true,
     },
-
-    state: {
-      type: String,
-      required: true,
-    },
-
     country: {
       type: String,
       required: true,
     },
-    zipCode: {
+    zip: {
       type: Number,
       required: true,
     },
-    phoneNo: {
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    phone: {
       type: Number,
       required: true,
     },
   },
   orderItems: [
     {
-      name: {
+      id: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+      title: {
         type: String,
         required: true,
       },
@@ -43,15 +59,11 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      quantity: {
+      qty: {
         type: Number,
         required: true,
       },
-      product: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Product",
-        required: true,
-      },
+      image: { type: String, required: true },
     },
   ],
   user: {
@@ -60,7 +72,13 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   paymentInfo: {
-    id: {
+    id: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    source: {
       type: String,
       required: true,
     },

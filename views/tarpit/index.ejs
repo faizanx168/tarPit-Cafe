@@ -1,39 +1,164 @@
 <% layout('layout/boilerplate') -%>
-<div class="mainImg">
-    <img src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664226196/tarpitCafe/P1020393_mcvawb.jpg" alt="" class="bg">
+<div>
+  <div
+    id="carouselExampleControls"
+    class="carousel slide"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner">
+      <div class="carousel-item active mainImg" data-bs-interval="2000">
+        <img
+          src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664226196/tarpitCafe/P1020393_mcvawb.jpg"
+          class="d-block w-100"
+          alt="..."
+          style="object-fit: cover; height: 85vh; width: 100vw"
+        />
+      </div>
+      <% uri.forEach((img) =>{ %>
+      <div class="carousel-item mainImg" data-bs-interval="2000">
+        <img
+          src="<%=img%>"
+          class="d-block w-100"
+          alt="..."
+          style="object-fit: cover; height: 85vh; width: 100vw"
+        />
+      </div>
+      <% }) %>
     </div>
-    <div style=" height: 85vh; width: 100vw;">&nbsp;</div>
-<div class="container" >
-    <h1>Shop our Products</h1>
-    <div>
-        <%    if(user && user._id.equals(process.env.ADMIN_ID)){  %> 
-        <a href="/products/new" class="btn btn-primary mb-3" role="button">Add product</a>
-        <% } %> 
-            <div class="category">
-                <h3>Choose Categories</h3>
-                <div class="dropForm"><i class="fa-solid fa-circle-chevron-down"></i></div>
-                <div id="formQuery">
-                </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+<div class="wrapper">
+  <a href="/blogs">
+    <button class="shopBtn">
+      Checkout Blogs
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </a>
+</div>
+<div class="container">
+  <h1>Shop our Products</h1>
+  <div>
+    <div class="category">
+      <h3>Choose Categories</h3>
+      <div class="dropForm">
+        <i class="fa-solid fa-circle-chevron-down"></i>
+      </div>
+      <div id="formQuery" style="display: none">
+        <form action="/products">
+          <div>
+            <% category.forEach(cat=>{ %>
+            <input
+              class="filterbox"
+              type="checkbox"
+              name="query"
+              id="goods"
+              value="<%=cat.name%>"
+            />
+            <% }) %>
+          </div>
+          <div class="filterLabel">
+            <% category.forEach(cat=>{ %>
+            <label class="filterbox" for="<%=cat.name%>"><%=cat.name%></label>
+            <% }) %>
+          </div>
+          <div style="text-align: center">
+            <button class="btn">Filter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <hr style="padding-bottom: 20px; color: rgb(1, 1, 109)" />
+    <% if(category) {%>
+    <h2 style="text-align: center; margin-bottom: 50px"><%=cat%></h2>
+    <% }else{ %>
+    <h3 style="text-align: center">All</h3>
+    <% } %>
+    <div class="cardContainer">
+      <% for(let product of products) {%>
+      <div class="card cardShape" style="border-radius: 0%">
+        <a href="/products/<%=product._id%>">
+          <% if(product.image.length > 1) {%>
+          <div
+            id="carouselExampleFade"
+            class="carousel slide carousel-fade"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-inner">
+              <% for(let img of product.image){ %>
+              <div class="carousel-item active">
+                <img
+                  src="<%=img.url%>"
+                  class="card-img-top"
+                  style="height: 25rem; border-radius: 0%; object-fit: cover"
+                  alt="My product"
+                  class="d-block w-100"
+                />
+              </div>
+              <% }%>
             </div>
-            <hr style="padding-bottom:20px; color:rgb(1, 1, 109);">
-            <% if(category) {%> 
-                    <h3 style="text-align: center;"><%=category%></h3>
-                  <% }else{ %>
-                    <h3 style="text-align: center;">All</h3>
-                  <% } %>   
-            <div class="cardContainer">
-                <% for(let product of products) {%>
-                    <div class="card cardShape">
-                        <a href="/products/<%=product._id%>">
-                        <% for(let img of product.image){ %> 
-                            <img src="<%=img.url%>" class="card-img-top" style="height: 26rem;" alt="My product">
-                            <% } %> 
-                        <div class="card-text">
-                            <h5 style="margin-bottom:0;"><%=product.title%></h5> 
-                            $<%=product.price%>
-                        </div>
-                         </a>
-                    </div>
-               <%} %> 
-            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleFade"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleFade"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          <% } else{ %> <% for(let img of product.image){ %>
+
+          <img
+            src="<%=img.url%>"
+            class="card-img-top"
+            style="height: 25rem; border-radius: 0%; object-fit: cover"
+            alt="My product"
+            class="d-block w-100"
+          />
+          <%} }%>
+          <div class="card-text">
+            <h5 style="margin-bottom: 0"><%=product.title%></h5>
+            $<%=product.price%>
+          </div>
+        </a>
+      </div>
+      <%} %>
+    </div>
+  </div>
 </div>

@@ -1,0 +1,45 @@
+<% layout('layout/dashboard') -%>
+<h1>Dashoard</h1>
+<div class="recent-orders">
+  <h2>All products</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Category</th>
+        <th>Ratings</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%products.forEach( product =>{%>
+      <tr>
+        <td><%=product.title%></td>
+        <td><%=product.price%></td>
+        <td><%=product.stock%></td>
+        <td class="warning"><%=product.category.name%></td>
+        <td><%=product.ratings%></td>
+        <td class="primary">
+          <a href="/products/<%=product._id%>">Show</a>
+        </td>
+        <td class="primary">
+          <a href="/products/<%=product._id%>/edit">Edit</a>
+        </td>
+        <td class="primary">
+          <form
+            class="d-inline mt-2"
+            action="/products/<%=products._id%>?_method=Delete"
+            method="POST"
+          >
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

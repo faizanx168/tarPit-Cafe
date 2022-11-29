@@ -13,14 +13,28 @@
     <div class="navContent">
       <a href="/products">Shop</a>
       <a href="/about">About</a>
-      <a href="/products?query=coffee">Coffee</a>
+      <a href="/products?query=Coffee">Coffee</a>
       <a href="/blogs">Blogs</a>
     </div>
     <div class="navContent">
       <% if(!user) {%>
       <a href="/login">Login</a>
       <% } else{ %>
-      <a href="/logout">Logout</a>
+
+      <a
+        class="dropdown-toggle"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="fa-solid fa-user"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        <li><a class="dropdown-item" href="/account">Profile</a></li>
+      </ul>
+
       <% } %>
       <a href="/cart"><i class="fa-solid fa-cart-arrow-down"></i></a>
     </div>

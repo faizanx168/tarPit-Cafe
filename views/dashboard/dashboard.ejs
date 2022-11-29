@@ -1,0 +1,99 @@
+<% layout('layout/dashboard') -%>
+
+<h1>Dashoard</h1>
+
+<div class="date">
+  <form action="/dashboard">
+    <input type="date" name="date" />
+    <button>submit</button>
+  </form>
+</div>
+
+<div class="insights">
+  <div class="sales">
+    <span class="material-icons-sharp">analytics</span>
+    <div class="middle">
+      <div class="left">
+        <h3>Total Sales</h3>
+        <h1><%=totalSales%></h1>
+      </div>
+      <div class="progress">
+        <svg>
+          <circle cx="38" cy="38" r="36"></circle>
+        </svg>
+        <div class="number">
+          <p>81%</p>
+        </div>
+      </div>
+    </div>
+    <small class="text-muted">Last 24 Hours</small>
+  </div>
+  <!------------ END OF SALES -------------->
+  <div class="expenses">
+    <span class="material-icons-sharp">bar_chart</span>
+    <div class="middle">
+      <div class="left">
+        <h3>Total Income</h3>
+        <h1><%=totalIncome%></h1>
+      </div>
+      <div class="progress">
+        <svg>
+          <circle cx="38" cy="38" r="36"></circle>
+        </svg>
+        <div class="number">
+          <p>62%</p>
+        </div>
+      </div>
+    </div>
+    <small class="text-muted">Last 24 Hours</small>
+  </div>
+  <!------------ END OF EXPENSES -------------->
+  <div class="income">
+    <span class="material-icons-sharp">stacked_line_chart</span>
+    <div class="middle">
+      <div class="left">
+        <h3>Total Orders</h3>
+        <h1><%=totalOrders%></h1>
+      </div>
+      <div class="progress">
+        <svg>
+          <circle cx="38" cy="38" r="36"></circle>
+        </svg>
+        <div class="number">
+          <p>4%</p>
+        </div>
+      </div>
+    </div>
+    <small class="text-muted">Last 24 Hours</small>
+  </div>
+  <!------------ END OF INCOME -------------->
+</div>
+<!------------ END OF INSIGHTS -------------->
+
+<div class="recent-orders">
+  <h2>Recent Orders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>Product Number</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%recentOrders.forEach( order =>{%>
+      <tr>
+        <td><%=order.user.username%></td>
+        <td><%=order._id%></td>
+        <td><%=order.paymentInfo.status%></td>
+        <td class="warning"><%=order.orderStatus%></td>
+        <td class="primary"><a href="/order/<%=order._id%>">Details</a></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <a href="#">Show All</a>
+</div>

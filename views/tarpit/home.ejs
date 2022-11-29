@@ -1,34 +1,174 @@
 <% layout('layout/boilerplate') -%>
-<div class="mainImg">
-  <img
-    src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664236686/tarpitCafe/P1040349_sjfk5i.png"
-    alt=""
-    class="bg"
-  />
-</div>
-<div style="height: 85vh; width: 100vw">
-  <a href="/products" class="btn shopBtn">Shop Now</a>
-</div>
-<div class="container">
-  <div class="homeCatch">
-    <h1>WE’RE EXPERTS IN COFFEE & MOTO</h1>
-    <p>Not enthusiasts. There’s a difference. Who are these nerds?</p>
-    <a href="/about" class="btn">Get to Know us</a>
+<div>
+  <div
+    id="carouselExampleControls"
+    class="carousel slide"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner mainImg">
+      <div class="carousel-item active" data-bs-interval="2000">
+        <img
+          src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664236686/tarpitCafe/P1040349_sjfk5i.png"
+          class="d-block w-100"
+          alt="..."
+          style="object-fit: cover; height: 85vh; width: 100vw"
+        />
+      </div>
+      <% uri.forEach((img) =>{ %>
+      <div class="carousel-item mainImg" data-bs-interval="2000">
+        <img
+          src="<%=img%>"
+          class="d-block w-100"
+          alt="..."
+          style="object-fit: cover; height: 85vh; width: 100vw"
+        />
+      </div>
+      <% }) %>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  <div class="homeShop">
-    <div class="homeClick">
-      <a href="/products?query=apparel"
-        ><img
-          src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664236687/tarpitCafe/shopApparel_f51lg1.jpg"
-          alt=""
-      /></a>
+</div>
+<div class="wrapper">
+  <a href="/products">
+    <button class="shopBtn">
+      Shop Now!
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </a>
+</div>
+
+<div class="homeCatch">
+  <h1>WE’RE EXPERTS IN COFFEE and MOTO</h1>
+  <p>Not enthusiasts. There’s a difference. Who are these nerds?</p>
+  <a href="/about" class="btn">Get to Know us</a>
+</div>
+
+<div class="homeShop">
+  <div class="homeClick">
+    <a href="/products?query=apparel"
+      ><img
+        src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664236687/tarpitCafe/shopApparel_f51lg1.jpg"
+        alt=""
+    /></a>
+  </div>
+  <div class="homeClick">
+    <a href="/products?query=goods"
+      ><img
+        src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664236688/tarpitCafe/shopAccessories_djuyug.jpg"
+        alt=""
+    /></a>
+  </div>
+</div>
+
+<div class="container" style="padding: 40px">
+  <h1>Checkout new products</h1>
+  <div class="cardContainerH">
+    <% for(let product of products) {%>
+    <div class="card cardShapeH">
+      <a href="/products/<%=product._id%>">
+        <% if(product.image.length > 1) {%>
+        <div
+          id="carouselExampleFade"
+          class="carousel slide carousel-fade"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <% for(let img of product.image){ %>
+            <div class="carousel-item active">
+              <img
+                src="<%=img.url%>"
+                class="card-img-top"
+                style="height: 20rem; border-radius: 0%; object-fit: fill"
+                alt="My product"
+                class="d-block w-100"
+              />
+            </div>
+            <% }%>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <% } else{ %> <% for(let img of product.image){ %>
+
+        <img
+          src="<%=img.url%>"
+          class="card-img-top"
+          style="height: 20rem; border-radius: 0%"
+          alt="My product"
+          class="d-block w-100"
+        />
+        <%} }%>
+
+        <div class="card-text">
+          <h5 style="margin-bottom: 0"><%=product.title%></h5>
+          $<%=product.price%>
+        </div>
+      </a>
     </div>
-    <div class="homeClick">
-      <a href="/products?query=goods"
-        ><img
-          src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664236688/tarpitCafe/shopAccessories_djuyug.jpg"
-          alt=""
-      /></a>
+    <%} %>
+  </div>
+
+  <h1>Interested In blogs? Read Here!</h1>
+  <div class="containerBlog">
+    <% for(let blog of blogs) {%>
+    <div class="card cardShape blogCard" style="width: 22rem">
+      <a href="/blogs/<%=blog._id%>">
+        <% for(let img of blog.image){ %>
+        <img src="<%=img.url%>" style="height: 14rem" alt="My product" />
+        <% } %>
+        <div class="cardBody">
+          <h5><%=blog.title%></h5>
+          <span class="lineClamp"> <%=blog.desc%></span>
+          <div
+            style="
+              padding-left: 10px;
+              padding-top: 10px;
+              color: rgb(46, 46, 46);
+            "
+          >
+            <a href="/blogs/<%=blog._id%>" style="color: rgb(46, 46, 46)">
+              Read more
+            </a>
+          </div>
+        </div>
+      </a>
     </div>
+    <%} %>
   </div>
 </div>

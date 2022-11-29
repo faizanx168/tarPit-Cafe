@@ -21,6 +21,7 @@
               ><i class="fa-sharp fa-solid fa-minus"></i
             ></span>
             <input type="text" name="qty" class="qty" value="<%=items.qty%>" />
+
             <span class="qty-plus"
               ><i class="fa-sharp fa-solid fa-plus"></i
             ></span>
@@ -45,12 +46,8 @@
 
   <div class="checkoutCon">
     <h1>Proceed To Checkout</h1>
-    <span class="cost"
-      ><p style="color: white; font-size: 20px">
-        Subtotal: <%=cart.formattedTotals%>
-      </p></span
-    >
-    <a href="/checkout" class="btn btn-success">Checkout</a>
+    <span class="cost">Subtotal: <%=cart.formattedTotals%></span>
+    <a href="/checkout" class="btn">Checkout</a>
   </div>
   <!-- </div> -->
   <% } else { %>

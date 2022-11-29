@@ -1,8 +1,8 @@
 const asyncError = require("../utils/AsyncError.js");
 const multer = require("multer");
-const { storage } = require("../utils/cloudinary-config");
+const { storage } = require("../config/cloudinary-config");
 const upload = multer({ storage });
-const { cloudinary } = require("../utils/cloudinary-config");
+const { cloudinary } = require("../config/cloudinary-config");
 const Blog = require("../models/blog");
 
 exports.showBlogPage = asyncError(async (req, res) => {

@@ -1,0 +1,337 @@
+<% layout('layout/boilerplate') -%>
+
+<section class="container">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/stylesheets/account.css" />
+  <div class="main-content">
+    <div class="container-fluid mt-7">
+      <div class="row">
+        <div class="col-xl-8 order-x1-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Order Details</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Password Reset -->
+              <h6 class="heading-small text-muted mb-4">Items Ordered</h6>
+              <div class="pl-lg-4">
+                <% order.orderItems.forEach( item =>{ %>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group focused">
+                      <span class="description">
+                        <img src="<%=item.image%>" alt="Item Image" />
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <span class="description"> <%=item.title%> </span>
+                    </div>
+                    <div class="form-group">
+                      <span class="description">$: <%=item.price%> </span>
+                    </div>
+                    <div class="form-group">
+                      <span class="description">Quantity: <%=item.qty%> </span>
+                    </div>
+                    <div class="form-group">
+                      <span class="description"
+                        ><a href="/products/<%=item.id%>"> See Details</a></span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <%}) %>
+              </div>
+              <hr class="my-4" />
+              <h6 class="heading-small text-muted mb-4">
+                Shipping information
+              </h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="form-group focused">
+                      <label class="form-control-label" for="input-username"
+                        >First Name</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.firstname%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Last Name</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.lastname%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Email</label
+                      >
+                      <span class="description"> <%=order.userEmail%> </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group focused">
+                      <label class="form-control-label" for="input-username"
+                        >Address Line 1</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.address%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Address Line 2</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.address2%>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group focused">
+                      <label class="form-control-label" for="input-username"
+                        >Country</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.country%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >State</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.state%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >City</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.city%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Phone Number</label
+                      >
+                      <span class="description">
+                        <%=order.shippingInfo.phone%>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <h6 class="heading-small text-muted mb-4">Order Information</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group focused">
+                      <label class="form-control-label" for="input-username"
+                        >Subtotal Total</label
+                      >
+                      <span class="description"> $<%=order.itemsPrice%> </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Order Total</label
+                      >
+                      <span class="description"> $<%=order.totalPrice%> </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Tax Price</label
+                      >
+                      <span class="description"> $<%=order.taxPrice%> </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Shipping Price</label
+                      >
+                      <span class="description">
+                        $<%=order.shippingPrice%>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group focused">
+                      <label class="form-control-label" for="input-username"
+                        >Order Status</label
+                      >
+                      <span class="description"> <%=order.orderStatus%> </span>
+                    </div>
+                    <% if(user && user._id.equals(process.env.ADMIN_ID) &&
+                    order.orderStatus === "Processing"){ %>
+                    <form
+                      action="/admin/<%=order._id%>/updateOrder"
+                      method="POST"
+                    >
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email"
+                          >Tracking Number</label
+                        >
+                        <input
+                          type="text"
+                          name="tracking"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                      <select name="status" class="form-control" required>
+                        <option
+                          value="0"
+                          label="Select Order Status "
+                          selected="selected"
+                        >
+                          Select Order Status
+                        </option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                      </select>
+                      <button class="btn mt-2">Submit</button>
+                    </form>
+                    <% } %>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email"
+                        >Order Data</label
+                      >
+                      <span class="description"> <%=order.createdAt%> </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <% if(user && user._id.equals(process.env.ADMIN_ID)){ %>
+              <h6 class="heading-small text-muted mb-4">Order Refund</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <% if(order.paymentInfo.source === "Square Payment"){ %>
+                    <form action="/square/refund" method="POST">
+                      <label for="refund" class="form-control-label"
+                        >Do you want to refund this Square payment!</label
+                      >
+                      <input
+                        type="hidden"
+                        name="orderId"
+                        value="<%=order.paymentInfo.id%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="orderNumber"
+                        value="<%=order._id%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="totalAmount"
+                        value="<%=order.totalPrice%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="itemPrice"
+                        value="<%=order.itemsPrice%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="taxPrice"
+                        value="<%=order.taxPrice%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="email"
+                        value="<%=order.userEmail%>"
+                      />
+                      <div>
+                        <button class="btn mt-3">Refund Payment</button>
+                      </div>
+                    </form>
+                    <% } if(order.paymentInfo.source ==="PayPal Payment"){ %>
+                    <form action="/paypal/refund" method="POST">
+                      <label for="refund" class="form-control-label"
+                        >Do you want to refund this PayPal payment!</label
+                      >
+                      <input
+                        type="hidden"
+                        name="email"
+                        value="<%=order.userEmail%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="orderId"
+                        value="<%=order.paymentInfo.id%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="orderNumber"
+                        value="<%=order._id%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="totalAmount"
+                        value="<%=order.totalPrice%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="itemPrice"
+                        value="<%=order.itemsPrice%>"
+                      />
+                      <input
+                        type="hidden"
+                        name="taxPrice"
+                        value="<%=order.taxPrice%>"
+                      />
+                      <div>
+                        <button class="btn mt-3">Refund Payment</button>
+                      </div>
+                    </form>
+                    <%}%>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

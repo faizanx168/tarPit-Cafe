@@ -25,20 +25,17 @@ const Cart = require("./routes/carts");
 const SquarePayments = require("./routes/square");
 const PaypalPayments = require("./routes/paypal");
 const Blogs = require("./routes/blogs");
+const Category = require("./routes/category");
+const Orders = require("./routes/orderRoutes");
+const connectDatabase = require("./config/database");
+const home = require("./routes/home");
 
-mongoose.connect("mongodb://localhost:27017/tarpit", {
-  useNewUrlparser: true,
-  useUnifiedTopology: true,
-});
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error"));
-db.once("open", () => {
-  console.log("database Connected Successfully");
-});
+connectDatabase();
 
 const store = new MongoDBStore({
-  uri: "mongodb://localhost:27017/tarpit",
+  uri: process.env.DB_URI,
   collection: "sessions",
+  expire: 172800000 * 2,
 });
 
 app.engine("ejs", ejsMate);
@@ -64,7 +61,7 @@ const sessionConfig = {
   cookie: {
     expires: Date.now() + 1000 * 60 * 60 * 24,
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 2,
+    maxAge: 1000 * 60 * 60 * 24 * 5,
   },
 };
 app.use(session(sessionConfig));
@@ -82,36 +79,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  if (!req.session.cart) {
-    req.session.cart = {
-      items: [],
-      totals: 0.0,
-      formattedTotals: "",
-    };
-    console.log(req.session.cart);
-  }
-  res.render("tarpit/home");
-});
-app.get("/checkoutdata", (req, res) => {
-  let sess = req.session;
-  let data = [];
-  let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
-  let checkoutData =
-    typeof sess.checkoutData !== "undefined" ? sess.checkoutData : false;
-  data.push(cart);
-  data.push(checkoutData);
-  res.json(data);
-});
 app.use("/", Register);
+app.use("/categories", Category);
 app.use("/about", About);
 app.use("/products", Tarpit);
 app.use("/", Cart);
 app.use("/", SquarePayments);
 app.use("/", PaypalPayments);
 app.use("/blogs", Blogs);
+app.use("/", Orders);
 app.use("/products/:id/reviews", Reviews);
-
+app.use("/", home);
 app.all("*", (req, res, next) => {
   next(new myError("Page not found", 404));
 });

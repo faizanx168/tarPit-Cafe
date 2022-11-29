@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const multer = require("multer");
-const { storage } = require("../utils/cloudinary-config");
+const { storage } = require("../config/cloudinary-config");
 const upload = multer({ storage });
-const { cloudinary } = require("../utils/cloudinary-config");
+const { cloudinary } = require("../config/cloudinary-config");
 const { isAdmin, isLoggedIn } = require("../utils/Middleware");
 const {
   showBlogPage,

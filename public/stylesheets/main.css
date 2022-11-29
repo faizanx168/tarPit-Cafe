@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather&family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap");
 html {
   box-sizing: border-box;
 }
@@ -35,7 +38,8 @@ html {
 }
 body {
   min-height: 100%;
-  font-family: "Playfair Display", serif;
+  font-family: poppins, sans-serif;
+  font-size: 0.88rem;
   background-color: var(--color-background);
   color: var(--color-text);
 }
@@ -65,9 +69,38 @@ a {
   text-decoration: unset;
 }
 
+img {
+  display: block;
+  width: 100%;
+}
+
 h1 {
+  font-weight: 600;
+  font-size: 2rem;
   text-align: center;
-  padding: 20px;
+  font-family: "Leckerli One", cursive;
+  padding: 25px;
+  color: #192256;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
+h3 {
+  font-size: 0.87rem;
+}
+
+h4 {
+  font-size: 0.8rem;
+}
+
+h5 {
+  font-size: 0.77rem;
+}
+
+small {
+  font-size: 0.75rem;
 }
 p {
   line-height: 1.5;
@@ -77,6 +110,13 @@ img {
   display: block;
   width: 100%;
   object-fit: cover;
+}
+.mainImg img {
+  display: block;
+  width: 100%;
+  object-fit: fill;
+  height: 85vh;
+  width: 100vw;
 }
 .btn {
   font-family: "Open Sans", sans-serif;
@@ -94,7 +134,6 @@ img {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin: 20px;
 }
 
 .btn:active {
@@ -158,7 +197,6 @@ img {
 .navigationCon {
   width: 100%;
   height: 6rem;
-  overflow: hidden;
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -216,43 +254,160 @@ html {
 }
 
 /* Howe page */
+
 .homeCatch {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 30px;
   align-items: center;
+  position: static;
 }
 .homeCatch p {
   font-size: 20px;
 }
 .homeShop {
-  position: relative;
-  top: 20px;
-  padding: 30px;
-  height: 22rem;
+  padding-top: 27px;
   display: flex;
-  gap: 40px;
+  flex-direction: column;
   align-items: baseline;
   justify-content: center;
 }
-.homeClick img {
-  border: 5px solid rgb(222, 222, 222);
-  width: 27rem;
-  height: 20rem;
-  object-fit: fill;
+.homeClick {
+  width: 100%;
+  max-height: 40rem;
+  overflow: hidden;
 }
-.shopBtn {
+.homeClick img {
+  transition: transform 0.2s;
+  transition: var(--transition);
+  width: 100%;
+  max-height: 40rem;
+  object-fit: cover;
+}
+.homeClick img:hover {
+  transition-delay: 2s;
+  transform: scale(1.5);
+}
+.wrapper {
   margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  width: 15rem;
-  height: 5rem;
-  font-size: 30px;
-  font-weight: bolder;
   color: #ffffff;
+}
+.shopBtn {
+  width: 20rem;
+  height: 5rem;
+  background: linear-gradient(to left top, #2c8ec3 50%, #376fb3 50%);
+  border-style: none;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bolder;
+  letter-spacing: 3px;
+  font-family: "Lato";
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  padding: 0px;
+  overflow: hidden;
+  transition: all 0.5s;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.shopBtn span {
+  position: absolute;
+  display: block;
+}
+.shopBtn span:nth-child(1) {
+  height: 3px;
+  width: 200px;
+  top: 0px;
+  left: -200px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), #f6e58d);
+  border-top-right-radius: 1px;
+  border-bottom-right-radius: 1px;
+  animation: span1 2s linear infinite;
+  animation-delay: 1s;
+}
+
+@keyframes span1 {
+  0% {
+    left: -200px;
+  }
+  100% {
+    left: 200px;
+  }
+}
+.shopBtn span:nth-child(2) {
+  height: 70px;
+  width: 3px;
+  top: -70px;
+  right: 0px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #f6e58d);
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+  animation: span2 2s linear infinite;
+  animation-delay: 2s;
+}
+@keyframes span2 {
+  0% {
+    top: -70px;
+  }
+  100% {
+    top: 70px;
+  }
+}
+.shopBtn span:nth-child(3) {
+  height: 3px;
+  width: 200px;
+  right: -200px;
+  bottom: 0px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0), #f6e58d);
+  border-top-left-radius: 1px;
+  border-bottom-left-radius: 1px;
+  animation: span3 2s linear infinite;
+  animation-delay: 3s;
+}
+@keyframes span3 {
+  0% {
+    right: -200px;
+  }
+  100% {
+    right: 200px;
+  }
+}
+
+.shopBtn span:nth-child(4) {
+  height: 70px;
+  width: 3px;
+  bottom: -70px;
+  left: 0px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0), #f6e58d);
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px;
+  animation: span4 2s linear infinite;
+  animation-delay: 4s;
+}
+@keyframes span4 {
+  0% {
+    bottom: -70px;
+  }
+  100% {
+    bottom: 70px;
+  }
+}
+
+.shopBtn:hover {
+  transition: all 0.5s;
+  transform: rotate(-3deg) scale(1.1);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);
+}
+.shopBtn:hover span {
+  animation-play-state: paused;
 }
 
 /* Forms CSS */
@@ -290,36 +445,6 @@ html {
   -ms-flex-direction: column;
   flex-direction: column;
 }
-.loginbackground-gridContainer {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: [start] 1fr [left-gutter] (86.6px) [16] [left-gutter] 1fr
-    [end];
-  grid-template-columns: [start] 1fr [left-gutter] repeat(16, 86.6px) [left-gutter] 1fr [end];
-  -ms-grid-rows: [top] 1fr [top-gutter] (64px) [8] [bottom-gutter] 1fr [bottom];
-  grid-template-rows: [top] 1fr [top-gutter] repeat(8, 64px) [bottom-gutter] 1fr [bottom];
-  justify-content: center;
-  margin: 0 -2%;
-  transform: rotate(-12deg) skew(-12deg);
-}
-.box-divider--light-all-2 {
-  box-shadow: inset 0 0 0 2px #e3e8ee;
-}
-.box-background--blue {
-  background-color: #5469d4;
-}
-.box-background--white {
-  background-color: #ffffff;
-}
-.box-background--blue800 {
-  background-color: #212d63;
-}
-.box-background--gray100 {
-  background-color: #e3e8ee;
-}
-.box-background--cyan200 {
-  background-color: #7fd3ed;
-}
 .padding-top--64 {
   padding-top: 64px;
 }
@@ -347,7 +472,8 @@ html {
 .formbg {
   margin: 0px auto;
   width: 100%;
-  max-width: 448px;
+  max-width: 500px;
+  padding: 20px;
   background: white;
   border-radius: 4px;
   box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
@@ -430,40 +556,574 @@ a.ssolink {
   font-weight: 600;
   margin: 0 10px;
 }
-
-.animationRightLeft {
-  animation: animationRightLeft 2s ease-in-out infinite;
-}
-.animationLeftRight {
-  animation: animationLeftRight 2s ease-in-out infinite;
-}
-.tans3s {
-  animation: animationLeftRight 3s ease-in-out infinite;
-}
-.tans4s {
-  animation: animationLeftRight 4s ease-in-out infinite;
+.formControl small {
+  color: #e74c3c;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  visibility: hidden;
 }
 
-@keyframes animationLeftRight {
-  0% {
-    transform: translateX(0px);
+.formControl.error small {
+  visibility: visible;
+}
+
+/* Payment Form */
+.my_payment_container {
+  border-radius: 5px;
+  background-color: #ffffff;
+  padding: 20px;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-device-width: 390px) {
+  .homeShop {
+    padding: 0px;
+    height: 20rem;
+    width: 225px;
+    display: flex;
+    gap: 0px;
+    align-items: baseline;
   }
-  50% {
-    transform: translateX(1000px);
+  .homeClick img {
+    border: 5px solid rgb(222, 222, 222);
+    width: 225px;
+    height: 20rem;
+    object-fit: fill;
   }
-  100% {
-    transform: translateX(0px);
+
+  .navContent {
+    width: 55%;
+    text-align: left;
+  }
+
+  .formbg-outer {
+    margin: 10px;
+  }
+  .navContent a {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding: 5px;
+  }
+  .logo img {
+    width: 10rem;
+    height: 0.9rem;
+    margin-left: 0px;
+    margin: 5px;
+  }
+
+  /*For About Page*/
+
+  .address {
+    text-align: center;
+    position: relative;
+  }
+
+  .footItem {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .formbg {
+    margin: 0px auto;
+    width: fit-content;
+    max-width: 702px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: rgb(60 66 87 / 12%) 0px 7px 14px 0px,
+      rgb(0 0 0 / 12%) 0px 3px 6px 0px;
+  }
+
+  .footer {
+    background-color: var(--color-navigation);
+    position: relative;
+    bottom: 0;
+    top: 8rem;
+    color: var(--color-white);
+    height: 20rem;
+    overflow: hidden;
+    margin-left: -4px;
+  }
+  footer.footer {
+    margin-top: 30px;
+    min-width: 789px;
+    width: fit-content;
+  }
+
+  .footItem img {
+    width: 80px;
+    padding: 0px;
+    margin-left: -70px;
+    margin-top: -20px;
+  }
+
+  .padding-horizontal--48 {
+    padding: 160px;
+    min-width: 740px;
+  }
+
+  .footItem div {
+    margin-left: -90px;
+    padding: 20px;
+  }
+
+  .footItem a {
+    font-size: 19px;
+    margin-left: -30px;
+    margin-right: 20px;
+    line-height: 35px;
+  }
+
+  .footIcons {
+    text-align: right;
+    margin-right: -35px;
   }
 }
 
-@keyframes animationRightLeft {
-  0% {
-    transform: translateX(0px);
+@media (max-device-width: 360px) {
+  .homeShop {
+    padding: 0px;
+    height: 20rem;
+    width: 225px;
+    display: flex;
+    gap: 0px;
+    align-items: baseline;
   }
-  50% {
-    transform: translateX(-1000px);
+  .homeClick img {
+    border: 5px solid rgb(222, 222, 222);
+    width: 225px;
+    height: 20rem;
+    object-fit: fill;
   }
-  100% {
-    transform: translateX(0px);
+  .formbg-outer {
+    margin: 10px;
+  }
+  .navContent {
+    width: 55%;
+    text-align: left;
+  }
+  .navContent a {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding: 5px;
+  }
+  .logo img {
+    width: 10rem;
+    height: 0.9rem;
+    margin-left: 0px;
+    margin: 5px;
+  }
+
+  .address {
+    text-align: center;
+    position: relative;
+  }
+
+  .footItem {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .footer {
+    background-color: var(--color-navigation);
+    position: relative;
+    bottom: 0;
+    top: 8rem;
+    color: var(--color-white);
+    height: 20rem;
+    overflow: hidden;
+    margin-left: -4px;
+  }
+
+  .footItem img {
+    width: 80px;
+    padding: 0px;
+    margin-left: -70px;
+    margin-top: -20px;
+  }
+
+  .footItem div {
+    margin-left: -90px;
+    padding: 20px;
+  }
+
+  .footItem a {
+    font-size: 19px;
+    margin-left: -30px;
+    margin-right: 20px;
+    line-height: 35px;
+  }
+
+  .footIcons {
+    text-align: right;
+    margin-right: -35px;
+  }
+}
+@media (max-device-width: 375px) {
+  .homeShop {
+    padding: 0px;
+    height: 20rem;
+    width: 225px;
+    display: flex;
+    gap: 0px;
+    align-items: baseline;
+  }
+  .homeClick img {
+    border: 5px solid rgb(222, 222, 222);
+    width: 225px;
+    height: 20rem;
+    object-fit: fill;
+  }
+  .formbg-outer {
+    margin: 10px;
+  }
+  .navContent {
+    width: 55%;
+    text-align: left;
+  }
+  .navContent a {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding: 5px;
+  }
+  .logo img {
+    width: 10rem;
+    height: 0.9rem;
+    margin-left: 0px;
+    margin: 5px;
+  }
+
+  .address {
+    text-align: center;
+    position: relative;
+  }
+
+  .footItem {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .footer {
+    background-color: var(--color-navigation);
+    position: relative;
+    bottom: 0;
+    top: 8rem;
+    color: var(--color-white);
+    height: 20rem;
+    overflow: hidden;
+    margin-left: -4px;
+  }
+
+  .footItem img {
+    width: 80px;
+    padding: 0px;
+    margin-left: -70px;
+    margin-top: -20px;
+  }
+
+  .footItem div {
+    margin-left: -90px;
+    padding: 20px;
+  }
+
+  .footItem a {
+    font-size: 19px;
+    margin-left: -30px;
+    margin-right: 20px;
+    line-height: 35px;
+  }
+
+  .footIcons {
+    text-align: right;
+    margin-right: -35px;
+  }
+}
+
+@media (max-device-width: 411px) {
+  .homeShop {
+    padding: 0px;
+    height: 20rem;
+    width: 225px;
+    display: flex;
+    gap: 0px;
+    align-items: baseline;
+  }
+  .homeClick img {
+    border: 5px solid rgb(222, 222, 222);
+    width: 225px;
+    height: 20rem;
+    object-fit: fill;
+  }
+
+  .formbg-outer {
+    margin: 10px;
+  }
+
+  .navContent {
+    width: 55%;
+    text-align: left;
+  }
+  .navContent a {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding: 5px;
+  }
+  .logo img {
+    width: 10rem;
+    height: 0.9rem;
+    margin-left: 0px;
+    margin: 5px;
+  }
+
+  .address {
+    text-align: center;
+    position: relative;
+  }
+
+  .footItem {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .footer {
+    background-color: var(--color-navigation);
+    position: relative;
+    bottom: 0;
+    top: 8rem;
+    color: var(--color-white);
+    height: 20rem;
+    overflow: hidden;
+    margin-left: -4px;
+    width: 611px;
+  }
+
+  .footItem img {
+    width: 80px;
+    padding: 0px;
+    margin-left: -70px;
+    margin-top: -20px;
+  }
+
+  .footItem div {
+    margin-left: -90px;
+    padding: 20px;
+  }
+
+  .footItem a {
+    font-size: 19px;
+    margin-left: -30px;
+    margin-right: 20px;
+    line-height: 35px;
+  }
+
+  .footIcons {
+    text-align: right;
+    margin-right: -35px;
+  }
+}
+@media (max-device-width: 768px) {
+  .homeShop {
+    padding: 0px;
+    height: 20rem;
+    width: 225px;
+    display: flex;
+    gap: 0px;
+    align-items: baseline;
+  }
+  .homeClick img {
+    border: 5px solid rgb(222, 222, 222);
+    width: 225px;
+    height: 20rem;
+    object-fit: fill;
+  }
+
+  .navContent {
+    width: 55%;
+    text-align: left;
+  }
+
+  .formbg-outer {
+    margin: 10px;
+  }
+  .navContent a {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding: 5px;
+  }
+  .logo img {
+    width: 10rem;
+    height: 0.9rem;
+    margin-left: 0px;
+    margin: 5px;
+  }
+
+  /*For About Page*/
+
+  .address {
+    text-align: center;
+    position: relative;
+  }
+
+  .footItem {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .formbg {
+    margin: 0px auto;
+    width: fit-content;
+    max-width: 702px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: rgb(60 66 87 / 12%) 0px 7px 14px 0px,
+      rgb(0 0 0 / 12%) 0px 3px 6px 0px;
+  }
+
+  .footer {
+    background-color: var(--color-navigation);
+    position: relative;
+    bottom: 0;
+    top: 8rem;
+    color: var(--color-white);
+    height: 20rem;
+    overflow: hidden;
+    margin-left: -4px;
+  }
+  footer.footer {
+    margin-top: 13px;
+    min-width: 1521px;
+    width: fit-content;
+  }
+
+  .footItem img {
+    width: 80px;
+    padding: 0px;
+    margin-left: -70px;
+    margin-top: -20px;
+  }
+
+  .padding-horizontal--48 {
+    padding: 160px;
+    min-width: 740px;
+  }
+
+  .footItem div {
+    margin-left: -90px;
+    padding: 20px;
+  }
+
+  .footItem a {
+    font-size: 19px;
+    margin-left: -30px;
+    margin-right: 20px;
+    line-height: 35px;
+  }
+
+  .footIcons {
+    text-align: right;
+    margin-right: -35px;
+  }
+}
+
+@media (max-device-width: 1366px) {
+  .homeShop {
+    padding: 0px;
+    height: 20rem;
+    width: 225px;
+    display: flex;
+    gap: 0px;
+    align-items: baseline;
+  }
+  .homeClick img {
+    border: 5px solid rgb(222, 222, 222);
+    width: 225px;
+    height: 20rem;
+    object-fit: fill;
+  }
+
+  .navContent {
+    width: 55%;
+    text-align: left;
+  }
+  .navContent a {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding: 5px;
+  }
+  .logo img {
+    width: 10rem;
+    height: 0.9rem;
+    margin-left: 0px;
+    margin: 5px;
+  }
+
+  .address {
+    text-align: center;
+    position: relative;
+  }
+
+  .footItem {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .footer {
+    background-color: var(--color-navigation);
+    position: relative;
+    bottom: 0;
+    top: 4rem;
+    color: var(--color-white);
+    height: 20rem;
+    overflow: hidden;
+    margin-left: -4px;
+  }
+  footer.footer {
+    margin-top: 13px;
+    min-width: 1521px;
+    width: fit-content;
+  }
+
+  .footItem img {
+    width: 80px;
+    padding: 0px;
+    margin-left: -70px;
+    margin-top: -20px;
+  }
+
+  .footItem div {
+    margin-left: -90px;
+    padding: 20px;
+  }
+
+  .footItem a {
+    font-size: 19px;
+    margin-left: -30px;
+    margin-right: 20px;
+    line-height: 35px;
+  }
+
+  .footIcons {
+    text-align: right;
+    margin-right: -35px;
   }
 }

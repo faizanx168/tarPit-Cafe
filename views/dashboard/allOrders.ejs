@@ -1,0 +1,32 @@
+<% layout('layout/dashboard') -%>
+<h1>Dashoard</h1>
+<div class="recent-orders">
+  <h2>All Orders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>Order Number</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th>Placed At</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%orders.forEach( order =>{let date; date = order.createdAt; date =
+      date.toString(); myarray = date.split(" "); let mydate = ' '; mydate +=
+      myarray[0] + '-' + myarray[1] +'-'+myarray[2]+'-' + myarray[3] +' - '
+      +myarray[4]%>
+      <tr>
+        <td><%=order.user.username%></td>
+        <td><%=order._id%></td>
+        <td><%=order.paymentInfo.status%></td>
+        <td class="warning"><%=order.orderStatus%></td>
+        <td><%=mydate%></td>
+        <td class="primary"><a href="/order/<%=order._id%>">Details</a></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

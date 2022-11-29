@@ -8,14 +8,19 @@ const {
   getLogin,
   login,
   logout,
+  getUserDetails,
+  getAddress,
+  updatePassword,
+  getAllUsers,
 } = require("../controllers/users");
 
 router.get("/register", getRegister);
 router.post("/register", registerUser);
-
+router.post("/updatePassword", updatePassword);
 router.post("/activate", activateUser);
-
+router.get("/account", getUserDetails);
 router.get("/login", getLogin);
+router.get("/admin/users", getAllUsers);
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -25,6 +30,7 @@ router.post(
   }),
   login
 );
+router.post("/address", getAddress);
 router.get("/logout", logout);
 
 module.exports = router;

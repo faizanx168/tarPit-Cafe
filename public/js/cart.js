@@ -12,80 +12,74 @@ let cost = 0;
 
 function updateBill(cos) {
   let billPrice = document.querySelector(".cost");
-  billPrice.innerHTML = `$${cos}`;
+  billPrice.innerHTML = cos;
 }
 
-const calculateTotals = (data) => {
-  cost = data.totals;
-  itemCon.forEach((item, i) => {
-    increment[i].addEventListener("click", () => {
-      let bill = 0;
+itemCon.forEach((item, i) => {
+  increment[i].addEventListener("click", async () => {
+    let data = await fetchData();
+    if (data.items[i].qty < data.items[i].stock && data.items[i].qty <= 10) {
+      let cost = parseFloat(data.totals / 100);
+      let bill = 0.0;
       data.items[i].qty++;
-      bill += data.items[i].price;
+      bill += parseFloat(data.items[i].price);
       cost += bill;
       //   console.log(cost, data.items[i].qty, price[i].innerHTML);
-      data.totals = cost;
-      data.formattedTotals = setFormattedTotals(cost);
+      data.totals = cost * 100;
+      cost = setFormattedTotals(cost);
+      data.formattedTotals = cost;
       updateBill(cost);
-      postData(data);
-    });
-    decrement[i].addEventListener("click", () => {
-      if (data.items[i].qty > 1) {
-        let bill = 0;
-        data.items[i].qty--;
-        cost -= data.items[i].price;
-        // console.log(cost, data.items[i].qty, price[i].innerHTML);
-        data.totals = cost;
-        data.formattedTotals = setFormattedTotals(cost);
-        updateBill(cost);
-        postData(data);
-      }
-    });
+      await postData(data);
+    }
   });
-  postData(data);
-};
+  decrement[i].addEventListener("click", async () => {
+    let data = await fetchData();
+    let cost = parseFloat(data.totals / 100);
+    if (data.items[i].qty > 1) {
+      data.items[i].qty--;
+      cost -= parseFloat(data.items[i].price);
+      // console.log(cost, data.items[i].qty, price[i].innerHTML);
+      data.totals = cost * 100;
+      cost = setFormattedTotals(cost);
+      data.formattedTotals = cost;
+      updateBill(cost);
+      await postData(data);
+    }
+  });
+});
 
-const remove = (data) => {
-  deleteBtn.forEach((it, i) => {
-    deleteBtn[i].addEventListener("click", (e) => {
-      if (data.items[i].id === itemId[i].value) {
-        let total = 0;
-        total = data.items[i].qty * data.items[i].price;
-        cost = cost - total;
-        data.totals = cost;
-        noCon[i].innerHTML = " ";
-        data.formattedTotals = setFormattedTotals(cost);
-        updateBill(cost);
-        data.items = data.items.filter((data, index) => index != i);
-        postData(data);
-      }
-    });
+deleteBtn.forEach((it, i) => {
+  deleteBtn[i].addEventListener("click", async (e) => {
+    let data = await fetchData();
+    let cost = parseFloat(data.totals) / 100;
+    console.log("Totalc", cost);
+    if (data.items[i].id === itemId[i].value) {
+      let total = 0.0;
+      total = parseInt(data.items[i].qty) * parseFloat(data.items[i].price);
+      console.log("Total", total);
+      cost = cost - total;
+      data.totals = cost * 100;
+      cost = setFormattedTotals(cost);
+      data.formattedTotals = cost;
+      noCon[i].innerHTML = "";
+      data.items = data.items.filter((data, index) => index != i);
+      await postData(data);
+      location.reload(true);
+      updateBill(cost);
+    }
   });
-  postData(data);
-};
+});
 
 const fetchData = async () => {
-  const res = await axios.get(`http://localhost:3000/cartdata`);
+  const res = await axios.get(`/cartdata`);
   const data = res.data;
-  // console.log(data);
-  calculateTotals(data);
-  remove(data);
-  // postData(data);
+  return data;
 };
-fetchData();
 
 const postData = async (data) => {
-  // checkSlice(data);
-  axios
-    .put("http://localhost:3000/cartdata", {
-      data: data,
-    })
-    .then((data) => {
-      //   console.log("posted", data);
-    })
-    .catch((err) => {
-      console.log("error");
-    });
+  await axios.put("/cartdata", {
+    data: data,
+  });
 };
 
 const setFormattedTotals = (total) => {
