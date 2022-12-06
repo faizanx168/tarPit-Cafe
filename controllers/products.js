@@ -8,7 +8,7 @@ const user = require("../models/user.js");
 const Security = require("../utils/Security");
 const Comment = require("../models/comments");
 const Category = require("../models/category");
-const ErrorHander = require("../utils/Errorhandler");
+
 const Cloudinary = require("cloudinary");
 
 exports.getShop = asyncError(async (req, res) => {
