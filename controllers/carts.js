@@ -128,8 +128,8 @@ exports.addToCheckout = asyncError(async (req, res) => {
     const details = {
       email: req.body.email,
       attributes: {
-        FNAME: req.user.firstName,
-        LNAME: req.user.lastName,
+        FNAME: req.user.FirstName,
+        LNAME: req.user.LastName,
       },
       emailBlacklisted: false,
       smsBlacklisted: false,
@@ -167,8 +167,25 @@ exports.addToCheckout = asyncError(async (req, res) => {
     });
     const clientId = process.env.CLIENT_ID;
     const clientToken = await paypal.generateClientToken();
-    checkoutData.Shipping = req.body.shipping;
-    Shipping = checkoutData.Shipping;
+    const shippingData = req.body.shipping;
+    if (shippingData.method) {
+      const shipping = {
+        firstname: req.user.FirstName,
+        lastname: req.user.LastName,
+        address: "135 Woodpoint Road",
+        address2: "_",
+        country: "US",
+        zip: "11211",
+        city: "Brooklyn",
+        state: "NY",
+        phone: 9177058031,
+      };
+      checkoutData.Shipping = shipping;
+    } else {
+      checkoutData.Shipping = shippingData;
+    }
+
+    const Shipping = checkoutData.Shipping;
     zip = Shipping.zip;
     if (to_tax) {
       console.log("sent");
@@ -205,6 +222,21 @@ exports.addToCheckout = asyncError(async (req, res) => {
       cart.taxPrice = 0.0;
       cart.taxedTotal = parseInt(cart.totals);
       cart.formattedTaxedTotal = format.format(cart.taxedTotal / 100);
+    }
+    if (shippingData.method) {
+      cart.ShippingTotal = 0.0;
+    } else {
+      console.log(cart.items.length, cart.items[0].id, process.env.GIFTCARD);
+      if (cart.items.length === 1 && cart.items[0].id == process.env.GIFTCARD) {
+        cart.ShippingTotal = 0.0;
+      } else {
+        cart.ShippingTotal = 1000;
+        cart.taxedTotal =
+          parseInt(cart.taxedTotal) + parseInt(cart.ShippingTotal);
+        cart.formattedTaxedTotal = format.format(
+          parseInt(cart.taxedTotal) / 100
+        );
+      }
     }
     console.log(cart);
     res.render("tarpit/checkout", {

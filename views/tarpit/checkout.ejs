@@ -18,15 +18,18 @@ cart.items.length > 0) { %>
                 class="validated-form"
                 novalidate
               >
-                <div class="field padding-bottom--24">
+                <div class="field formControl padding-bottom--24">
                   <input
                     type="text"
                     name="email"
                     class="form-control"
                     id="email"
                     value="<%=checkoutData ? checkoutData.email: ''%>"
+                    required
                     placeholder="Email Address"
                   />
+                  <small>Error message</small>
+                  <div class="valid-feedback">Look good!</div>
                 </div>
                 <div class="field padding-bottom--24">
                   <input type="submit" name="submit" value="Continue" />
@@ -47,36 +50,40 @@ cart.items.length > 0) { %>
         </div>
         <div class="formbg-outer">
           <div class="formbg">
-            <div class="formbg-inner padding-horizontal--48">
+            <div class="formbg-inner">
               <span class="padding-bottom--15"
                 >Enter your shipping address</span
               >
-              <form
-                action="/checkout"
-                method="post"
-                class="validated-form"
-                novalidate
-              >
-                <div class="formChange">
-                  <div class="field padding-bottom--24 name">
+              <div class="formChange">
+                <form
+                  action="/checkout"
+                  method="post"
+                  class="validated-form"
+                  novalidate
+                >
+                  <div class="field padding-bottom--24 name formControl">
                     <input
                       type="text"
                       name="shipping[firstname]"
                       class="form-control"
-                      id="first-name"
+                      id="firstName"
                       value="<%=checkoutData ? checkoutData.Shipping.firstname : ''%>"
                       placeholder="First Name"
+                      required
                     />
                     <input
                       type="text"
                       name="shipping[lastname]"
                       class="form-control"
-                      id="last-name"
+                      id="lastName"
                       value="<%=checkoutData ? checkoutData.Shipping.lastname: ''%>"
                       placeholder="Last Name"
+                      required
                     />
+                    <small style="display: none">Error message</small>
+                    <div class="valid-feedback">Look good!</div>
                   </div>
-                  <div class="field padding-bottom--24">
+                  <div class="field padding-bottom--20 formControl">
                     <input
                       type="text"
                       name="shipping[address]"
@@ -84,23 +91,30 @@ cart.items.length > 0) { %>
                       id="address"
                       value="<%=checkoutData?checkoutData.Shipping.address:''%>"
                       placeholder="Address Line 1"
+                      required
                     />
+                    <small>Error message</small>
+                    <div class="valid-feedback">Look good!</div>
                   </div>
-                  <div class="field padding-bottom--24">
+                  <div class="field padding-bottom--20 formControl">
                     <input
                       type="text"
                       name="shipping[address2]"
                       class="form-control"
-                      id="address"
+                      id="address2"
                       value="<%=checkoutData?checkoutData.Shipping.address2:''%>"
                       placeholder="Address Line 2"
+                      required
                     />
+                    <small>Error message</small>
+                    <div class="valid-feedback">Look good!</div>
                   </div>
-                  <div class="field padding-bottom--24">
+                  <div class="field padding-bottom--20 formControl">
                     <select
                       name="shipping[country]"
                       class="form-control"
                       id="country"
+                      required
                     >
                       <option
                         value="<%=checkoutData ? checkoutData.Shipping.country : ''%>"
@@ -384,15 +398,20 @@ cart.items.length > 0) { %>
                       <option value="ZM">Zambia</option>
                       <option value="ZW">Zimbabwe</option>
                     </select>
+                    <small>Error message</small>
+                    <div class="valid-feedback">Look good!</div>
                   </div>
-                  <div class="field padding-bottom--24 name">
+                  <div class="field padding-bottom--24 name formControl">
                     <input
                       type="number"
                       name="shipping[zip]"
                       class="form-control"
                       id="zip"
+                      min="5"
+                      max="5"
                       value="<%=checkoutData ? checkoutData.Shipping.zip : ''%>"
                       placeholder="Zip  Code"
+                      required
                     />
                     <input
                       type="text"
@@ -401,11 +420,13 @@ cart.items.length > 0) { %>
                       id="city"
                       value="<%=checkoutData ? checkoutData.Shipping.city: ''%>"
                       placeholder="City/Town"
+                      required
                     />
                     <select
                       name="shipping[state]"
                       class="form-control"
                       id="state"
+                      required
                     >
                       <option
                         value="<%=checkoutData? checkoutData.Shipping.state:''%>"
@@ -467,7 +488,7 @@ cart.items.length > 0) { %>
                       <option value="WY">Wyoming</option>
                     </select>
                   </div>
-                  <div class="field padding-bottom--24">
+                  <div class="field padding-bottom--20 formControl">
                     <input
                       type="tel"
                       name="shipping[phone]"
@@ -475,15 +496,61 @@ cart.items.length > 0) { %>
                       id="phone"
                       value="<%=checkoutData ? checkoutData.Shipping.phone : ''%>"
                       placeholder="Phone Number"
+                      required
                     />
+                    <small>Error message</small>
+                    <div class="valid-feedback">Look good!</div>
                   </div>
-                </div>
-                <div class="field padding-bottom--24">
-                  <input type="submit" name="submit" value="Continue" />
-                  <input type="hidden" name="position" value="shippingCheck" />
-                  <input type="hidden" name="nonce" value="<%=nonce%>" />
-                </div>
-              </form>
+
+                  <div class="field padding-bottom--24">
+                    <input type="hidden" name="nonce" value="<%=nonce%>" />
+                    <input
+                      type="hidden"
+                      name="position"
+                      value="shippingCheck"
+                    />
+                    <input type="submit" name="submit" value="Continue" />
+                  </div>
+                </form>
+              </div>
+              <div class="PickUp" style="display: none">
+                <form action="/checkout" method="post">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="shipping[method]"
+                      id="exampleRadios1"
+                      value="Inperson_Pickup"
+                      checked
+                    />
+                    <label class="form-check-label" for="exampleRadios1">
+                      Tarpit Coffe Woodpoint
+                    </label>
+                  </div>
+                  <div class="pickupP">
+                    <p>TarPit Woodpoint</p>
+                    <p>Pickup Information</p>
+                    <p>135 Woodpoint Rd</p>
+                    <p>Brooklyn, NY 11211</p>
+                    <p>Please email ahead of time.</p>
+                    <p>hello@tarpitcoffee.com</p>
+                    <p>Mon-Fri</p>
+                    <p>8am-3pm</p>
+                    <p>Sat-Sun</p>
+                    <p>9am-4pm</p>
+                  </div>
+                  <div class="field padding-bottom--24">
+                    <input type="hidden" name="nonce" value="<%=nonce%>" />
+                    <input
+                      type="hidden"
+                      name="position"
+                      value="shippingCheck"
+                    />
+                    <input type="submit" name="submit2" value="Continue" />
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -517,6 +584,11 @@ cart.items.length > 0) { %>
           <div>Subtotal: <%=cart.formattedTotals%></div>
           <%if(shippingCheck){%>
           <div>Tax: $<%=parseFloat((cart.taxPrice)/100).toFixed(2)%></div>
+          <div>
+            Shipping
+            Charges:$<%=parseFloat((cart.ShippingTotal/100)).toFixed(2)%>
+          </div>
+
           <div>Total: <%=cart.formattedTaxedTotal%></div>
         </div>
         <%}%>

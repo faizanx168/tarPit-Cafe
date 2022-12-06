@@ -1,17 +1,20 @@
-<% layout('layout/boilerplate') -%> <% for(let img of Blogs.image){ %>
+<% layout('layout/boilerplate') -%>
 <div>
-  <img src="<%=img.url%>" alt="My product" class="blogImg" />
+  <img src="<%=Blogs.image[0].url%>" alt="My product" class="blogImg" />
 </div>
 <!-- <div style="height: 85vh; width: 100vw"></div> -->
-<% } %>
+
 <div class="containerB">
   <h1><%= Blogs.title %></h1>
-  <% if(user && user._id.equals(process.env.ADMIN_ID)){ %>
-  <form action="/blogs/<%=Blogs._id%>?_method=Delete" method="post">
-    <button class="btn">Delete</button>
-  </form>
-  <% } %>
-  <div>
+  <div class="blogText">
     <pre style="white-space: pre-wrap"><%=Blogs.desc%></pre>
+  </div>
+  <h4>Author: <%= Blogs.author%></h4>
+</div>
+<div class="container">
+  <div id="gallery">
+    <% for(let img of Blogs.image){ %>
+    <img src="<%=img.url%> " />
+    <% } %>
   </div>
 </div>

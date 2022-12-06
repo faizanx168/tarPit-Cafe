@@ -11,7 +11,12 @@
       <div
         class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center"
       >
-        <h1><a href="/" rel="dofollow">Tarpit Coffee</a></h1>
+        <a class="logo" href="/"
+          ><img
+            src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664134178/tarpitCafe/tarpit_long_whiteTrans_600_msqiqa.png"
+            alt="Logo"
+            style="background-color: rgb(35, 35, 112)"
+        /></a>
       </div>
       <div class="formbg-outer">
         <div class="formbg">
@@ -55,6 +60,8 @@
                   id="username"
                   required
                   class="form-control"
+                  min="5"
+                  max="20"
                 />
                 <small>Error message</small>
                 <div class="valid-feedback">Look good!</div>
@@ -79,7 +86,7 @@
                   id="password"
                   required
                   class="form-control"
-                  minlength="8"
+                  min="8"
                 />
                 <small>Error message</small>
                 <div class="valid-feedback">Look good!</div>
@@ -94,7 +101,7 @@
                   id="re-password"
                   required
                   class="form-control"
-                  minlength="8"
+                  min="8"
                 />
                 <small>Error message</small>
                 <div class="valid-feedback">Look good!</div>
@@ -103,7 +110,7 @@
                 <input type="submit" name="submit" value="Continue" />
               </div>
               <div class="field">
-                <a class="ssolink" href="#"
+                <a class="ssolink" href="/login/federated/google"
                   >Use single sign-on (Google) instead</a
                 >
               </div>
@@ -117,4 +124,3 @@
     </div>
   </div>
 </div>
-<script src="/js/formValidation"></script>

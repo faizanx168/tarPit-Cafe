@@ -1,0 +1,34 @@
+<% layout('layout/dashboard') -%>
+<h1>Dashoard</h1>
+<div class="recent-orders">
+  <h2>All Categories</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Option</th>
+        <th>Tax</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%categories.forEach( cat =>{%>
+      <tr>
+        <td><%=cat.name%></td>
+        <td><%=cat.options.Type%></td>
+        <td><%=cat.tax%></td>
+        <td class="primary">
+          <form
+            class="d-inline mt-2"
+            action="/categories/<%=cat._id%>?_method=Delete"
+            method="POST"
+          >
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

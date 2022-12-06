@@ -197,7 +197,7 @@ exports.thank_you = asyncError(async (req, res) => {
                       <tr>
                           <td align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
                               <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777;">
-                               Dear Valued Customer! We will start working on your order as soon as possible. You will be notified by email when the order is shipped!
+                               Dear Valued Customer! We will start working on your order as soon as possible. You will be notified by email when the order is shipped or ready for pickup!
                               </p>
                           </td>
                       </tr>

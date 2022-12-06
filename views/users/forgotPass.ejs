@@ -1,0 +1,55 @@
+<% layout('layout/boilerplate') -%>
+<div class="login-root">
+  <div
+    class="box-root flex-flex flex-direction--column"
+    style="min-height: 100vh; flex-grow: 1"
+  >
+    <div
+      class="box-root padding-top--24 flex-flex flex-direction--column"
+      style="flex-grow: 1; z-index: 9"
+    >
+      <div
+        class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center"
+      >
+        <a class="logo" href="/"
+          ><img
+            src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664134178/tarpitCafe/tarpit_long_whiteTrans_600_msqiqa.png"
+            alt="Logo"
+            style="background-color: rgb(35, 35, 112)"
+        /></a>
+      </div>
+      <div class="formbg-outer">
+        <div class="formbg">
+          <div class="formbg-inner padding-horizontal--48">
+            <span class="padding-bottom--15">Sign in to your account</span>
+            <form
+              action="/password/forgot"
+              method="post"
+              class="validated-form"
+              novalidate
+            >
+              <div class="field padding-bottom--24 formControl">
+                <label for="email">Enter your email</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  required
+                  class="form-control"
+                />
+                <small>Error message</small>
+                <div class="valid-feedback">Look good!</div>
+              </div>
+              <div class="field padding-bottom--24">
+                <input type="submit" name="submit" value="Continue" />
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="footer-link padding-top--24">
+          <span>Don't have an account? <a href="/register">Sign up</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

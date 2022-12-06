@@ -182,7 +182,6 @@ button {
     transform: translateY(-3rem);
   }
 }
-
 @media (max-width: 992px) {
   html {
     font-size: 14px;
@@ -212,18 +211,10 @@ button {
 }
 
 .bar_content {
-  display: block; /* Important to give the content a width */
+  display: flex; /* Important to give the content a width */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   width: 100%;
   color: white;
-  transform: translateX(100%); /* Animation start out of the screen */
-  /* Add the animation */
-  animation: move 30s linear infinite
-    /* infinite make reapeat the animation indefinitely */;
-}
-
-/* Create the animation */
-@keyframes move {
-  to {
-    transform: translateX(-100%);
-  }
 }

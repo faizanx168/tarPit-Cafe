@@ -21,3 +21,9 @@ exports.addCategory = asyncError(async (req, res) => {
   req.flash("success", "Successfully create a new category");
   res.redirect(`/`);
 });
+exports.deleteCategory = asyncError(async (req, res) => {
+  const id = req.params.id;
+  await Category.findByIdAndDelete(id);
+  req.flash("success", "Successfully deleted Categgory");
+  res.redirect("/admin/categories");
+});

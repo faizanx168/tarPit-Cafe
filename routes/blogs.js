@@ -14,11 +14,11 @@ const {
 } = require("../controllers/blogs");
 
 router.get("/", showBlogPage);
-router.get("/new", newForm);
+router.get("/new", isLoggedIn, isAdmin, newForm);
 router.get("/:id", getBlog);
 
-router.post("/", upload.array("image"), postBlog);
+router.post("/", upload.array("image"), isLoggedIn, isAdmin, postBlog);
 
-router.delete("/:id", deleteBlog);
+router.delete("/:id", isLoggedIn, isAdmin, deleteBlog);
 
 module.exports = router;

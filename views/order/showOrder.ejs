@@ -198,7 +198,7 @@
                       <span class="description"> <%=order.orderStatus%> </span>
                     </div>
                     <% if(user && user._id.equals(process.env.ADMIN_ID) &&
-                    order.orderStatus === "Processing"){ %>
+                    order.orderStatus !="Delivered"){ %>
                     <form
                       action="/admin/<%=order._id%>/updateOrder"
                       method="POST"
@@ -224,6 +224,7 @@
                         </option>
                         <option value="Shipped">Shipped</option>
                         <option value="Delivered">Delivered</option>
+                        <option value="Ready_For_Pickup">Pickup Ready</option>
                       </select>
                       <button class="btn mt-2">Submit</button>
                     </form>

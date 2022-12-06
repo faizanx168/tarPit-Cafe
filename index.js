@@ -27,50 +27,74 @@ const PaypalPayments = require("./routes/paypal");
 const Blogs = require("./routes/blogs");
 const Category = require("./routes/category");
 const Orders = require("./routes/orderRoutes");
+const helmet = require("helmet");
 const connectDatabase = require("./config/database");
 const home = require("./routes/home");
+const mongoSanitize = require("express-mongo-sanitize");
+require("./config/passport")(passport);
 
 connectDatabase();
 
 const store = new MongoDBStore({
   uri: process.env.DB_URI,
   collection: "sessions",
-  expire: 172800000 * 2,
+  databaseName: "tarpit",
+  expires: 1000 * 60 * 60 * 24 * 10,
+  touchAfter: 24 * 3600,
+  connectionOptions: {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
 });
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(favicon(path.join(__dirname, "favicon.png")));
+app.use(express.static(path.join(__dirname, "js")));
 app.use(express.urlencoded({ extended: true }));
 app.use(method("_method"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
+app.use(mongoSanitize({ replaceWith: "_" }));
 
 const sessionConfig = {
-  secret: "asdffgkhlkhlkfph",
-  resave: false,
-  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: false,
   store: store,
   unset: "destroy",
-  name: "myStore" + Security.generateId(),
+  name: "Tarpit" + Security.generateId(),
   genid: (req) => {
     return Security.generateId();
   },
   cookie: {
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24,
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 5,
   },
 };
+
 app.use(session(sessionConfig));
+app.use(helmet.crossOriginOpenerPolicy());
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.originAgentCluster());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate("session"));
 passport.use(new localPass(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.user = req.user;
@@ -99,6 +123,7 @@ app.use((err, req, res, next) => {
   if (!err.message) err.message = "Oh No, There was an error!!";
   res.status(status).render("error", { err });
 });
-app.listen(3000, () => {
-  console.log("Listening to port 3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Listening to port ${port}`);
 });

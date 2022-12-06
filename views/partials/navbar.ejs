@@ -1,42 +1,50 @@
-<nav class="navigationCon">
-  <div class="mainNavigation container">
-    <div>
-      <a class="logo" href="/"
-        ><img
-          src="https://res.cloudinary.com/dvpbsy8id/image/upload/v1664134178/tarpitCafe/tarpit_long_whiteTrans_600_msqiqa.png"
-          alt="Logo"
-      /></a>
-    </div>
-    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
-    <div class="navContent">
-      <a href="/products">Shop</a>
-      <a href="/about">About</a>
-      <a href="/products?query=Coffee">Coffee</a>
-      <a href="/blogs">Blogs</a>
-    </div>
-    <div class="navContent">
-      <% if(!user) {%>
-      <a href="/login">Login</a>
-      <% } else{ %>
-
-      <a
-        class="dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        <i class="fa-solid fa-user"></i>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark">
-        <li><a class="dropdown-item" href="/logout">Logout</a></li>
-        <li><a class="dropdown-item" href="/account">Profile</a></li>
-      </ul>
-
-      <% } %>
-      <a href="/cart"><i class="fa-solid fa-cart-arrow-down"></i></a>
-    </div>
+<nav>
+  <div class="logo">
+    <a href="/"
+      ><img
+        src="https://res.cloudinary.com/ddw8h2m1v/image/upload/v1670275651/tarpitCafe/tarpit_long_whiteTrans_600_msqiqa_1_mcbhew.png"
+        alt="Logo"
+    /></a>
   </div>
+  <div class="hamburger">
+    <div class="bars1"></div>
+    <div class="bars2"></div>
+    <div class="bars3"></div>
+  </div>
+
+  <ul class="nav-links">
+    <div class="links-content">
+      <li><a href="/products">Shop</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/products?query=Coffee">Coffee</a></li>
+      <li><a href="/blogs">Blogs</a></li>
+    </div>
+    <div class="links-content">
+      <li>
+        <% if(!user) {%>
+        <a href="/login">Login</a>
+        <% } else{ %>
+        <a
+          class="dropdown-toggle"
+          href="#"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-user"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark">
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          <li><a class="dropdown-item" href="/account">Profile</a></li>
+        </ul>
+        <% } %>
+      </li>
+      <li>
+        <a href="/cart"><i class="fa-solid fa-cart-arrow-down"></i></a>
+      </li>
+    </div>
+  </ul>
+
+  <!-- <div class="navContent navbar-links"></div>
+  <div class="navContent"></div> -->
 </nav>

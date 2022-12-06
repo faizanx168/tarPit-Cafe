@@ -1,10 +1,3 @@
-.containerBlog {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-  grid-template-rows: auto;
-  place-items: center;
-}
 .blogCard {
   border-radius: 0%;
 }
@@ -26,10 +19,10 @@
   -webkit-line-clamp: 5;
 }
 .blogImg {
-  height: 70vh;
+  height: 80vh;
   width: 100vw;
-  /* z-index: -1; */
-  object-fit: fill;
+  object-position: bottom;
+  object-fit: cover;
 }
 .blogFirst {
   overflow: hidden;
@@ -40,7 +33,8 @@
 .topBlog img {
   width: 100%;
   height: 30rem;
-  object-fit: fill;
+  object-fit: cover;
+  object-position: bottom;
 }
 .firstText {
   position: absolute;
@@ -59,4 +53,61 @@
 .containerB {
   width: 60%;
   margin: 0 auto;
+  background-color: rgb(255, 255, 255);
+  padding: 1rem;
+  margin-top: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+#gallery {
+  line-height: 0;
+  -webkit-column-count: 5; /* split it into 5 columns */
+  -webkit-column-gap: 5px; /* give it a 5px gap between columns */
+  -moz-column-count: 5;
+  -moz-column-gap: 5px;
+  column-count: 5;
+  column-gap: 5px;
+}
+#gallery img {
+  width: 100% !important;
+  height: auto !important;
+  margin-bottom: 5px; /* to match column gap */
+  transition: filter 2s;
+}
+#gallery img:hover {
+  filter: none;
+}
+.blogText pre {
+  line-height: 2;
+  font-family: "Sawarabi Mincho", serif;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+@media (max-width: 1200px) {
+  #gallery {
+    -moz-column-count: 4;
+    -webkit-column-count: 4;
+    column-count: 4;
+  }
+}
+@media (max-width: 1000px) {
+  #gallery {
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
+  }
+}
+@media (max-width: 800px) {
+  #gallery {
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+  }
+}
+@media (max-width: 400px) {
+  #gallery {
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+    column-count: 1;
+  }
 }

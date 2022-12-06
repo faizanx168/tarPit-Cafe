@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require("../config/sendEmail");
 const Order = require("../models/orders");
 const Address = require("../models/address");
+const crypto = require("crypto");
+const { registerSchema } = require("../joiSchema");
 
 exports.getRegister = (req, res) => {
   res.render("users/registration");
@@ -13,6 +15,11 @@ exports.getRegister = (req, res) => {
 
 exports.registerUser = asyncError(async (req, res) => {
   try {
+    const { error } = registerSchema.validate(req.body);
+    if (error) {
+      const message = error.details.map((el) => el.message).join(",");
+      throw new myError(message, 400);
+    }
     const { firstName, lastName, email, username, password, password2 } =
       req.body;
     const isEmail = await User.findOne({ email });
@@ -112,9 +119,10 @@ exports.logout = (req, res, next) => {
     res.redirect("/");
   });
 };
+
 // update Password
 exports.updatePassword = asyncError(async (req, res) => {
-  User.findById(req.user.id, (err, user) => {
+  User.findById(req.user._id, (err, user) => {
     if (err) {
       req.flash("error", "Sorry! user does not exist.");
       res.redirect("/");
@@ -146,7 +154,7 @@ exports.updatePassword = asyncError(async (req, res) => {
 // Get User Detail
 exports.getUserDetails = asyncError(async (req, res) => {
   if (req.user) {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id);
     const orders = await Order.find({ user: user._id });
     const address = await Address.find({ user: user._id });
     const myaddress = address[0];
@@ -165,15 +173,17 @@ exports.getUserDetails = asyncError(async (req, res) => {
 
 exports.getAddress = asyncError(async (req, res) => {
   const address = req.body.address;
-  const useraddress = await Address.find({ user: req.user.id });
+  console.log(req.user);
+  const useraddress = await Address.find({ user: req.user._id });
+  console.log(useraddress);
   if (!useraddress.length) {
     const saveAddress = new Address(address);
-    saveAddress.user = req.user.id;
+    saveAddress.user = req.user._id;
     await saveAddress.save();
     req.flash("success", "Successfully saved new address");
     res.redirect("/account");
   } else {
-    await Address.findOneAndUpdate({ user: req.user.id }, address);
+    await Address.findOneAndUpdate({ user: req.user._id }, address);
     req.flash("success", "Successfully updated new address");
     res.redirect("/account");
   }
@@ -183,4 +193,91 @@ exports.getAddress = asyncError(async (req, res) => {
 exports.getAllUsers = asyncError(async (req, res) => {
   const users = await User.find({}).select("email username firstName lastName");
   res.render("dashboard/allusers", { users, classes: "users" });
+});
+
+// Forgot Password
+exports.forgotPassword = asyncError(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new myError("User not found", 404));
+  }
+
+  // Get ResetPassword Token
+  const resetToken = user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  const resetPasswordUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/password/reset/${resetToken}`;
+
+  const subject = "Tarpit Password Reset Link";
+  const html = `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+  Please click on the following link, or paste this into your browser to complete the process:\n\n Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+  const message = "Welcome to Tarpit!";
+
+  try {
+    await sendEmail(req.body.email, subject, message, html);
+
+    req.flash("success", "Reset email has been sent!");
+    return res.redirect("/login");
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(new myError(error.message, 500));
+  }
+});
+
+// Reset Password
+exports.getforgotPassword = (req, res) => {
+  res.render("users/forgotPass");
+};
+
+exports.getResetPassword = asyncError(async (req, res) => {
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+  if (!user) {
+    req.flash("error", "Password reset token is invalid or has expired.");
+    return res.redirect("/login");
+  }
+  res.render("users/resetPass", { token: req.params.token });
+});
+
+exports.resetPassword = asyncError(async (req, res, next) => {
+  // creating token hash
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+  console.log(user);
+  if (!user) {
+    return next(
+      new myError("Reset Password Token is invalid or has been expired", 400)
+    );
+  }
+  if (req.body.password === req.body.password2) {
+    user.setPassword(req.body.password, function (err) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      user.save(function (err) {
+        req.flash("success", "Password has been updated successfully!");
+        return res.redirect("/login");
+      });
+    });
+  } else {
+    return next(new myError("Password does not match! Try Again", 400));
+  }
 });

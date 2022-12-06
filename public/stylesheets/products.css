@@ -8,13 +8,15 @@
   padding: 10px;
 }
 .filterbox {
-  width: 5vw;
+  width: 7rem;
   text-align: center;
 }
 .filterLabel {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 15px;
+  max-width: 40rem;
 }
 .card-text {
   text-decoration: none;
@@ -25,14 +27,10 @@
 
 .cardContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
   place-items: center;
 }
-.cardShape {
-  margin-bottom: 20px;
-  width: 24rem;
-  height: 30rem;
-}
+
 .dropForm {
   font-size: 30px;
   color: rgb(17, 17, 81);
@@ -44,19 +42,6 @@
 .dropFormRotate {
   transform: rotate(180deg);
 }
-.cardContainerH {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  place-items: center;
-  max-width: 100%;
-}
-.cardShapeH {
-  margin-bottom: 20px;
-  margin-top: 20px;
-  width: 17rem;
-  height: 24rem;
-  border-radius: 0%;
-}
 .product-price {
   margin: 10px 0;
   align-items: center;
@@ -65,19 +50,17 @@
 }
 
 /* Columns */
+
 .product {
   background-color: rgb(255, 255, 255);
 }
 .left-column {
-  width: 40rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  width: 100%;
 }
 
 .right-column {
-  width: 45%;
+  width: 100%;
+  padding: 0 1rem;
   /* margin-top: 60px; */
 }
 .breadcrumb {
@@ -142,84 +125,60 @@
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-@media (max-device-width: 390px) {
+@media screen and (min-width: 220px) {
   .cardContainer {
-    display: block;
     grid-template-columns: 1fr;
-    place-items: center;
   }
   .cardShape {
     margin-bottom: 20px;
-    width: 24rem;
+    max-width: 24rem;
     height: 30rem;
-    margin-left: -52px;
+  }
+  .product {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 0;
+    gap: 3rem;
+    overflow: hidden;
+    align-items: center;
+  }
+  .imgPro {
+    min-height: 24rem;
+    width: 100%;
+    object-fit: cover;
   }
 }
-
-@media (max-device-width: 360px) {
+@media screen and (min-width: 768px) {
   .cardContainer {
-    display: block;
-    grid-template-columns: 1fr;
-    place-items: center;
+    grid-template-columns: 1fr 1fr;
   }
   .cardShape {
     margin-bottom: 20px;
     width: 24rem;
     height: 30rem;
-    margin-left: -52px;
   }
 }
-
-@media (max-device-width: 390px) {
+@media screen and (min-width: 1024px) {
   .cardContainer {
-    display: block;
-    grid-template-columns: 1fr;
-    place-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
   }
-  .cardShape {
-    margin-bottom: 20px;
-    width: 24rem;
-    height: 30rem;
-    margin-left: -52px;
+  .product {
+    flex-direction: row;
+    padding: 1em 2em;
+    min-height: 90vh;
+    align-items: flex-start;
+  }
+  .imgPro {
+    max-height: 45rem;
+    width: 100%;
+    object-fit: cover;
+    padding: 1em 0;
   }
 }
-
-@media (max-device-width: 375px) {
+@media screen and (min-width: 1920px) {
   .cardContainer {
-    display: block;
-    grid-template-columns: 1fr;
-    place-items: center;
-  }
-  .cardShape {
-    margin-bottom: 20px;
-    width: 24rem;
-    height: 30rem;
-    margin-left: -52px;
-  }
-}
-@media (max-device-width: 360px) {
-  .cardContainer {
-    display: block;
-    grid-template-columns: 1fr;
-    place-items: center;
-  }
-  .cardShape {
-    margin-bottom: 20px;
-    width: 24rem;
-    height: 30rem;
-    margin-left: -52px;
-  }
-}
-@media (max-device-width: 411px) {
-  .cardContainer {
-    display: block;
-    grid-template-columns: 1fr;
-    place-items: center;
-  }
-  .cardShape {
-    margin-bottom: 20px;
-    width: 24rem;
-    height: 30rem;
-    margin-left: -52px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }

@@ -9,6 +9,7 @@ const Security = require("../utils/Security");
 const Comment = require("../models/comments");
 const Category = require("../models/category");
 const ErrorHander = require("../utils/Errorhandler");
+const Cloudinary = require("cloudinary");
 
 exports.getShop = asyncError(async (req, res) => {
   let filter = {};
@@ -30,7 +31,14 @@ exports.getShop = asyncError(async (req, res) => {
     folder: "tarpitCafe/Home",
     max_results: 8,
   };
-  const result = await cloudinary.api.resources(options);
+  const result = await Cloudinary.v2.search
+    .expression(
+      "folder: tarpitCafe/Home" // add your folder
+    )
+    .sort_by("public_id", "desc")
+    .max_results(10)
+    .execute();
+
   result.resources.forEach((image) => {
     const url = image.url;
     uri.push(url);

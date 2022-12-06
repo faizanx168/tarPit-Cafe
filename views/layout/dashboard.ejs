@@ -10,6 +10,14 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <script
+      src="https://kit.fontawesome.com/1ca0d34845.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div class="container">
@@ -61,11 +69,25 @@
           </a>
 
           <a
-            href="/products/new"
-            class="<%= classes === 'addproducts' ? 'active' : '' %>"
+            href="/admin/categories"
+            class="<%= classes === 'categories' ? 'active' : '' %>"
           >
-            <span class="material-icons-sharp">add</span>
-            <h3>Add Product</h3>
+            <span class="material-symbols-outlined"> category </span>
+            <h3>Categories</h3>
+          </a>
+          <a
+            href="/admin/blogs"
+            class="<%= classes === 'blogs' ? 'active' : '' %>"
+          >
+            <i class="fa-brands fa-blogger-b"></i>
+            <h3>Blogs</h3>
+          </a>
+          <a
+            href="/admin/employees"
+            class="<%= classes === 'employees' ? 'active' : '' %>"
+          >
+            <span class="material-symbols-outlined"> badge </span>
+            <h3>Employee</h3>
           </a>
           <a href="/logout">
             <span class="material-icons-sharp">logout</span>
@@ -104,6 +126,30 @@
               <div>
                 <span class="material-icons-sharp">add</span>
                 <h3>Add Product</h3>
+              </div>
+            </a>
+          </div>
+          <div class="item add-product">
+            <a href="/blogs/new">
+              <div>
+                <span class="material-icons-sharp">add</span>
+                <h3>Add Blog</h3>
+              </div>
+            </a>
+          </div>
+          <div class="item add-product">
+            <a href="/categories/new">
+              <div>
+                <span class="material-icons-sharp">add</span>
+                <h3>Add Category</h3>
+              </div>
+            </a>
+          </div>
+          <div class="item add-product">
+            <a href="/about/new">
+              <div>
+                <span class="material-icons-sharp">add</span>
+                <h3>Add Employee</h3>
               </div>
             </a>
           </div>

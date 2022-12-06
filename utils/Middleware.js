@@ -4,21 +4,9 @@ const Review = require("../models/reviews");
 const Product = require("../models/Product");
 
 module.exports.isLoggedIn = (req, res, next) => {
-  const { id, reviewId } = req.params;
-  // console.log(req.params)
   if (!req.isAuthenticated()) {
     req.session.returnTo = req.originalUrl;
-    console.log(req.originalUrl);
-    if (
-      [
-        `/products/${id}/reviews/${reviewId}?_method=delete`,
-        `/products/${id}/reviews`,
-      ].includes(req.originalUrl)
-    ) {
-      // console.log('from', req.session.returnTo);
-      req.session.returnTo = `/products/${id}`;
-    }
-    req.flash("error", "You must be signed  in!");
+    req.flash("error", "You must be signed in first!");
     return res.redirect("/login");
   }
   next();
@@ -46,8 +34,9 @@ module.exports.isReviewAuthor = async (req, res, next) => {
 
 module.exports.isAdmin = async (req, res, next) => {
   if (!req.user._id.equals(process.env.ADMIN_ID)) {
+    req.session.returnTo = req.originalUrl;
     req.flash("error", "Permission required to update/delete!");
-    return res.redirect(`/products/${id}`);
+    return res.redirect("/products/");
   }
   next();
 };

@@ -3,49 +3,33 @@
 <section class="container">
   <div class="product">
     <div class="left-column">
-      <div class="car">
-        <div
-          id="productsCarousel"
-          class="carousel slide"
-          data-bs-ride="carousel"
-        >
-          <div class="carousel-inner">
-            <% products.image.forEach( (img,i) => { %>
-            <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
-              <img
-                src="<%=img.url%>"
-                class="d-block imgPro"
-                alt="My products"
-              />
-            </div>
-            <% }) %> <% if(products.image.length > 1) {%>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#productsCarousel"
-              data-bs-slide="prev"
-              style="color: black"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#productsCarousel"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-            <% } %>
+      <div id="productsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <% products.image.forEach( (img,i) => { %>
+          <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+            <img src="<%=img.url%>" class="d-block imgPro" alt="My products" />
           </div>
+          <% }) %> <% if(products.image.length > 1) {%>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#productsCarousel"
+            data-bs-slide="prev"
+            style="color: black"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#productsCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+          <% } %>
         </div>
       </div>
     </div>
@@ -58,7 +42,7 @@
         </div>
 
         <div class="card-body">
-          <h5 class="title"><%= products.title %></h5>
+          <h3 class="title"><%= products.title %></h3>
           <p class="text"><%=products.description%></p>
         </div>
         <div class="product-price">
@@ -75,7 +59,9 @@
                   <span class="qty-minus"
                     ><i class="fa-sharp fa-solid fa-minus"></i
                   ></span>
-                  <input type="text" name="qty" class="qty" value="1" />
+                  <div class="myqty">
+                    <input type="text" name="qty" class="qty" value="1" />
+                  </div>
                   <span class="qty-plus"
                     ><i class="fa-sharp fa-solid fa-plus"></i
                   ></span>
@@ -175,7 +161,7 @@
     <% } %> <% for(let review of products.review){ %>
     <div class="comments">
       <div class="card-body">
-        <h3 class="card-title"><%= review.author.username%></h3>
+        <h3><%=review.author ? review.author.username : 'Unknown'%></h3>
         <p class="starability-result" data-rating="<%=review.rating%>">
           Rated: <%=review.rating%> stars
         </p>
@@ -230,7 +216,7 @@
           action="/products/<%=products._id%>/reviews/<%=review._id%>?_method=delete"
           method="POST"
         >
-          <% if(user && review.author.equals(user._id)){ %>
+          <% if(user && review.author && review.author.equals(user._id)){ %>
           <button class="btn2 btn-primary">Delete</button>
           <% } %>
         </form>

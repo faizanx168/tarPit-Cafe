@@ -11,16 +11,51 @@ const {
   getUserDetails,
   getAddress,
   updatePassword,
+  forgotPassword,
   getAllUsers,
+  resetPassword,
+  getforgotPassword,
+  getResetPassword,
 } = require("../controllers/users");
+const { isAdmin, isLoggedIn } = require("../utils/Middleware");
 
 router.get("/register", getRegister);
 router.post("/register", registerUser);
-router.post("/updatePassword", updatePassword);
+// facebook
+router.get(
+  "/login/federated/facebook",
+  passport.authenticate("facebook", { scope: ["email"] })
+);
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", {
+    successReturnToOrRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
+// Google
+router.get(
+  "/login/federated/google",
+  passport.authenticate("google", { scope: ["openid", "profile", "email"] })
+);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successReturnToOrRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
+router.get("/password/forgot", getforgotPassword);
+router.post("/password/forgot", forgotPassword);
+
+router.get("/password/reset/:token", getResetPassword);
+router.put("/password/reset/:token", resetPassword);
+
+router.post("/updatePassword", isLoggedIn, updatePassword);
 router.post("/activate", activateUser);
-router.get("/account", getUserDetails);
+router.get("/account", isLoggedIn, getUserDetails);
 router.get("/login", getLogin);
-router.get("/admin/users", getAllUsers);
+router.get("/admin/users", isLoggedIn, isAdmin, getAllUsers);
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -30,7 +65,7 @@ router.post(
   }),
   login
 );
-router.post("/address", getAddress);
-router.get("/logout", logout);
+router.post("/address", isLoggedIn, getAddress);
+router.get("/logout", isLoggedIn, logout);
 
 module.exports = router;

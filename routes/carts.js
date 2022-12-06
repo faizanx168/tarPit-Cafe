@@ -8,17 +8,18 @@ const {
   addToCart,
   addToCheckout,
 } = require("../controllers/carts");
+const { isAdmin, isLoggedIn } = require("../utils/Middleware");
 
 router.get("/cart", showCart);
 
 router.get("/cartdata", getCartData);
 
-router.get("/checkout", showCheckout);
+router.get("/checkout", isLoggedIn, showCheckout);
 
 router.put("/cartdata", putCartData);
 
 router.post("/cart", addToCart);
 
-router.post("/checkout", addToCheckout);
+router.post("/checkout", isLoggedIn, addToCheckout);
 
 module.exports = router;

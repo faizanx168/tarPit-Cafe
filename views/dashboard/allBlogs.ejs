@@ -1,0 +1,33 @@
+<% layout('layout/dashboard') -%>
+<h1>Dashoard</h1>
+<div class="recent-orders">
+  <h2>All Blogs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Author</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%blogs.forEach( blog =>{%>
+      <tr>
+        <td><%=blog.title%></td>
+        <td><%=blog.author%></td>
+        <td class="primary"><a href="/blogs/<%=blog._id%>">show</a></td>
+        <td class="primary">
+          <form
+            class="d-inline mt-2"
+            action="/blogs/<%=blog._id%>?_method=Delete"
+            method="POST"
+          >
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

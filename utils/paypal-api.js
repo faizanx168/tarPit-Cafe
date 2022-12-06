@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 
 // set some important variables
 const { CLIENT_ID, APP_SECRET } = process.env;
-const base = "https://api-m.sandbox.paypal.com";
+const base = "https://api-m.paypal.com";
 
 // call the create order method
 const createOrder = async function (total) {

@@ -1,5 +1,4 @@
 <% layout('layout/boilerplate') -%>
-
 <div class="login-root">
   <div
     class="box-root flex-flex flex-direction--column"
@@ -24,72 +23,41 @@
           <div class="formbg-inner padding-horizontal--48">
             <span class="padding-bottom--15">Sign in to your account</span>
             <form
-              action="/login"
+              action="/password/reset/<%=token%>?_method=Put"
               method="post"
               class="validated-form"
               novalidate
             >
-              <div class="field padding-bottom--24 formControl">
-                <label for="username">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  required
-                  class="form-control"
-                />
-                <small>Error message</small>
-                <div class="valid-feedback">Look good!</div>
-              </div>
-              <div class="field padding-bottom--24 formControl">
-                <div class="grid--50-50">
-                  <label for="password">Password</label>
-                  <div class="reset-pass">
-                    <a href="/password/forgot">Forgot your password?</a>
-                  </div>
-                </div>
+              <div class="field formControl padding-bottom--24">
+                <label for="password" class="form-label">password</label>
                 <input
                   type="password"
                   name="password"
                   id="password"
-                  minlength="8"
                   required
                   class="form-control"
+                  min="8"
                 />
                 <small>Error message</small>
                 <div class="valid-feedback">Look good!</div>
               </div>
-
+              <div class="field formControl padding-bottom--24">
+                <label for="re-password" class="form-label"
+                  >Re-Enter password</label
+                >
+                <input
+                  type="password"
+                  name="password2"
+                  id="re-password"
+                  required
+                  class="form-control"
+                  min="8"
+                />
+                <small>Error message</small>
+                <div class="valid-feedback">Look good!</div>
+              </div>
               <div class="field padding-bottom--24">
                 <input type="submit" name="submit" value="Continue" />
-              </div>
-              <h3 style="text-align: center">Or</h3>
-              <hr />
-              <div class="field">
-                <a href="/login/federated/google">
-                  <div class="google-btn">
-                    <div class="google-icon-wrapper">
-                      <img
-                        class="google-icon"
-                        src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-                      />
-                    </div>
-                    <p class="btn-text"><b>Sign in with google</b></p>
-                  </div>
-                </a>
-              </div>
-              <div class="field mt-3">
-                <a href="/login/federated/facebook">
-                  <div
-                    class="google-btn loginBtn--facebook"
-                    style="background-color: #3b5998"
-                  >
-                    <div class="google-icon-wrapper">
-                      <i class="fa-brands fa-facebook"></i>
-                    </div>
-                    <p class="btn-text"><b>Sign in with facebook</b></p>
-                  </div>
-                </a>
               </div>
             </form>
           </div>

@@ -6,11 +6,17 @@ const Comment = require("../models/comments");
 exports.addReview = asyncError(async (req, res) => {
   const product = await Product.findById(req.params.id);
   const review = new Review(req.body.review);
-  // res.send(review);
   review.author = req.user._id;
+  const allReviews = await Review.find();
+  let avg = 0;
+
+  allReviews.forEach((rev) => {
+    avg += rev.rating;
+  });
+  product.ratings = (avg / allReviews.length).toFixed(2);
   product.review.push(review);
   await review.save();
-  await product.save();
+  await product.save({ validateBeforeSave: false });
   req.flash("success", "Successfully added the review");
   res.redirect(`/products/${product._id}`);
 });

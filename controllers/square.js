@@ -14,17 +14,15 @@ const {
 // square provides the API client and error types
 const {
   ApiError,
-  cardsApi,
   paymentsApi,
-  giftCardsApi,
-  giftCardActivitiesApi,
   refundsApi,
   ordersApi,
 } = require("../Square/square");
-const { json } = require("body-parser");
 
 exports.createOrder = asyncError(async (req, res) => {
   const payload = await req.body;
+  let sess = req.session;
+  let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
   console.log(payload);
   logger.debug("data: ", payload);
   let items = [];
@@ -73,6 +71,17 @@ exports.createOrder = asyncError(async (req, res) => {
         locationId: payload.locationId,
         lineItems: items,
         taxes: taxes,
+        serviceCharges: [
+          {
+            name: "Shipping",
+            amountMoney: {
+              amount: cart.ShippingTotal,
+              currency: "USD",
+            },
+            calculationPhase: "TOTAL_PHASE",
+            taxable: false,
+          },
+        ],
       },
       idempotencyKey: uuidv4(),
     });
@@ -127,7 +136,7 @@ exports.createPayment = asyncError(async function (req, res) {
           cart.taxedTotal -= parseInt(amount);
         }
 
-        res.status(statusCode).json({
+        return res.status(statusCode).json({
           success: true,
           payment: {
             id: result.payment.id,
@@ -145,6 +154,7 @@ exports.createPayment = asyncError(async function (req, res) {
         const taxedTotal = cart.taxPrice / 100;
         const totalAmount = cart.taxedTotal / 100;
         const subtotal = cart.totals / 100;
+        const shippingTotal = cart.ShippingTotal / 100;
         const user = req.user._id;
         const shipping = checkoutData.Shipping;
         const userEmail = req.user.email;
@@ -157,6 +167,7 @@ exports.createPayment = asyncError(async function (req, res) {
           totalAmount,
           subtotal,
           user,
+          shippingTotal,
           shipping,
           item: items,
           userEmail,
@@ -407,7 +418,7 @@ exports.createPayment = asyncError(async function (req, res) {
         await sendEmail(email, subject, message, html);
         cart = "";
         checkoutData = "";
-        res.status(statusCode).json({
+        return res.status(statusCode).json({
           success: true,
           payment: {
             id: result.payment.id,
@@ -460,6 +471,7 @@ exports.capturePayments = asyncError(async (req, res) => {
         typeof sess.checkoutData !== "undefined" ? sess.checkoutData : false;
       let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
       const user = req.user._id;
+      const shippingTotal = cart.ShippingTotal / 100;
       const shipping = checkoutData.Shipping;
       const userEmail = req.user.email;
       const items = cart.items;
@@ -472,6 +484,7 @@ exports.capturePayments = asyncError(async (req, res) => {
         totalAmount,
         subtotal,
         user,
+        shippingTotal,
         shipping,
         item: items,
         userEmail,
@@ -596,7 +609,7 @@ exports.capturePayments = asyncError(async (req, res) => {
                       <tr>
                           <td align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
                               <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777;">
-                               Dear Valued Customer! We will start working on your order as soon as possible. You will be notified by email when the order is shipped!
+                               Dear Valued Customer! We will start working on your order as soon as possible. You will be notified by email when the order is shipped or ready for pickup!
                               </p>
                           </td>
                       </tr>
@@ -739,12 +752,12 @@ exports.capturePayments = asyncError(async (req, res) => {
 exports.refundPayment = asyncError(async (req, res) => {
   const { orderId, orderNumber, totalAmount, taxPrice, itemPrice, email } =
     req.body;
-  console.log(req.body);
+
   try {
     const response = await refundsApi.refundPayment({
       idempotencyKey: uuidv4(),
       amountMoney: {
-        amount: totalAmount * 100,
+        amount: totalAmount,
         currency: "USD",
       },
       paymentId: orderId,

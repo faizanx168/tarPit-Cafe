@@ -12,9 +12,12 @@ exports.showBlogPage = asyncError(async (req, res) => {
     filter = { category: cat };
   }
   const blog1 = await Blog.findOne().sort({ _id: -1 }).limit(1);
-  const Blogs = await Blog.find({ _id: { $ne: blog1._id } }).sort({
-    _id: -1,
-  });
+  let Blogs;
+  if (blog1) {
+    Blogs = await Blog.find({ _id: { $ne: blog1._id } }).sort({
+      _id: -1,
+    });
+  }
   res.render("blogs/all", { pageTitle: "Blog Page", blog1, Blogs });
 });
 
@@ -43,5 +46,5 @@ exports.deleteBlog = asyncError(async (req, res) => {
   const { id } = req.params;
   const blog = await Blog.findByIdAndDelete(id);
   req.flash("success", "Successfully deleted the products");
-  res.redirect("/blogs");
+  res.redirect("/admin/blogs");
 });

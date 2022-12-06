@@ -1,23 +1,28 @@
 const express = require("express");
 const {
-  newOrder,
   getSingleOrder,
-  myOrders,
   getAllOrders,
   updateOrder,
-  deleteOrder,
   getdashboard,
   getAllProducts,
   createNewOrder,
+  allcategories,
+  allBlogs,
+  allemployees,
 } = require("../controllers/orderRoutes");
+const { isAdmin, isLoggedIn } = require("../utils/Middleware");
 const router = express.Router();
 
-router.get("/admin/products", getAllProducts);
-router.get("/order/:id", getSingleOrder);
-router.get("/dashboard", getdashboard);
-router.get("/admin/orders", getAllOrders);
-router.post("/admin/:id/updateOrder", updateOrder);
-router.post("/createNewOrder", createNewOrder);
+router.get("/admin/products", isLoggedIn, isAdmin, getAllProducts);
+router.get("/order/:id", isLoggedIn, getSingleOrder);
+router.get("/dashboard", isLoggedIn, isAdmin, getdashboard);
+router.get("/admin/orders", isLoggedIn, isAdmin, getAllOrders);
+router.post("/admin/:id/updateOrder", isLoggedIn, isAdmin, updateOrder);
+router.post("/createNewOrder", isLoggedIn, createNewOrder);
+
+router.get("/admin/blogs", isLoggedIn, isAdmin, allBlogs);
+router.get("/admin/categories", isLoggedIn, isAdmin, allcategories);
+router.get("/admin/employees", isLoggedIn, isAdmin, allemployees);
 // router
 //   .route("/admin/order/:id")
 //   .put(isAuthenticatedUser, authorizeRoles("admin"), updateOrder)

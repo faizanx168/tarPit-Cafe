@@ -6,42 +6,43 @@
   <% if(cart && cart.items.length > 0) { %>
   <h3>Items</h3>
   <%for(let items of cart.items) {%>
-  <div class="null">
-    <div class="itemContainer">
-      <div class="itemImg">
-        <img src="<%=items.image%>" alt="" />
-      </div>
-      <div class="cartData">
-        <h3><%=items.title%></h3>
-        <span class="price"><i> Price: $<%=items.price%></i></span>
-        <div>
-          <p style="font-weight: 600">Quantity</p>
-          <span class="qty-wrap">
-            <span class="qty-minus"
-              ><i class="fa-sharp fa-solid fa-minus"></i
-            ></span>
-            <input type="text" name="qty" class="qty" value="<%=items.qty%>" />
 
-            <span class="qty-plus"
-              ><i class="fa-sharp fa-solid fa-plus"></i
-            ></span>
-          </span>
-        </div>
-        <div>
-          <a href="/products/<%=items.id%>">See full description</a>
-          <input
-            type="hidden"
-            name="itemId"
-            class="itemId"
-            value="<%=items.id%>"
-          />
-          <button class="delete cartDel">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
+  <div class="itemContainer">
+    <div class="itemImg">
+      <img src="<%=items.image%>" alt="" />
+    </div>
+    <div class="cartData">
+      <h3><%=items.title%></h3>
+      <span class="price"><i> Price: $<%=items.price%></i></span>
+      <div>
+        <p style="font-weight: 600">Quantity</p>
+        <span class="qty-wrap">
+          <span class="qty-minus"
+            ><i class="fa-sharp fa-solid fa-minus"></i
+          ></span>
+          <div class="myqty">
+            <input type="text" name="qty" class="qty" value="<%=items.qty%>" />
+          </div>
+          <span class="qty-plus"
+            ><i class="fa-sharp fa-solid fa-plus"></i
+          ></span>
+        </span>
+      </div>
+      <div>
+        <a href="/products/<%=items.id%>">See full description</a>
+        <input
+          type="hidden"
+          name="itemId"
+          class="itemId"
+          value="<%=items.id%>"
+        />
+        <button class="delete cartDel">
+          <i class="fa-solid fa-trash"></i>
+        </button>
       </div>
     </div>
   </div>
+
   <% } %>
 
   <div class="checkoutCon">

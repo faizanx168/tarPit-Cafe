@@ -1,25 +1,25 @@
 const asyncError = require("../utils/AsyncError.js");
-const cloudinary = require("cloudinary").v2;
+const cloudinary = require("cloudinary");
 const Product = require("../models/Product");
 const Blog = require("../models/blog");
-
 exports.home = asyncError(async (req, res) => {
   if (!req.session.cart) {
     req.session.cart = {
       items: [],
       totals: 0.0,
       formattedTotals: "",
-      formattedTaxedTotals: "",
       taxedTotal: 0.0,
     };
   }
   let uri = [];
-  var options = {
-    resource_type: "image",
-    folder: "tarpitCafe/Home",
-    max_results: 8,
-  };
-  const result = await cloudinary.api.resources(options);
+
+  const result = await cloudinary.v2.search
+    .expression(
+      "folder: tarpitCafe/Home" // add your folder
+    )
+    .sort_by("public_id", "desc")
+    .max_results(10)
+    .execute();
   result.resources.forEach((image) => {
     const url = image.url;
     uri.push(url);

@@ -1,8 +1,14 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const { isAdmin, validateProduct, isLoggedIn } = require("../utils/Middleware");
-const { getForm, addCategory } = require("../controllers/category");
+const { isAdmin, isLoggedIn } = require("../utils/Middleware");
+const {
+  getForm,
+  addCategory,
+  deleteCategory,
+} = require("../controllers/category");
 
-router.get("/new", getForm);
-router.post("/", addCategory);
+router.get("/new", isAdmin, isLoggedIn, getForm);
+router.post("/", isAdmin, isLoggedIn, addCategory);
+router.delete("/:id", isAdmin, isLoggedIn, deleteCategory);
+
 module.exports = router;

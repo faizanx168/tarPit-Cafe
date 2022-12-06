@@ -4,29 +4,17 @@
 
 <div class="bar">
   <span class="bar_content">
-    <h1 style="color: white">BROOKLYN</h1>
-    <b> 135 Woodspoint Road Brooklyn, NY, 11211</b>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <em>
-      hours Mon-Fri: 8:00am-3:00pm Sat-Sun: 9:00am-4:00pm Phone +1 917 705
-      8031</em
-    >
+    <div><h1 style="color: white">BROOKLYN</h1></div>
+    <div><b> 135 Woodspoint Road Brooklyn, NY, 11211</b></div>
+    <div>
+      <em> hours Mon-Fri: 8:00am-3:00pm, Sat-Sun: 9:00am-4:00pm </em>
+    </div>
+    <div>
+      <em> Phone +1 917 705 8031</em>
+    </div>
   </span>
 </div>
 <section class="container">
-  <!-- <div class="address">
-    <div class="add">
-      <h1>BROOKLYN</h1>
-      <p>135 Woodspoint Road</p>
-      <p>Brooklyn, NY, 11211</p>
-      <h4>hours</h4>
-      <p>Mon-Fri: 8:00am-3:00pm</p>
-      <p>Sat-Sun: 9:00am-4:00pm</p>
-      <h4>Phone</h4>
-      <p>+1 917 705 8031</p>
-    </div>
-  </div> -->
-
   <div class="des">
     <h1>In the begining</h1>
     <p>
@@ -102,15 +90,19 @@
   const map = new mapboxgl.Map({
     container: "map",
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: "mapbox://styles/faizanx168/cl856e9gq001514qrh4b7e8mk",
+    style: "mapbox://styles/tarpitcafe/clbbpj4z6001a14o2e3qv2590",
     center: [-73.94119711179343, 40.71751710581903],
-    zoom: 8,
+    zoom: 12,
   });
   // Create a default Marker, colored black, rotated 45 degrees.
   new mapboxgl.Marker({ color: "black", rotation: 45 })
     .setLngLat([-73.94119711179343, 40.71751710581903])
     .addTo(map);
-
+  map.scrollZoom.disable();
+  const nav = new mapboxgl.NavigationControl({
+    visualizePitch: true,
+  });
+  map.addControl(nav, "bottom-right");
   map.on("click", (event) => {
     const popup = new mapboxgl.Popup({ offset: [0, -15] })
       .setLngLat([-73.94119711179343, 40.71751710581903])

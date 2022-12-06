@@ -1,8 +1,5 @@
 const asyncError = require("../utils/AsyncError.js");
-const multer = require("multer");
-const { storage } = require("../config/cloudinary-config");
-const upload = multer({ storage });
-const { isAdmin, isLoggedIn } = require("../utils/Middleware");
+
 const Employee = require("../models/employee");
 
 exports.about = asyncError(async (req, res) => {
@@ -22,3 +19,14 @@ exports.addNew = asyncError(async (req, res) => {
   req.flash("success", "Successfully create a new products");
   res.redirect("/about");
 });
+
+exports.deleteEmp = asyncError(async (req, res) => {
+  const id = req.params.id;
+  await Employee.findByIdAndDelete(id);
+});
+exports.privacy = (req, res) => {
+  res.render("tarpit/privacy");
+};
+exports.terms = (req, res) => {
+  res.render("tarpit/terms");
+};
