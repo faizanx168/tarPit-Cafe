@@ -594,6 +594,7 @@ nav {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
+
 /* Forms CSS */
 .login-root {
   background: #fff;
