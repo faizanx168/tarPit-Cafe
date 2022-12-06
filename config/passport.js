@@ -6,7 +6,7 @@ module.exports = (passport) => {
   passport.use(
     new GoogleStrategy(
       {
-        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: `process.env.CLIENT_URL/google/callback`,
         profileFields: ["id", "displayName", "email", "name"],
@@ -43,7 +43,7 @@ module.exports = (passport) => {
   passport.use(
     new FacebookStrategy(
       {
-        clientId: process.env.FACEBOOK_CLIENT_ID,
+        clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
         callbackURL: `process.env.CLIENT_URL//facebook/callback`,
         profileFields: ["id", "displayName", "email", "name"],
