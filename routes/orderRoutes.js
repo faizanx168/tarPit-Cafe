@@ -18,7 +18,7 @@ router.get("/order/:id", isLoggedIn, getSingleOrder);
 router.get("/dashboard", isLoggedIn, isAdmin, getdashboard);
 router.get("/admin/orders", isLoggedIn, isAdmin, getAllOrders);
 router.post("/admin/:id/updateOrder", isLoggedIn, isAdmin, updateOrder);
-router.post("/createNewOrder", isLoggedIn, createNewOrder);
+router.post("/createNewOrder", createNewOrder);
 
 router.get("/admin/blogs", isLoggedIn, isAdmin, allBlogs);
 router.get("/admin/categories", isLoggedIn, isAdmin, allcategories);

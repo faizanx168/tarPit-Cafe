@@ -238,7 +238,8 @@ exports.addToCheckout = asyncError(async (req, res) => {
         );
       }
     }
-    console.log(cart);
+    const clientURL = process.env.CLIENT_URL;
+
     res.render("tarpit/checkout", {
       pageTitle: "Checkout",
       cart: cart,
@@ -246,6 +247,7 @@ exports.addToCheckout = asyncError(async (req, res) => {
       checkoutData,
       clientId,
       clientToken,
+      clientURL,
       emailCheck: false,
       shippingCheck: true,
       billingCheck: false,

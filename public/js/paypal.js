@@ -15,7 +15,6 @@ paypal
       })
         .then((response) => response.json())
         .then((orderData) => {
-          console.log("data", orderData);
           actions.redirect(`${orderData.url}/paypal/success`);
         });
     },

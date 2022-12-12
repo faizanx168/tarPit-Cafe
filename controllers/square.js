@@ -65,7 +65,6 @@ exports.createOrder = asyncError(async (req, res) => {
         };
       }
     });
-    console.log(items);
     const { result, statusCode } = await ordersApi.createOrder({
       order: {
         locationId: payload.locationId,
@@ -173,16 +172,14 @@ exports.createPayment = asyncError(async function (req, res) {
           userEmail,
         };
         const body = JSON.stringify(orderDetails);
-        const response = await fetch(
-          `${process.env.CLIENT_URL}/createNewOrder`,
-          {
-            method: "post",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: body,
-          }
-        );
+        const url = process.env.CLIENT_URL;
+        const response = await fetch(`${url}/createNewOrder`, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: body,
+        });
         let order = await Order.find({ user: req.user._id })
           .sort({ createdAt: -1 })
           .limit(1);
@@ -444,8 +441,7 @@ exports.createPayment = asyncError(async function (req, res) {
       logger.error("erroe in", ex.errors);
       bail(ex);
     } else {
-      // logger.error(`Error creating payment on attempt ${attempt}: ${ex}`);
-      throw ex; // to attempt retry
+      throw ex;
     }
   }
 });
@@ -490,7 +486,8 @@ exports.capturePayments = asyncError(async (req, res) => {
         userEmail,
       };
       const body = JSON.stringify(orderDetails);
-      const success = await fetch(`${process.env.CLIENT_URL}/createNewOrder`, {
+      const url = process.env.CLIENT_URL;
+      const success = await fetch(`${url}/createNewOrder`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -520,7 +517,6 @@ exports.capturePayments = asyncError(async (req, res) => {
       const subject = "Thank You for your order at tarpit!";
       const message = "I hope you are having a good day~";
       const html = `<style type="text/css">
-
   body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
   table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
   img { -ms-interpolation-mode: bicubic; }

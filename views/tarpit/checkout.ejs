@@ -555,7 +555,8 @@ cart.items.length > 0) { %>
           </div>
         </div>
       </div>
-      <% } if (shippingCheck) {%> <%-include('../paypal.html')%> <% }%>
+      <% } if (shippingCheck) {%> <%-include('../paypal.ejs')%>
+      <%-include('../card.ejs')%><% }%>
     </div>
     <div class="orderSummary">
       <div class="orderInner padding-horizontal--48" id="style-1">

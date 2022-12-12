@@ -687,6 +687,7 @@ exports.updateOrder = asyncError(async (req, res, next) => {
 
 exports.createNewOrder = asyncError(async (req, res) => {
   try {
+    console.log("res");
     let orderDetails = req.body;
     const item = orderDetails.item;
     const createdAt = new Date().toJSON();
@@ -928,6 +929,7 @@ exports.createNewOrder = asyncError(async (req, res) => {
       }
     });
     await order.save();
+    console.log("Created Order", order);
     res.status(200).json({
       success: true,
       order,

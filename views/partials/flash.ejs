@@ -1,17 +1,43 @@
 <% if(success && success.length) {%>
-    <section class="container">
-    <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
-        <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    </section>
-    <% } %>
-    
-    <% if(error && error.length) {%>
-    <section class="container">
-    <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-        <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    </section>
+<div
+  style="
+    position: absolute;
+    height: fit-content;
+    z-index: 100;
+    width: 70vw;
+    left: 15vw;
+    margin-top: 7rem;
+  "
+>
+  <div class="alert alert-success alert-dismissible show mt-4" role="alert">
+    <%= success %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+</div>
+<% } %> <% if(error && error.length) {%>
+<div
+  style="
+    position: absolute;
+    height: fit-content;
+    z-index: 100;
+    width: 70vw;
+    left: 15vw;
+    margin-top: 7rem;
+  "
+>
+  <div class="alert alert-danger alert-dismissible show" role="alert">
+    <%= error %>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+</div>
 <% } %>
