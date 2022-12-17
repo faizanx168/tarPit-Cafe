@@ -1,5 +1,5 @@
 <% layout('layout/boilerplate') -%>
-
+<link rel="stylesheet" href="/stylesheets/star.css" />
 <div
   id="carouselExampleControls"
   class="carousel slide"
@@ -125,9 +125,17 @@
           alt="My product"
         />
         <%} }%>
-        <div class="card-text">
-          <h4 style="margin-bottom: 0"><%=product.title%></h4>
-          $<%=product.price%>
+        <div class="card-text stardiv">
+          <div>
+            <h4 style="margin-bottom: 0"><%=product.title%></h4>
+            $<%=product.price%>
+          </div>
+          <div>
+            <p
+              class="starability-result"
+              data-rating="<%=parseInt(product.ratings)%>"
+            ></p>
+          </div>
         </div>
       </a>
     </div>

@@ -2,11 +2,11 @@
   "use strict";
   const addInput = document.querySelector(".addInputs");
   const plusInput = document.querySelector(".plusInput");
-
-  plusInput.addEventListener("click", () => {
-    add();
-  });
-
+  if (plusInput) {
+    plusInput.addEventListener("click", () => {
+      add();
+    });
+  }
   function add() {
     var input = document.createElement("input");
     input.setAttribute("type", "text");

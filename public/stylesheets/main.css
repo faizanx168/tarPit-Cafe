@@ -851,3 +851,9 @@ a.ssolink {
 .privacy-policy p {
   font-size: 15px;
 }
+
+.stardiv {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}

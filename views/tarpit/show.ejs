@@ -39,6 +39,7 @@
           <span><a href="/">Home</a></span>
           <span><a href="/product">Product</a></span>
           <span class="active"><%= products.title %></span>
+          <span><%=products.ratings%></span>
         </div>
 
         <div class="card-body">
@@ -93,7 +94,7 @@
         method="POST"
         novalidate
       >
-        <div class="">
+        <div>
           <label for="rating" class="form-label">Rating</label>
           <div>
             <fieldset class="starability-basic">
@@ -161,10 +162,8 @@
     <% } %> <% for(let review of products.review){ %>
     <div class="comments">
       <div class="card-body">
-        <h3><%=review.author ? review.author.username : 'Unknown'%></h3>
-        <p class="starability-result" data-rating="<%=review.rating%>">
-          Rated: <%=review.rating%> stars
-        </p>
+        <h3><%=review.author ? review.author.firstName : 'Unknown'%></h3>
+        <p class="starability-result" data-rating="<%=review.rating%>"></p>
         <p class="card-text">Review: <%=review.body%></p>
 
         <% if(comments){ %> <% for(let comment of comments) {%> <% if(

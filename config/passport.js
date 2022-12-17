@@ -15,22 +15,17 @@ module.exports = (passport) => {
       async function verify(accessToken, refreshToken, profile, done) {
         try {
           const user = await User.findOne({ email: profile.emails[0].value });
-          console.log("Fpimd", user);
           if (user) {
-            console.log("user is there", user);
             done(null, user);
           } else {
-            // console.log("PROFILE", profile);
             const newUser = {
               email: profile.emails[0].value,
               username: profile.emails[0].value,
               firstName: profile.name.givenName,
               lastName: profile.name.familyName,
             };
-            console.log(newUser);
             const user = new User(newUser);
             await user.save();
-            console.log("creating new user", user);
             done(null, user);
           }
         } catch (err) {
@@ -50,12 +45,10 @@ module.exports = (passport) => {
         state: true,
       },
       async function verify(accessToken, refreshToken, profile, done) {
-        // console.log("PROFILE", profile);
         try {
           const user = await User.findOne({ email: profile.emails[0].value });
 
           if (user) {
-            console.log("user is there");
             done(null, user);
           } else {
             const newUser = {
@@ -66,7 +59,6 @@ module.exports = (passport) => {
             };
             const user = new User(newUser);
             await user.save();
-            console.log("creating new user");
             done(null, user);
           }
         } catch (err) {

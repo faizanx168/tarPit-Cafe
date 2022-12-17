@@ -84,7 +84,7 @@ const generateClientToken = async function () {
       "Content-Type": "application/json",
     },
   });
-  console.log("response", response.status);
+
   const jsonData = await handleResponse(response);
   return jsonData.client_token;
 };

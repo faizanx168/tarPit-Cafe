@@ -23,7 +23,6 @@ exports.createOrder = asyncError(async (req, res) => {
   const payload = await req.body;
   let sess = req.session;
   let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
-  console.log(payload);
   logger.debug("data: ", payload);
   let items = [];
   let taxes = [];
@@ -84,12 +83,12 @@ exports.createOrder = asyncError(async (req, res) => {
       },
       idempotencyKey: uuidv4(),
     });
-    console.log(result);
     send(res, statusCode, {
       id: result.order.id,
     });
   } catch (err) {
-    console.log(err);
+    req.flash("error", err);
+    res.redirect("/checkout");
   }
 });
 exports.createPayment = asyncError(async function (req, res) {
@@ -114,7 +113,6 @@ exports.createPayment = asyncError(async function (req, res) {
       autocomplete: payload.autoComplete,
       orderId: payload.orderID,
     };
-    console.log(payment);
     if (payload.customerId) {
       payment.customerId = payload.customerId;
     }
@@ -145,7 +143,6 @@ exports.createPayment = asyncError(async function (req, res) {
           },
         });
       } else {
-        console.log("payment Completed", result);
         let paymentId = [];
         paymentId.push(result.payment.id);
         const paymentSource = "Square Payment";
@@ -741,14 +738,14 @@ exports.capturePayments = asyncError(async (req, res) => {
       res.render("partials/thank_you", { name });
     }
   } catch (err) {
-    console.log(err);
+    req.flash("error", err);
+    res.redirect("/checkout");
   }
 });
 
 exports.refundPayment = asyncError(async (req, res) => {
   const { orderId, orderNumber, totalAmount, taxPrice, itemPrice, email } =
     req.body;
-
   try {
     const response = await refundsApi.refundPayment({
       idempotencyKey: uuidv4(),

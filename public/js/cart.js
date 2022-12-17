@@ -6,7 +6,7 @@ const price = document.querySelectorAll(".price");
 const deleteBtn = document.querySelectorAll(".delete");
 const itemId = document.getElementsByClassName("itemId");
 const checkout = document.querySelector(".checkout");
-const noCon = document.querySelectorAll(".null");
+const noCon = document.querySelectorAll(".itemContainer");
 const addToCart = document.querySelector(".addToCart");
 let cost = 0;
 
@@ -52,16 +52,16 @@ deleteBtn.forEach((it, i) => {
   deleteBtn[i].addEventListener("click", async (e) => {
     let data = await fetchData();
     let cost = parseFloat(data.totals) / 100;
-    console.log("Totalc", cost);
+
     if (data.items[i].id === itemId[i].value) {
       let total = 0.0;
       total = parseInt(data.items[i].qty) * parseFloat(data.items[i].price);
-      console.log("Total", total);
+
       cost = cost - total;
       data.totals = cost * 100;
       cost = setFormattedTotals(cost);
       data.formattedTotals = cost;
-      noCon[i].innerHTML = "";
+      noCon[i].innerHTML = " ";
       data.items = data.items.filter((data, index) => index != i);
       await postData(data);
       location.reload(true);

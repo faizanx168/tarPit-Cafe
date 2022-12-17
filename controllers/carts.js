@@ -32,11 +32,9 @@ exports.showCheckout = asyncError(async (req, res) => {
       Shipping: "",
     };
   }
-  console.log(req.user);
   let checkoutData =
     typeof sess.checkoutData !== "undefined" ? sess.checkoutData : false;
   let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
-  // console.log("checkout", cart);
 
   res.render("tarpit/checkout", {
     pageTitle: "Checkout",
@@ -87,7 +85,6 @@ exports.addToCart = asyncError(async (req, res) => {
       Security.isValidNonce(req.body.nonce, req);
   }
 
-  console.log(myitem);
   if (query) {
     const taxed = mypro.category.tax;
 
@@ -101,7 +98,6 @@ exports.addToCart = asyncError(async (req, res) => {
       stock: mypro.stock,
     };
     Cart.addToCart(prod, qty, cart);
-    console.log("cart", cart);
     res.redirect("/cart");
   } else {
     req.flash("error", "Product quantity exceeded!");
@@ -188,7 +184,6 @@ exports.addToCheckout = asyncError(async (req, res) => {
     const Shipping = checkoutData.Shipping;
     zip = Shipping.zip;
     if (to_tax) {
-      console.log("sent");
       const { data } = await axios.get(
         `https://www.taxrate.io/api/v1/rate/getratebyzip?api_key=${key}&zip=${zip}`
       );
@@ -201,7 +196,6 @@ exports.addToCheckout = asyncError(async (req, res) => {
             (parseInt(item.price * 100) * (taxrate / 100) +
               parseInt(item.price * 100)) *
               parseInt(item.qty);
-          console.log("p1", price);
           item.taxrate = taxrate;
         } else {
           price = price + parseInt(item.price * 100) * parseInt(item.qty);
@@ -226,7 +220,6 @@ exports.addToCheckout = asyncError(async (req, res) => {
     if (shippingData.method) {
       cart.ShippingTotal = 0.0;
     } else {
-      console.log(cart.items.length, cart.items[0].id, process.env.GIFTCARD);
       if (cart.items.length === 1 && cart.items[0].id == process.env.GIFTCARD) {
         cart.ShippingTotal = 0.0;
       } else {
@@ -239,7 +232,6 @@ exports.addToCheckout = asyncError(async (req, res) => {
       }
     }
     const clientURL = process.env.CLIENT_URL;
-
     res.render("tarpit/checkout", {
       pageTitle: "Checkout",
       cart: cart,

@@ -19,7 +19,6 @@ exports.getSingleOrder = asyncError(async (req, res, next) => {
   if (!order) {
     return next(new ErrorHander("Order not found with this Id", 404));
   }
-  // console.log(order);
   res.render("order/showOrder", { order });
 });
 
@@ -27,9 +26,7 @@ exports.getdashboard = asyncError(async (req, res) => {
   let dateStart = new Date();
   if (req.query.date) {
     const date = req.query.date;
-    console.log(date);
     const myarray = date.split("-");
-    console.log(myarray);
     const year = myarray[0];
     const month = myarray[1];
     const day = myarray[2];
@@ -103,9 +100,7 @@ exports.getAllProducts = asyncError(async (req, res) => {
   const products = await Product.find({})
     .sort({ createdAt: -1 })
     .select("title  price stock category ratings")
-    .populate("category", "name")
-    .limit(1);
-  // res.send(products);
+    .populate("category", "name");
   res.render("dashboard/allproducts", {
     success: true,
     products,
@@ -687,7 +682,6 @@ exports.updateOrder = asyncError(async (req, res, next) => {
 
 exports.createNewOrder = asyncError(async (req, res) => {
   try {
-    console.log("res");
     let orderDetails = req.body;
     const item = orderDetails.item;
     const createdAt = new Date().toJSON();
@@ -929,7 +923,6 @@ exports.createNewOrder = asyncError(async (req, res) => {
       }
     });
     await order.save();
-    console.log("Created Order", order);
     res.status(200).json({
       success: true,
       order,

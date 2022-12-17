@@ -27,13 +27,10 @@ exports.capture = asyncError(async (req, res) => {
   let cart = typeof sess.cart !== "undefined" ? sess.cart : false;
   try {
     const captureData = await paypal.capturePayment(orderID);
-    console.log(captureData);
     if (captureData.status === "COMPLETED") {
       let paymentId = [];
       const dataid = captureData.purchase_units;
-      console.log(dataid);
       const id = dataid[0].payments.captures[0].id;
-      console.log(id);
       paymentId.push(id);
       const status = captureData.status;
       const paymentSource = "PayPal Payment";
@@ -65,14 +62,12 @@ exports.capture = asyncError(async (req, res) => {
         },
         body: body,
       });
-      console.log(success);
       res.json({ captureData, url });
     } else {
       req.flash("error", "payment did not complete");
       res.redirect("/");
     }
   } catch (err) {
-    console.log(err);
     req.flash("error", err);
     res.redirect("/");
   }
@@ -327,8 +322,8 @@ exports.thank_you = asyncError(async (req, res) => {
       </tr>
   </table> `;
   await sendEmail(email, subject, message, html);
-  checkoutData = "";
-  cart = "";
+  checkoutData = " ";
+  cart = " ";
   res.render("partials/thank_you", { name });
 });
 
@@ -336,7 +331,6 @@ exports.paypalRefund = asyncError(async (req, res) => {
   const { orderId, orderNumber, totalAmount, taxPrice, itemPrice, email } =
     req.body;
   const refund = await paypal.refundPayPal(orderId);
-  console.log(refund);
   if (refund.status === "COMPLETED") {
     const order = await Order.findById(orderNumber);
     order.paymentInfo.status = "REFUNDED";

@@ -8,26 +8,30 @@ exports.addReview = asyncError(async (req, res) => {
   const review = new Review(req.body.review);
   review.author = req.user._id;
   const allReviews = await Review.find();
-  let avg = 0;
-
-  allReviews.forEach((rev) => {
-    avg += rev.rating;
-  });
-  product.ratings = (avg / allReviews.length).toFixed(2);
   product.review.push(review);
   await review.save();
+  const rating = await Review.find();
+  let avg = 0;
+  if (rating.length) {
+    rating.forEach((rev) => {
+      avg += rev.rating;
+    });
+    product.ratings = (avg / rating.length).toFixed(2);
+  } else {
+    product.ratings = rating.rating;
+  }
   await product.save({ validateBeforeSave: false });
   req.flash("success", "Successfully added the review");
   res.redirect(`/products/${product._id}`);
 });
 
 exports.deleteReview = asyncError(async (req, res) => {
-  await Product.findByIdAndUpdate(req.params.id, {
+  const product = await Product.findByIdAndUpdate(req.params.id, {
     $pull: { review: req.params.reviewId },
   });
   await Review.findByIdAndDelete(req.params.reviewId);
   req.flash("success", "Successfully deleted the review");
-  res.redirect(` Productgrounds/${req.params.id}`);
+  res.redirect(`/products/${product._id}`);
 });
 
 exports.addComment = asyncError(async (req, res) => {

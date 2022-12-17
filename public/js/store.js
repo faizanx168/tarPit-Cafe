@@ -32,14 +32,15 @@ const Store = {
 document.addEventListener("DOMContentLoaded", () => {
   Store.quantity();
 });
-
-formDrop.addEventListener("click", () => {
-  dropForm = !dropForm;
-  if (dropForm == true) {
-    formDrop.classList.toggle("dropFormRotate");
-    form.style.display = "inline";
-  } else {
-    form.style.display = "none";
-    formDrop.classList.toggle("dropFormRotate");
-  }
-});
+if (formDrop) {
+  formDrop.addEventListener("click", () => {
+    dropForm = !dropForm;
+    if (dropForm == true) {
+      formDrop.classList.toggle("dropFormRotate");
+      form.style.display = "inline";
+    } else {
+      form.style.display = "none";
+      formDrop.classList.toggle("dropFormRotate");
+    }
+  });
+}

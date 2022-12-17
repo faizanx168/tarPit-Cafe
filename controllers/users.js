@@ -144,7 +144,7 @@ exports.updatePassword = asyncError(async (req, res) => {
           }
         );
       } else {
-        req.flash("error", "Passwords does not match!");
+        req.flash("error", "Passwords do not match!");
         res.redirect("/account");
       }
     }
@@ -158,7 +158,6 @@ exports.getUserDetails = asyncError(async (req, res) => {
     const orders = await Order.find({ user: user._id });
     const address = await Address.find({ user: user._id });
     const myaddress = address[0];
-    console.log(myaddress);
     res.status(200).render("users/showAccount", {
       success: true,
       user,
@@ -173,9 +172,7 @@ exports.getUserDetails = asyncError(async (req, res) => {
 
 exports.getAddress = asyncError(async (req, res) => {
   const address = req.body.address;
-  console.log(req.user);
   const useraddress = await Address.find({ user: req.user._id });
-  console.log(useraddress);
   if (!useraddress.length) {
     const saveAddress = new Address(address);
     saveAddress.user = req.user._id;
@@ -262,7 +259,6 @@ exports.resetPassword = asyncError(async (req, res, next) => {
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
   });
-  console.log(user);
   if (!user) {
     return next(
       new myError("Reset Password Token is invalid or has been expired", 400)
