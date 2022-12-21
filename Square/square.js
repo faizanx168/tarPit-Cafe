@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 const { ApiError, Client, Environment } = require("square");
 
 const config = {
-  environment: Environment.Sandbox,
+  environment: Environment.Production,
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
 };
 const {
