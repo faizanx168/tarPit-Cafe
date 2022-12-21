@@ -34,7 +34,7 @@ exports.registerUser = asyncError(async (req, res) => {
       const token = jwt.sign(
         { username, email, password, firstName, lastName },
         process.env.JWT_ACTIVATE,
-        { expiresIn: "15m" }
+        { expiresIn: "10m" }
       );
 
       subject = "Tarpit Account Activation Link";
@@ -51,7 +51,7 @@ exports.registerUser = asyncError(async (req, res) => {
       if (sent) {
         req.flash(
           "success",
-          "Email has been sent! Kindly activate your account. Token expires in 15 mins!"
+          "Email has been sent! Kindly activate your account. Token expires in 10 mins!"
         );
         res.redirect("/login");
       } else {
