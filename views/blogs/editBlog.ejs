@@ -1,0 +1,82 @@
+<% layout('layout/boilerplate') -%>
+<section>
+  <div class="row">
+    <h1 class="text-center">Edit Blog</h1>
+    <div class="col-6 offset-3">
+      <form
+        action="/blogs/<%=blog._id%>?_method=Put"
+        method="POST"
+        novalidate
+        class="validated-form"
+        enctype="multipart/form-data"
+      >
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            class="form-control"
+            type="text"
+            name="Blog[title]"
+            value="<%=blog.title%>"
+            id="title"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="author" class="form-label">Author</label>
+          <input
+            class="form-control"
+            type="text"
+            name="Blog[author]"
+            value="<%=blog.author%>"
+            id="author"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Blog Description</label>
+          <textarea
+            class="form-control"
+            type="text"
+            name="Blog[desc]"
+            id="description"
+            required
+          >
+<%=blog.desc%></textarea
+          >
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image</label>
+          <input
+            class="form-control"
+            type="file"
+            name="image"
+            id="image"
+            multiple
+          />
+        </div>
+        <div class="mb-3">
+          <% blog.image.forEach(function(img,i){ %>
+          <img
+            src="<%=img.url%>"
+            height="120px"
+            style="object-fit: scale-down"
+          />
+          <div class="form-check-inline">
+            <input
+              type="checkbox"
+              name="deleteImage[]"
+              id="image<%=i%>"
+              value="<%=img.filename%>"
+            />
+          </div>
+          <label for="image<%=i%>">Delete Image</label>
+          <% }) %>
+        </div>
+        <button class="btn btn-outline-success">Add</button>
+      </form>
+      <div class="mt-4">
+        <a href="/" class="btn">Back</a>
+      </div>
+    </div>
+  </div>
+</section>

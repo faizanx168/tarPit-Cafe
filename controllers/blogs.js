@@ -42,6 +42,34 @@ exports.postBlog = asyncError(async (req, res) => {
   res.redirect(`/blogs/${newBlog._id}`);
 });
 
+exports.showEditBlog = asyncError(async (req, res) => {
+  const { id } = req.params;
+  const blog = await Blog.findById(id);
+  res.render("blogs/editBlog", { blog });
+});
+exports.editBlog = asyncError(async (req, res) => {
+  const { id } = req.params;
+
+  const blog = await Blog.findByIdAndUpdate(id, {
+    ...req.body.Blog,
+  });
+  images = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
+  blog.image.push(...images);
+  if (req.body.deleteImage) {
+    for (let file of req.body.deleteImage) {
+      await cloudinary.uploader.destroy(file);
+    }
+    await blog.updateOne({
+      $pull: { image: { filename: { $in: req.body.deleteImage } } },
+    });
+  }
+  await blog.save();
+  req.flash("success", "Successfully edited the blog");
+  res.redirect(`/blogs/${blog._id}`);
+});
 exports.deleteBlog = asyncError(async (req, res) => {
   const { id } = req.params;
   const blog = await Blog.findByIdAndDelete(id);

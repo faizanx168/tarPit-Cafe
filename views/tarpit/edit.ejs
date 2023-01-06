@@ -17,7 +17,7 @@
             type="text"
             name="product[title]"
             id="title"
-            value="<%=products.title%> "
+            value="<%=products.title%>"
             required
           />
         </div>
@@ -96,7 +96,11 @@
 
         <div class="mb-3">
           <% products.image.forEach(function(img,i){ %>
-          <img src="<%img.url%>" class="img-thumbnail" alt="" />
+          <img
+            src="<%=img.url%>"
+            height="120px"
+            style="object-fit: scale-down"
+          />
           <div class="form-check-inline">
             <input
               type="checkbox"
@@ -110,8 +114,8 @@
         </div>
         <button class="btn btn-info">Update Product</button>
       </form>
-      <div>
-        <a href="/products/<%=products._id%>">Back</a>
+      <div class="mt-4">
+        <a href="/products/<%=products._id%>" class="btn">Back</a>
       </div>
     </div>
   </div>

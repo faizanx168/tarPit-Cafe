@@ -9,6 +9,7 @@
         <th>Author</th>
         <th></th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -17,6 +18,9 @@
         <td><%=blog.title%></td>
         <td><%=blog.author%></td>
         <td class="primary"><a href="/blogs/<%=blog._id%>">show</a></td>
+        <td class="primary">
+          <a href="/blogs/<%=blog._id%>/edit">Edit</a>
+        </td>
         <td class="primary">
           <form
             class="d-inline mt-2"
