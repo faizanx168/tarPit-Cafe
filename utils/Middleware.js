@@ -49,3 +49,4 @@ module.exports.validateProduct = (req, res, next) => {
     next();
   }
 };
+/* last */

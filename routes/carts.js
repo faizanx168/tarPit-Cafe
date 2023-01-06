@@ -23,3 +23,4 @@ router.post("/cart", addToCart);
 router.post("/checkout", isLoggedIn, addToCheckout);
 
 module.exports = router;
+/* last */

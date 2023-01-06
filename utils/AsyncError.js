@@ -4,3 +4,4 @@ function asyncError(fn) {
   };
 }
 module.exports = asyncError;
+/* last */

@@ -79,7 +79,7 @@ module.exports = (passport) => {
       });
     });
   });
-
+  // de
   passport.deserializeUser(function (user, cb) {
     process.nextTick(function () {
       return cb(null, user);

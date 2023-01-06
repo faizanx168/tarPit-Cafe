@@ -89,3 +89,4 @@ const setFormattedTotals = (total) => {
   });
   return format.format(total);
 };
+// last

@@ -24,3 +24,4 @@ router.put("/:id", isLoggedIn, isAdmin, upload.array("image"), editBlog);
 router.delete("/:id", isLoggedIn, isAdmin, deleteBlog);
 
 module.exports = router;
+/* last */

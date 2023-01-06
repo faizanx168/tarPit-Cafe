@@ -12,3 +12,4 @@ router.post("/", isAdmin, isLoggedIn, addCategory);
 router.delete("/:id", isAdmin, isLoggedIn, deleteCategory);
 
 module.exports = router;
+/* last */

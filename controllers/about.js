@@ -30,3 +30,4 @@ exports.privacy = (req, res) => {
 exports.terms = (req, res) => {
   res.render("tarpit/terms");
 };
+// last

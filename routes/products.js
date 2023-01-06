@@ -44,3 +44,4 @@ router.put(
 router.delete("/:id", isLoggedIn, isAdmin, deleteProduct);
 
 module.exports = router;
+/* last */

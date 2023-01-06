@@ -19,3 +19,4 @@ router.get("/new", isLoggedIn, isAdmin, newForm);
 router.post("/", isLoggedIn, isAdmin, upload.array("image"), addNew);
 router.delete("/:id", isLoggedIn, isAdmin, addNew);
 module.exports = router;
+/* last */

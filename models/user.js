@@ -44,3 +44,4 @@ UserSchema.methods.getResetPasswordToken = function () {
 
 UserSchema.plugin(passortLocal);
 module.exports = mongoose.model("User", UserSchema);
+// last

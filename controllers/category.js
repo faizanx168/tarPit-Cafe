@@ -27,3 +27,4 @@ exports.deleteCategory = asyncError(async (req, res) => {
   req.flash("success", "Successfully deleted Categgory");
   res.redirect("/admin/categories");
 });
+// last

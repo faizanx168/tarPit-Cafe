@@ -76,3 +76,4 @@ exports.deleteBlog = asyncError(async (req, res) => {
   req.flash("success", "Successfully deleted the products");
   res.redirect("/admin/blogs");
 });
+// last

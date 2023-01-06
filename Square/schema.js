@@ -31,3 +31,4 @@ module.exports = {
   validatePaymentPayload: ajv.compile(paymentSchema),
   validateCreateCardPayload: ajv.compile(cardSchema),
 };
+/* last */

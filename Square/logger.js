@@ -6,3 +6,4 @@ module.exports = {
   error: console.error,
   debug: debug("sq-web-pay"),
 };
+/* last */

@@ -975,3 +975,4 @@ exports.allemployees = asyncError(async (req, res) => {
   const employees = await Employee.find();
   res.render("dashboard/allEmployees", { employees, classes: "employees" });
 });
+// last

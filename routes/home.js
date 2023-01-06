@@ -6,3 +6,4 @@ const router = express.Router({ mergeParams: true });
 router.get("/", home);
 router.get("/checkoutData", isLoggedIn, checkoutData);
 module.exports = router;
+/* last */

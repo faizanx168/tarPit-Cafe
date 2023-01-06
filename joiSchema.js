@@ -56,3 +56,4 @@ module.exports.registerSchema = joi
     password2: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
   })
   .required();
+// last

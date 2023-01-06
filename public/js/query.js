@@ -1,6 +1,5 @@
 // const form = document.getElementById('formQuery');
 
-
 // form.addEventListener('submit', async(e) =>{
 //     // e.preventDefault();
 //     // const userSearch = form.elements.query.value;
@@ -10,4 +9,5 @@
 //     // console.log(res.data)
 //     // // // displayImg(res.data);
 //     // // form.elements.query.value = '';
+// last
 // })

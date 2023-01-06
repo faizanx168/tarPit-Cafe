@@ -148,3 +148,4 @@ exports.deleteProduct = asyncError(async (req, res) => {
   req.flash("success", "Successfully deleted the products");
   res.redirect("/products");
 });
+// last

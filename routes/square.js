@@ -14,3 +14,4 @@ router.post("/square/refund", isLoggedIn, isAdmin, refundPayment);
 router.post("/square/createOrder", isLoggedIn, createOrder);
 router.post("/square/success", isLoggedIn, capturePayments);
 module.exports = router;
+/* last */
